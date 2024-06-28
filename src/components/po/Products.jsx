@@ -9,6 +9,11 @@ import Paper from "@mui/material/Paper";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import IconButton from "@mui/material/IconButton";
+
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 import { PoContext } from "../../context/poProvider";
 import { MasterContext } from "../../context/masterProvider";
@@ -18,6 +23,15 @@ import "./product.scss";
 export const Products = () => {
   const { tax, products, setTax, setProducts } = useContext(PoContext);
   const { productOptions, getOptionDetails } = useContext(MasterContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = async (event, newValue, index) => {
     const res = await getOptionDetails("products", newValue.value);
@@ -60,6 +74,11 @@ export const Products = () => {
       },
     ]);
   };
+  const deleteProduct = (index) => {
+    const newProducts = products.filter((_, i) => i !== index);
+    setProducts(newProducts);
+    handleClose();
+  };
   return (
     <Paper
       className="products-outer"
@@ -67,9 +86,11 @@ export const Products = () => {
     >
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="spanning table">
+          {/*Table Header */}
           <TableHead>
             <TableRow>
               <TableCell align="left">Sl no</TableCell>
+              <TableCell align="center">Product</TableCell>
               <TableCell align="center">Product Description</TableCell>
               <TableCell align="right">Part Code</TableCell>
               <TableCell align="right">Qty</TableCell>
@@ -77,6 +98,7 @@ export const Products = () => {
               <TableCell align="right">Amount Rs</TableCell>
             </TableRow>
           </TableHead>
+          {/*Table Body */}
           <TableBody>
             {products.map((product, i) => (
               <TableRow>
@@ -93,6 +115,15 @@ export const Products = () => {
                     )}
                   />
                 </TableCell>
+                <TableCell align="center">
+                  <TextField
+                    onChange={(e) => {
+                      modifyProduct(i, { productDesc: e.target.value });
+                    }}
+                    variant="standard"
+                    value={product["productDesc"]}
+                  />
+                </TableCell>
                 <TableCell align="right">{product["partCode"]}</TableCell>
                 <TableCell align="right">
                   <TextField
@@ -103,12 +134,49 @@ export const Products = () => {
                     value={product["qty"]}
                   />
                 </TableCell>
-                <TableCell align="right">{product["ratePerUnit"]}</TableCell>
+                <TableCell align="right">
+                  <TextField
+                    onChange={(e) => {
+                      modifyProduct(i, { ratePerUnit: e.target.value });
+                    }}
+                    variant="standard"
+                    value={product["ratePerUnit"]}
+                  />
+                </TableCell>
                 <TableCell align="right">
                   {safeMultiply(product["qty"], product["ratePerUnit"])}
                 </TableCell>
+                <TableCell align="right">
+                  <IconButton
+                    id="demo-positioned-button"
+                    aria-controls={open ? "demo-positioned-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="demo-positioned-menu"
+                    aria-labelledby="demo-positioned-button"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <MenuItem onClick={() => deleteProduct(i)}>Delete</MenuItem>
+                  </Menu>
+                </TableCell>
               </TableRow>
             ))}
+            {/*Table Footer */}
             <TableRow>
               <TableCell
                 colSpan={6}
@@ -120,14 +188,14 @@ export const Products = () => {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} />
+              <TableCell colSpan={5} />
               <TableCell align="right" colSpan={1}>
                 Subtotal
               </TableCell>
               <TableCell align="right">{calcSubTotal()}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} />
+              <TableCell colSpan={5} />
               <TableCell align="right" colSpan={1}>
                 Tax
               </TableCell>
@@ -148,7 +216,7 @@ export const Products = () => {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} />
+              <TableCell colSpan={5} />
               <TableCell align="right" colSpan={1}>
                 Total
               </TableCell>
