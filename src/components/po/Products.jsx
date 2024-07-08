@@ -25,6 +25,7 @@ export const Products = () => {
   const { productOptions, getOptionDetails } = useContext(MasterContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [index, setIndex] = useState(0);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,7 +87,7 @@ export const Products = () => {
     >
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="spanning table">
-          {/*Table Header */}
+          {/* Table Header */}
           <TableHead>
             <TableRow>
               <TableCell align="left">Sl no</TableCell>
@@ -96,85 +97,116 @@ export const Products = () => {
               <TableCell align="right">Qty</TableCell>
               <TableCell align="right">Rate/Unit</TableCell>
               <TableCell align="right">Amount Rs</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
-          {/*Table Body */}
+          {/* Table Body */}
           <TableBody>
             {products.map((product, i) => (
-              <TableRow>
-                <TableCell align="left">{i + 1}</TableCell>
-                <TableCell align="center">
-                  <Autocomplete
-                    value={product["product"]}
-                    onChange={(e, v) => {
-                      handleChange(e, v, i);
-                    }}
-                    options={productOptions}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="standard" />
-                    )}
-                  />
-                </TableCell>
-                <TableCell align="center">
-                  <TextField
-                    onChange={(e) => {
-                      modifyProduct(i, { productDesc: e.target.value });
-                    }}
-                    variant="standard"
-                    value={product["productDesc"]}
-                  />
-                </TableCell>
-                <TableCell align="right">{product["partCode"]}</TableCell>
-                <TableCell align="right">
-                  <TextField
-                    onChange={(e) => {
-                      modifyProduct(i, { qty: e.target.value });
-                    }}
-                    variant="standard"
-                    value={product["qty"]}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <TextField
-                    onChange={(e) => {
-                      modifyProduct(i, { ratePerUnit: e.target.value });
-                    }}
-                    variant="standard"
-                    value={product["ratePerUnit"]}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  {safeMultiply(product["qty"], product["ratePerUnit"])}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    id="demo-positioned-button"
-                    aria-controls={open ? "demo-positioned-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    id="demo-positioned-menu"
-                    aria-labelledby="demo-positioned-button"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                  >
-                    <MenuItem onClick={() => deleteProduct(i)}>Delete</MenuItem>
-                  </Menu>
-                </TableCell>
-              </TableRow>
+              <>
+                <TableRow>
+                  <TableCell align="left">{i + 1}</TableCell>
+                  <TableCell align="center">
+                    <Autocomplete
+                      value={product["product"]}
+                      onChange={(e, v) => {
+                        handleChange(e, v, i);
+                      }}
+                      options={productOptions}
+                      renderInput={(params) => (
+                        <TextField {...params} variant="standard" />
+                      )}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <TextField
+                      onChange={(e) => {
+                        modifyProduct(i, { productDesc: e.target.value });
+                      }}
+                      variant="standard"
+                      value={product["productDesc"]}
+                    />
+                  </TableCell>
+                  <TableCell align="right">{product["partCode"]}</TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      onChange={(e) => {
+                        modifyProduct(i, { qty: e.target.value });
+                      }}
+                      variant="standard"
+                      value={product["qty"]}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      onChange={(e) => {
+                        modifyProduct(i, { ratePerUnit: e.target.value });
+                      }}
+                      variant="standard"
+                      value={product["ratePerUnit"]}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    {safeMultiply(product["qty"], product["ratePerUnit"])}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      id="demo-positioned-button"
+                      aria-controls={open ? "demo-positioned-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={(e) => {
+                        handleClick(e);
+                        setIndex(i);
+                      }}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => {
+                          modifyProduct(index, {
+                            footNote:
+                              products[index].footNote == null ? "" : null,
+                          });
+                          handleClose();
+                        }}
+                      >
+                        {products[index].footNote == null ? "Add" : "Remove"}{" "}
+                        Footnote
+                      </MenuItem>
+                      <MenuItem onClick={() => deleteProduct(index)}>
+                        Delete
+                      </MenuItem>
+                    </Menu>
+                  </TableCell>
+                </TableRow>
+                {product["footNote"] != null && (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">
+                      <TextField
+                        onChange={(e) => {
+                          modifyProduct(i, { footNote: e.target.value });
+                        }}
+                        variant="standard"
+                        value={product["footNote"]}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
             ))}
             {/*Table Footer */}
             <TableRow>
@@ -205,7 +237,7 @@ export const Products = () => {
                     setTax(e.target.value);
                   }}
                   value={tax}
-                  sx={{ width: "10vw" }}
+                  sx={{ widthead: "10vw" }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">%</InputAdornment>

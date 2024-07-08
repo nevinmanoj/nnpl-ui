@@ -1,16 +1,22 @@
+import { useContext } from "react";
 import "./header.scss";
+import { PoContext } from "../../context/poProvider";
 
 export const PoHeader = () => {
+  const { savePo } = useContext(PoContext);
   return (
-    <div className="po-header-outer">
-      <div>
-        <div>Purchase Order</div>
-        <div>NNPL/SW/MS/2023-23/123</div>
-      </div>
-      <div className="po-header-date">
-        <div>Date</div>
-        <div>12-May-2023</div>
-      </div>
+    <div className="po-header">
+      <button className="save-button" onClick={() => savePo()}>
+        Save
+      </button>
+      <button
+        className="save-button"
+        onClick={() => {
+          console.log("Download soon");
+        }}
+      >
+        Download
+      </button>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { server } from "./server";
+import axios from "axios";
 
 export const runAxios = async (method, data, path, jwtToken) => {
   const config = {

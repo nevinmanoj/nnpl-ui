@@ -5,12 +5,10 @@ import { server } from "../utils/server";
 import { runAxios } from "../utils/runAxios";
 import { useContext } from "react";
 import { UserContext } from "./userProvider";
-import { CoContext } from "./coProvider";
 export const PoContext = createContext();
 
 export const PoProvider = ({ children }) => {
-  const { token } = useContext(UserContext);
-  // const { poList, setPoList } = useContext(CoContext);
+  const { token, showNotification } = useContext(UserContext);
 
   const [pno, setpno] = useState(null);
   const [date, setDate] = useState(0);
@@ -22,6 +20,7 @@ export const PoProvider = ({ children }) => {
   const [tc, setTc] = useState({});
   const [poLoading, setPoLoading] = useState(false);
   const [id, setid] = useState(null);
+  const [poStatus, setPoStatus] = useState(null);
 
   const setPo = (i) => {
     setPoLoading(true);
@@ -34,7 +33,6 @@ export const PoProvider = ({ children }) => {
         })
         .then((res) => res.data.po)
         .then((data) => {
-          console.log(data);
           setpno(data["pno"]);
           setDate(data["date"]);
           setTax(data["tax"]);
@@ -45,6 +43,7 @@ export const PoProvider = ({ children }) => {
           setTc(data["tc"]);
           setid(i);
           setPoLoading(false);
+          setPoStatus(data["poStatus"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
@@ -58,44 +57,57 @@ export const PoProvider = ({ children }) => {
 
   const savePo = async () => {
     setPoLoading(true);
-    if (id != null) {
-      const result = await runAxios(
-        "post",
-        {
-          pno,
-          tax,
-          date,
-          products,
-          distributor,
-          billing,
-          customer,
-          tc,
-        },
-        "/po",
-        token
-      );
-      if (result.success) {
-        setid(result.data.data._id);
-      }
-    } else {
-      //create new PO
+    if (id != null || id != "new") {
+      //Save  PO
+
       const result = await runAxios(
         "put",
         {
-          pno,
-          tax,
-          date,
-          products,
-          distributor,
-          billing,
-          customer,
-          tc,
+          data: {
+            pno,
+            tax,
+            date,
+            products,
+            distributor,
+            billing,
+            customer,
+            tc,
+            poStatus,
+          },
         },
         "/po/" + id,
         token
       );
       if (!result.success) {
         //handle improper save
+        showNotification("Error while saving", "error");
+      } else {
+        showNotification("Save Success", "success");
+      }
+    } else {
+      const result = await runAxios(
+        "post",
+        {
+          data: {
+            pno,
+            tax,
+            date,
+            products,
+            distributor,
+            billing,
+            customer,
+            tc,
+            poStatus,
+          },
+        },
+        "/po",
+        token
+      );
+      if (result.success) {
+        setid(result.data.data._id);
+        showNotification("Save Success", "success");
+      } else {
+        showNotification("Error while saving", "error");
       }
     }
     setPoLoading(false);
@@ -122,6 +134,7 @@ export const PoProvider = ({ children }) => {
   return (
     <PoContext.Provider
       value={{
+        id,
         pno,
         tax,
         date,
@@ -131,6 +144,7 @@ export const PoProvider = ({ children }) => {
         customer,
         tc,
         poLoading,
+        setDate,
         setPo,
         savePo,
         setDistributor,
@@ -138,6 +152,7 @@ export const PoProvider = ({ children }) => {
         setBilling,
         setProducts,
         setTax,
+        setTc,
       }}
     >
       {children}

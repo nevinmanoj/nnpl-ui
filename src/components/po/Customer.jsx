@@ -1,8 +1,7 @@
-import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
@@ -11,6 +10,15 @@ export const Customer = () => {
 
   const { customerOptions, getOptionDetails } = useContext(MasterContext);
   const { setCustomer, customer } = useContext(PoContext);
+
+  useEffect(() => {
+    if (customer != null) {
+      setSelectedOption({
+        value: customer._id,
+        label: customer.title,
+      });
+    }
+  }, [customer]);
 
   const handleChange = async (event, newValue) => {
     setSelectedOption(newValue);
