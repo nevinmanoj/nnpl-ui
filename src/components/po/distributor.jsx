@@ -1,54 +1,69 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import AccordionDetails from "@mui/material/AccordionDetails";
 
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
+
+import "./distributor.scss";
 
 export const Distributor = () => {
   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
   const { setDistributor, distributor } = useContext(PoContext);
 
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  useEffect(() => {
-    if (distributor != null) {
-      setSelectedOption({
-        value: distributor._id,
-        label: distributor.title,
-      });
-    }
-  }, [distributor]);
+  var selectedOption = null;
+  if (distributor != null) {
+    selectedOption = {
+      value: distributor._id,
+      label: distributor.title,
+    };
+  }
 
   const handleChange = async (event, newValue) => {
-    setSelectedOption(newValue);
+    if (newValue == null) {
+      return;
+    }
     const res = await getOptionDetails("distributor", newValue.value);
+
     if (res != null) {
       setDistributor(res);
     }
   };
 
   return (
-    <div>
+    <AccordionDetails>
       <div>
         <Autocomplete
+          clearOnEscape={false}
+          componentsProps={{
+            clearIndicator: null,
+          }}
           value={selectedOption}
           onChange={handleChange}
           options={distributorOptions}
           renderInput={(params) => (
-            <TextField {...params} label="Distributor" variant="standard" />
+            <div className="option-textbox">
+              <TextField
+                {...params}
+                variant="outlined"
+                placeholder="Enter Distributor"
+                size="small"
+              />
+            </div>
           )}
         />
         {selectedOption != null && distributor != null && (
           <div className="dist-details">
-            {Object.entries(distributor).map(([key, value], index) => (
-              <li key={index}>
-                <strong>{key}:</strong> {value}
-              </li>
-            ))}
+            <div className="dist-address-block">
+              <div className="dist-address-label">Address</div>
+              <div className="dist-address-line">{distributor["address1"]}</div>
+              <div className="dist-address-line">{distributor["address2"]}</div>
+              <div className="dist-address-line">{distributor["address3"]}</div>
+            </div>
           </div>
         )}
       </div>
-    </div>
+    </AccordionDetails>
   );
 };

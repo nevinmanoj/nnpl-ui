@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
 import { PoContext } from "../../context/poProvider";
-import { formatDate } from "../../utils/formatDate";
-import DatePicker from "react-datepicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 import "./info.scss";
 
 export const PoInfo = () => {
@@ -25,8 +27,14 @@ export const PoInfo = () => {
           setOpen(true);
         }}
       >
-        <div>Date</div>
-        <div>{formatDate(date)}</div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            format="LL"
+            label="Date"
+            value={dayjs(date)}
+            onChange={(newValue) => setDate(newValue)}
+          />
+        </LocalizationProvider>
       </div>
     </div>
   );

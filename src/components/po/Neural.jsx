@@ -1,28 +1,29 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import AccordionDetails from "@mui/material/AccordionDetails";
 
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
 export const Neural = () => {
-  const [selectedOption, setSelectedOption] = useState(null); // State to store the selected option
-
   const { neuralOptions, getOptionDetails } = useContext(MasterContext);
   const { setBilling, billing } = useContext(PoContext);
 
-  useEffect(() => {
-    if (billing != null) {
-      setSelectedOption({
-        value: billing._id,
-        label: billing.title,
-      });
-    }
-  }, [billing]);
+  var selectedOption = null;
+  if (billing != null) {
+    selectedOption = {
+      value: billing._id,
+      label: billing.title,
+    };
+  }
 
   const handleChange = async (event, newValue) => {
-    setSelectedOption(newValue);
+    if (newValue == null) {
+      return;
+    }
     const res = await getOptionDetails("neural", newValue.value);
+
     if (res != null) {
       setBilling(res);
     }
@@ -30,15 +31,27 @@ export const Neural = () => {
 
   return (
     <div>
-      <div>
+      <AccordionDetails>
         <Autocomplete
+          clearOnEscape={false}
+          componentsProps={{
+            clearIndicator: null,
+          }}
           value={selectedOption}
           onChange={handleChange}
           options={neuralOptions}
           renderInput={(params) => (
-            <TextField {...params} label="Billing" variant="standard" />
+            <div className="option-textbox">
+              <TextField
+                {...params}
+                variant="outlined"
+                placeholder="Enter Billing Location"
+                size="small"
+              />
+            </div>
           )}
         />
+
         {selectedOption != null && billing != null && (
           <div className="dist-details">
             {Object.entries(billing).map(([key, value], index) => (
@@ -48,7 +61,7 @@ export const Neural = () => {
             ))}
           </div>
         )}
-      </div>
+      </AccordionDetails>
     </div>
   );
 };
