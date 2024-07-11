@@ -6,6 +6,9 @@ import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
+import "./customAccordians.scss";
+import "./customer.scss";
+
 export const Customer = () => {
   const { customerOptions, getOptionDetails } = useContext(MasterContext);
   const { setCustomer, customer } = useContext(PoContext);
@@ -51,12 +54,23 @@ export const Customer = () => {
       />
 
       {selectedOption != null && customer != null && (
-        <div className="dist-details">
-          {Object.entries(customer).map(([key, value], index) => (
-            <li key={index}>
-              <strong>{key}:</strong> {value}
-            </li>
-          ))}
+        <div className="customer-details">
+          <div className="customer-address-block">
+            <div className="item-detail-label">Address</div>
+            <div className="item-detail-line"> {customer["address1"]}</div>
+            <div className="item-detail-line"> {customer["address2"]}</div>
+            <div className="item-detail-line">
+              {customer["city"]}-{customer["pin"]}
+            </div>
+          </div>
+          <div className="customer-contact-block">
+            <div className="item-detail-label">Contact Person</div>
+            <div className="item-detail-line"> {customer["contact"]}</div>
+            <div className="item-detail-label"> Contact Email</div>
+            <div className="item-detail-line">{customer["contactEmail"]}</div>
+            <div className="item-detail-label"> Contact No.</div>
+            <div className="item-detail-line">{customer["contactNumber"]}</div>
+          </div>
         </div>
       )}
     </AccordionDetails>

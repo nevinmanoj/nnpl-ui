@@ -7,6 +7,7 @@ import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
 import "./distributor.scss";
+import "./customAccordians.scss";
 
 export const Distributor = () => {
   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
@@ -56,10 +57,10 @@ export const Distributor = () => {
         {selectedOption != null && distributor != null && (
           <div className="dist-details">
             <div className="dist-address-block">
-              <div className="dist-address-label">Address</div>
-              <div className="dist-address-line">{distributor["address1"]}</div>
-              <div className="dist-address-line">{distributor["address2"]}</div>
-              <div className="dist-address-line">{distributor["address3"]}</div>
+              <div className="item-detail-label">Address</div>
+              <div className="item-detail-line">{distributor["address1"]}</div>
+              <div className="item-detail-line">{distributor["address2"]}</div>
+              <div className="item-detail-line">{distributor["address3"]}</div>
             </div>
           </div>
         )}

@@ -6,6 +6,9 @@ import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
+import "./neural.scss";
+import "./customAccordians.scss";
+
 export const Neural = () => {
   const { neuralOptions, getOptionDetails } = useContext(MasterContext);
   const { setBilling, billing } = useContext(PoContext);
@@ -53,12 +56,29 @@ export const Neural = () => {
         />
 
         {selectedOption != null && billing != null && (
-          <div className="dist-details">
-            {Object.entries(billing).map(([key, value], index) => (
-              <li key={index}>
-                <strong>{key}:</strong> {value}
-              </li>
-            ))}
+          <div className="billing-details">
+            <div>
+              <div className="billing-address-block">
+                <div className="item-detail-label">Address</div>
+                <div className="item-detail-line"> {billing["address1"]}</div>
+                <div className="item-detail-line"> {billing["address2"]}</div>
+                <div className="item-detail-line"> {billing["address3"]}</div>
+              </div>
+              <div className="billing-nos">
+                <div className="item-detail-label">GST ID</div>
+                <div className="item-detail-line"> {billing["gst"]} </div>
+                <div className="item-detail-label">PAN No.</div>
+                <div className="item-detail-line"> {billing["pan"]}</div>
+              </div>
+            </div>
+            <div className="billing-contact-block">
+              <div className="item-detail-label">Email</div>
+              <div className="item-detail-line"> {billing["email"]}</div>
+              <div className="item-detail-label">Fax No.</div>
+              <div className="item-detail-line"> {billing["faxno"]}</div>
+              <div className="item-detail-label">Ph No.</div>
+              <div className="item-detail-line"> {billing["phno"]}</div>
+            </div>
           </div>
         )}
       </AccordionDetails>

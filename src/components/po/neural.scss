@@ -1,0 +1,33 @@
+.billing-details{
+    // background-color: bisque;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 10px;
+}
+.billing-address-block{
+    // background-color: red;
+    width: 50%;
+    // grid-column: 1 / 1;
+    // grid-row: 1 / 1;
+    align-self: start;
+    justify-self: start;
+
+}
+.billing-contact-block{
+    // background-color:aqua ;
+    // grid-column: 2 / 2;
+    //   grid-row: 2 / 2;
+      align-self: start;
+      justify-self: end;
+
+}
+.billing-nos{
+    // background-color: rebeccapurple;
+    width: 50%;
+    margin-top: 20px;
+    grid-column: 1 / 1;
+    grid-row: 2 / 2;
+    align-self: end;
+    justify-self: start;
+
+}

@@ -10,7 +10,7 @@ export const CustomPoAccordian = ({ value, label, children }) => {
   //   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
   //   const { setDistributor, distributor } = useContext(PoContext);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   //   const [selectedOption, setSelectedOption] = useState(null);
   //   useEffect(() => {
