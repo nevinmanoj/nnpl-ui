@@ -46,7 +46,6 @@ export const Po = () => {
           children={<Customer />}
         />
         <div className="divider" />
-
         <Tc />
       </div>
     </div>

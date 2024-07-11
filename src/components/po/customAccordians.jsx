@@ -2,33 +2,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 
 import "./customAccordians.scss";
 
 export const CustomPoAccordian = ({ value, label, children }) => {
-  //   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
-  //   const { setDistributor, distributor } = useContext(PoContext);
-
   const [expanded, setExpanded] = useState(true);
-
-  //   const [selectedOption, setSelectedOption] = useState(null);
-  //   useEffect(() => {
-  //     if (distributor != null) {
-  //       setSelectedOption({
-  //         value: distributor._id,
-  //         label: distributor.title,
-  //       });
-  //     }
-  //   }, [distributor]);
-
-  //   const handleChange = async (event, newValue) => {
-  //     setSelectedOption(newValue);
-  //     const res = await getOptionDetails("distributor", newValue.value);
-  //     if (res != null) {
-  //       setDistributor(res);
-  //     }
-  //   };
 
   return (
     <div>
