@@ -23,8 +23,7 @@ export const Tc = () => {
         </AccordionSummary>
         <AccordionDetails>
           {Object.entries(tc).map(([key, value]) => (
-            <div key={key}>
-              {" "}
+            <div key={key} className="tc-input-div">
               <TextField
                 className="tc-input"
                 label={key.charAt(0).toUpperCase() + key.slice(1)}

@@ -7,7 +7,7 @@ import { useState } from "react";
 import "./customAccordians.scss";
 
 export const CustomPoAccordian = ({ value, label, children }) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <div>

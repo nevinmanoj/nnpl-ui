@@ -1,3 +1,30 @@
-.products-outer{
-    max-height: 400px;
+
+.accordian{
+    box-shadow: none !important;
+    border: none !important;
+  
+    &:before {
+      display: none !important;
+    }
+  
+    .MuiAccordionSummary-root {
+      border: none !important;
+    }
+
+    .MuiAccordionDetails-root {
+      border: none !important;
+    }
+}
+.acc-heading-value{
+    font-size: 20px;
+    color: #494949;
+    font-weight:500;
+}
+.table{
+    height: 300px;
+    width: 100%;
+    border:1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    // background-color: red;
 }
