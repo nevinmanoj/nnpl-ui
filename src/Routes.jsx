@@ -7,7 +7,7 @@ import { Topbar } from "./components/common/topbar";
 import { NotficationToast } from "./components/common/notification";
 export const AppRoutes = () => {
   return (
-    <>
+    <div>
       <Topbar />
       <NotficationToast />
       <Routes>
@@ -15,6 +15,6 @@ export const AppRoutes = () => {
         <Route path="/po/:id" element={<Po />} />
         <Route path="/co/:id" element={<Co />} />
       </Routes>
-    </>
+    </div>
   );
 };

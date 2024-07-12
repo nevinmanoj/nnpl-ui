@@ -21,6 +21,11 @@
     font-weight: 100;
 }
 .acc-heading-value{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
     font-size: 20px;
     color: #494949;
     font-weight:500;
@@ -30,11 +35,11 @@
   // height: 50px;
   width:50%;
 }
-.acc-heading, .acc-heading-value{
-  transition: all 0.3s ease;
-}
+// .acc-heading, .acc-heading-value{
+//   transition: all 0.3s ease;
+// }
 .item-detail-label{
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color:rgb(130, 130, 130)
 

@@ -10,11 +10,14 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import AddIcon from "@mui/icons-material/Add";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { PoContext } from "../../context/poProvider";
 import { MasterContext } from "../../context/masterProvider";
 
 import "./product.scss";
+import { ErrorMessage } from "./errorMessage";
 
 export const Products = () => {
   const { tax, products, setTax, setProducts } = useContext(PoContext);
@@ -81,32 +84,47 @@ export const Products = () => {
   return (
     <div className="products-outer">
       <Accordion className="accordian" defaultExpanded>
-        <AccordionSummary>
-          <div className="acc-heading-value"> Items </div>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <div className="acc-heading-value">Items</div>
+          <ErrorMessage />
         </AccordionSummary>
-        <AccordionDetails>
-          <table aria-label="spanning table" className="table">
+        <AccordionDetails
+          sx={{
+            // backgroundColor: "yellow",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="table">
             {/* table Header */}
-            <thead>
-              <tr>
-                <td align="left">Sl no</td>
-                <td align="center">Product</td>
-                <td align="center">Product Description</td>
-                <td align="right">Part Code</td>
-                <td align="right">Qty</td>
-                <td align="right">Rate/Unit</td>
-                <td align="right">Amount Rs</td>
-                <td align="right"></td>
-              </tr>
-            </thead>
+            <div className="table-header">
+              <div className="table-cell tabel-label vm">Sl No</div>
+              <div className="table-cell tabel-label lg">Product</div>
+              <div className="table-cell tabel-label xl">
+                Product Description
+              </div>
+              <div className="table-cell tabel-label md">Part Code</div>
+              <div align="center" className="table-cell tabel-label sm">
+                Qty
+              </div>
+              <div align="center" className="table-cell tabel-label md">
+                Rate/Unit
+              </div>
+              <div align="right" className="table-cell tabel-label md">
+                Amount Rs
+              </div>
+              <div className="table-cell tabel-label vm"></div>
+            </div>
             {/* table Body */}
-            <tbody>
+            <div className="table-body">
               {products != null &&
                 products.map((product, i) => (
                   <>
-                    <tr className="main-row">
-                      <td align="left">{i + 1}</td>
-                      <td align="center">
+                    <div className="table-hdivider" />
+                    <div className="main-row">
+                      <div className="table-cell vm">{i + 1}</div>
+                      <div className="table-cell lg">
                         <Autocomplete
                           value={product["product"]}
                           onChange={(e, v) => {
@@ -114,42 +132,52 @@ export const Products = () => {
                           }}
                           options={productOptions}
                           renderInput={(params) => (
-                            <TextField {...params} variant="standard" />
+                            <TextField
+                              {...params}
+                              variant="outlined"
+                              size="small"
+                              sx={{ width: "90%" }}
+                            />
                           )}
                         />
-                      </td>
-                      <td align="center">
+                      </div>
+                      <div className="table-cell xl">
                         <TextField
+                          multiline
                           onChange={(e) => {
                             modifyProduct(i, { productDesc: e.target.value });
                           }}
-                          variant="standard"
+                          sx={{ width: "90%" }}
+                          variant="outlined"
+                          size="small"
                           value={product["productDesc"]}
                         />
-                      </td>
-                      <td align="right">{product["partCode"]}</td>
-                      <td align="right">
+                      </div>
+                      <div className="table-cell md">{product["partCode"]}</div>
+                      <div className="table-cell sm">
                         <TextField
                           onChange={(e) => {
                             modifyProduct(i, { qty: e.target.value });
                           }}
-                          variant="standard"
+                          variant="outlined"
+                          size="small"
                           value={product["qty"]}
                         />
-                      </td>
-                      <td align="right">
+                      </div>
+                      <div className="table-cell md">
                         <TextField
                           onChange={(e) => {
                             modifyProduct(i, { ratePerUnit: e.target.value });
                           }}
-                          variant="standard"
+                          variant="outlined"
+                          size="small"
                           value={product["ratePerUnit"]}
                         />
-                      </td>
-                      <td align="right">
+                      </div>
+                      <div align="right" className="table-cell md">
                         {safeMultiply(product["qty"], product["ratePerUnit"])}
-                      </td>
-                      <td align="right">
+                      </div>
+                      <div className="table-cell vm">
                         <IconButton
                           id="demo-positioned-button"
                           aria-controls={
@@ -195,71 +223,76 @@ export const Products = () => {
                             Delete
                           </MenuItem>
                         </Menu>
-                      </td>
-                    </tr>
+                      </div>
+                    </div>
                     {product["footNote"] != null && (
-                      <tr>
-                        <td colSpan={8} align="center">
-                          <TextField
-                            onChange={(e) => {
-                              modifyProduct(i, { footNote: e.target.value });
-                            }}
-                            variant="standard"
-                            value={product["footNote"]}
-                          />
-                        </td>
-                      </tr>
+                      <div className="footnote">
+                        <TextField
+                          sx={{ width: "50%" }}
+                          multiline
+                          label="Footnote"
+                          placeholder="Enter foot note"
+                          onChange={(e) => {
+                            modifyProduct(i, { footNote: e.target.value });
+                          }}
+                          variant="outlined"
+                          size="small"
+                          value={product["footNote"]}
+                        />
+                      </div>
                     )}
                   </>
                 ))}
-              {/*table Footer */}
-              <tr>
-                <td
-                  colSpan={6}
-                  align="center"
-                  sx={{ cursor: "pointer" }}
-                  onClick={addNewProduct}
-                >
-                  Click to add new entry
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={5} />
-                <td align="right" colSpan={1}>
-                  Subtotal
-                </td>
-                <td align="right">{calcSubTotal()}</td>
-              </tr>
-              <tr>
-                <td colSpan={5} />
-                <td align="right" colSpan={1}>
-                  Tax
-                </td>
-                <td align="right">
-                  <TextField
-                    onChange={(e) => {
-                      setTax(e.target.value);
-                    }}
-                    value={tax}
-                    sx={{ widthead: "10vw" }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="start">%</InputAdornment>
-                      ),
-                    }}
-                    variant="standard"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={5} />
-                <td align="right" colSpan={1}>
-                  Total
-                </td>
-                <td align="right">{calcTotal()}</td>
-              </tr>
-            </tbody>
-          </table>
+              <div className="table-hdivider" />
+            </div>
+            {/*table Add option */}
+
+            <div
+              sx={{ cursor: "pointer" }}
+              onClick={addNewProduct}
+              className="add-new-item"
+            >
+              Add New Entry <AddIcon />
+            </div>
+            <div className="table-hdivider" />
+            {/*table Footer */}
+            <div className="table-footer">
+              <div className="table-cell tabel-label md">Subtotal</div>
+              <div className="table-cell md" align="right">
+                {calcSubTotal()}
+              </div>
+            </div>
+            <div className="table-footer">
+              <div className="table-cell tabel-label md">Tax</div>
+              <div className="table-cell md" align="right">
+                <TextField
+                  onChange={(e) => {
+                    setTax(e.target.value);
+                  }}
+                  value={tax}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">%</InputAdornment>
+                    ),
+                  }}
+                  variant="outlined"
+                  size="small"
+                />
+              </div>
+            </div>
+            <div style={{ justifyContent: "end", display: "flex" }}>
+              <div className="table-hdivider-sm" />
+            </div>
+
+            <div className="table-footer">
+              <div className="table-cell tabel-label md">Total</div>
+              <div className="table-cell md" align="right">
+                {calcTotal()}
+              </div>
+
+              {/* <div className="table-cell vm" /> */}
+            </div>
+          </div>
         </AccordionDetails>
       </Accordion>
     </div>

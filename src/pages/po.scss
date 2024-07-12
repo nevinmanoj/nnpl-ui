@@ -1,8 +1,22 @@
 .po-outer{
+    max-height: 90vh;
     margin-top: 75px;
+     overflow-x: hidden;
+     overflow-y: scroll;
+    &::-webkit-scrollbar-thumb {
+        background: #c0c0c0;
+        border-radius: 10px;  
+      }
+      &::-webkit-scrollbar {
+        width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #ffffff;
+        border-radius: 10px;  
+      }
 }
 .po-body{
-    border:1px solid black;
+    border:1px solid rgb(209, 209, 209);;
     border-radius: 8px;
     margin-top: 10px;
     padding: 10px;
@@ -13,5 +27,5 @@
     padding: 0px;
     margin: 10px -10px;
     height: 1px;
-    background-color: #000;
+    background-color: rgb(209, 209, 209);;
 }
