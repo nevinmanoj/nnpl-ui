@@ -15,29 +15,12 @@
       border: none !important;
     }
 }
-.acc-heading-label{
-    font-size: 12px;
-    color: #939393;
-    font-weight: 100;
-}
-.acc-heading-value{
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-    font-size: 20px;
-    color: #494949;
-    font-weight:500;
-}
+
+
 .option-textbox{
-  // border: 1px solid black;
-  // height: 50px;
+
   width:50%;
 }
-// .acc-heading, .acc-heading-value{
-//   transition: all 0.3s ease;
-// }
 .item-detail-label{
   font-size: 16px;
   font-weight: 500;
@@ -49,4 +32,18 @@
   font-weight: 500;
   color:rgb(34, 34, 34)
 
+}
+.acc-heading-label{
+  font-size: 16px;
+  color: #939393;
+  font-weight: 100;
+}
+.acc-heading-value{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: #494949;
+  font-weight:500;
 }

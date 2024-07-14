@@ -5,6 +5,7 @@ import { server } from "../utils/server";
 import { runAxios } from "../utils/runAxios";
 import { useContext } from "react";
 import { UserContext } from "./userProvider";
+import { povalidator } from "../utils/poValidator";
 export const PoContext = createContext();
 
 export const PoProvider = ({ children }) => {
@@ -21,6 +22,28 @@ export const PoProvider = ({ children }) => {
   const [poLoading, setPoLoading] = useState(false);
   const [id, setid] = useState(null);
   const [poStatus, setPoStatus] = useState(null);
+  const [errors, setErrors] = useState({
+    date: {
+      value: false,
+      msg: "",
+    },
+    distributor: {
+      value: false,
+      msg: "",
+    },
+    billing: {
+      value: false,
+      msg: "",
+    },
+    products: {
+      value: false,
+      msg: "",
+    },
+    customer: {
+      value: false,
+      msg: "",
+    },
+  });
 
   const setPo = (i) => {
     setPoLoading(true);
@@ -56,6 +79,19 @@ export const PoProvider = ({ children }) => {
   };
 
   const savePo = async () => {
+    const err = povalidator({
+      tax,
+      date,
+      products,
+      distributor,
+      billing,
+      customer,
+      errors,
+    });
+    setErrors(err.errors);
+    if (err.fail) {
+      return;
+    }
     setPoLoading(true);
     if (id != null || id != "new") {
       //Save  PO
@@ -144,6 +180,7 @@ export const PoProvider = ({ children }) => {
         customer,
         tc,
         poLoading,
+        errors,
         setDate,
         setPo,
         savePo,

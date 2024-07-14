@@ -2,7 +2,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import AccordionDetails from "@mui/material/AccordionDetails";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MasterContext } from "../../context/masterProvider";
 import { PoContext } from "../../context/poProvider";
 
@@ -12,7 +12,7 @@ import "./customer.scss";
 export const Customer = () => {
   const { customerOptions, getOptionDetails } = useContext(MasterContext);
   const { setCustomer, customer } = useContext(PoContext);
-
+  const [newCustomer, setNewCustomer] = useState({});
   var selectedOption = null;
   if (customer != null) {
     selectedOption = {

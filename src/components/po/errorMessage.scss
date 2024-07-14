@@ -1,6 +1,38 @@
 .error-msg-outer{
     margin-left: 10px;
     color: red;
-    // background-color: aqua;
+    position: relative;
+    display: inline-block;
+      
 
+}
+.error-message{
+  font-size: 18px;
+  position: absolute;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 3px;
+  white-space: nowrap;
+  visibility: hidden; /* Initially hidden */
+  opacity: 0; /* Initially invisible */
+  transition: opacity 0.3s; /* Smooth transition for the opacity */
+}
+.right{
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+}
+
+.top{
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 5px;
+}
+.error-msg-outer:hover .error-message {
+  visibility: visible; /* Make visible on hover */
+  opacity: 1; /* Fade in on hover */
 }

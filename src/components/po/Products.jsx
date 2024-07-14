@@ -12,21 +12,22 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import { isValidNumber } from "../../utils/validNumberChecker";
 import { PoContext } from "../../context/poProvider";
 import { MasterContext } from "../../context/masterProvider";
 
-import "./product.scss";
+import "./Products.scss";
 import { ErrorMessage } from "./errorMessage";
+import { validateTime } from "@mui/x-date-pickers/internals";
 
 export const Products = () => {
-  const { tax, products, setTax, setProducts } = useContext(PoContext);
+  const { tax, products, setTax, setProducts, errors } = useContext(PoContext);
   const { productOptions, getOptionDetails } = useContext(MasterContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [index, setIndex] = useState(0);
-  console.log(products[index]);
   const open = Boolean(anchorEl);
+  const errorActive = errors.products.value;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -86,16 +87,9 @@ export const Products = () => {
       <Accordion className="accordian" defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className="acc-heading-value">Items</div>
-          <ErrorMessage />
+          {errorActive && <ErrorMessage label="products" loc="right" />}
         </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            // backgroundColor: "yellow",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <AccordionDetails>
           <div className="table">
             {/* table Header */}
             <div className="table-header">
@@ -133,6 +127,14 @@ export const Products = () => {
                           options={productOptions}
                           renderInput={(params) => (
                             <TextField
+                              error={
+                                errorActive &&
+                                (product["product"] == null ||
+                                  product["product"] == "")
+                              }
+                              onChange={(e) => {
+                                modifyProduct(i, { qty: e.target.value });
+                              }}
                               {...params}
                               variant="outlined"
                               size="small"
@@ -156,6 +158,7 @@ export const Products = () => {
                       <div className="table-cell md">{product["partCode"]}</div>
                       <div className="table-cell sm">
                         <TextField
+                          error={errorActive && !isValidNumber(product["qty"])}
                           onChange={(e) => {
                             modifyProduct(i, { qty: e.target.value });
                           }}
@@ -166,6 +169,10 @@ export const Products = () => {
                       </div>
                       <div className="table-cell md">
                         <TextField
+                          error={
+                            errorActive &&
+                            !isValidNumber(product["ratePerUnit"])
+                          }
                           onChange={(e) => {
                             modifyProduct(i, { ratePerUnit: e.target.value });
                           }}
@@ -266,6 +273,7 @@ export const Products = () => {
               <div className="table-cell tabel-label md">Tax</div>
               <div className="table-cell md" align="right">
                 <TextField
+                  error={errorActive && !isValidNumber(tax)}
                   onChange={(e) => {
                     setTax(e.target.value);
                   }}

@@ -1,22 +1,29 @@
+import Button from "@mui/material/Button";
+
 import { useContext } from "react";
-import "./header.scss";
 import { PoContext } from "../../context/poProvider";
+import "./Header.scss";
 
 export const PoHeader = () => {
   const { savePo } = useContext(PoContext);
   return (
     <div className="po-header">
-      <button className="save-button" onClick={() => savePo()}>
-        Save
-      </button>
-      <button
+      <Button
+        sx={{ marginRight: "10px" }}
+        variant="outlined"
         className="save-button"
+        onClick={() => savePo()}
+      >
+        Save
+      </Button>
+      <Button
+        variant="outlined"
         onClick={() => {
           console.log("Download soon");
         }}
       >
         Download
-      </button>
+      </Button>
     </div>
   );
 };

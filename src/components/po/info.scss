@@ -3,3 +3,19 @@
     justify-content: space-between;
 
 }
+.po-info-date{
+    display: flex;
+    align-items: center;
+}
+.po-pno-block{
+    margin-left: 16px;
+}
+.po-pno-label{
+    
+    color: #939393;
+    font-weight: 100;
+    font-size: 16px;
+}
+.po-pno-value{
+    font-size: 20px;
+}
