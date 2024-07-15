@@ -30,6 +30,8 @@ export const Customer = () => {
     if (newMode) {
       setIsNew(true);
       setCustomer({});
+    } else {
+      setCustomer(null);
     }
     setIsNew(newMode);
   };
