@@ -34,7 +34,7 @@ export const CustomPoAccordian = ({ value, label, children }) => {
                 </div>
               </div>
             )}
-            <ErrorMessage label={label.toLowerCase()} />
+            <ErrorMessage label={label.toLowerCase()} loc={"right"} />
           </div>
         </AccordionSummary>
         {children}

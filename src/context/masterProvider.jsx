@@ -1,11 +1,14 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 
-import { server } from "../utils/server";
+import { server } from "../constants/server";
+import { runAxios } from "../utils/runAxios";
+import { UserContext } from "./userProvider";
 
 export const MasterContext = createContext();
 
 export const MasterProvider = ({ children }) => {
+  const { token } = useContext(UserContext);
   const [distributorOptions, setDistributorOptions] = useState([]);
   const [neuralOptions, setneuralOptions] = useState([]);
   const [customerOptions, setCustomerOptions] = useState([]);
@@ -57,6 +60,21 @@ export const MasterProvider = ({ children }) => {
         return null;
       });
   };
+  const addItemToMaster = async (item, data) => {
+    const result = await runAxios(
+      "post",
+      {
+        data: data,
+      },
+      "/master/" + item,
+      token
+    );
+    if (result.success) {
+      const data = await getOptions(item);
+      setCustomerOptions(data);
+    }
+    return result;
+  };
 
   return (
     <MasterContext.Provider
@@ -66,6 +84,7 @@ export const MasterProvider = ({ children }) => {
         customerOptions,
         productOptions,
         getOptionDetails,
+        addItemToMaster,
       }}
     >
       {children}

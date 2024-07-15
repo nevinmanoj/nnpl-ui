@@ -1,16 +1,21 @@
 import { createContext, useState } from "react";
 import axios from "axios";
 
-import { server } from "../utils/server";
+import { server } from "../constants/server";
 import { runAxios } from "../utils/runAxios";
 import { useContext } from "react";
 import { UserContext } from "./userProvider";
 import { povalidator } from "../utils/poValidator";
+import { MasterContext } from "./masterProvider";
+import { structValidator } from "../utils/structValidator";
+import { reqCustomerProperties } from "../constants/dataModalProperties";
 export const PoContext = createContext();
 
 export const PoProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
+  const { addItemToMaster } = useContext(MasterContext);
 
+  //po details
   const [pno, setpno] = useState(null);
   const [date, setDate] = useState(0);
   const [tax, setTax] = useState(0);
@@ -22,6 +27,8 @@ export const PoProvider = ({ children }) => {
   const [poLoading, setPoLoading] = useState(false);
   const [id, setid] = useState(null);
   const [poStatus, setPoStatus] = useState(null);
+
+  //error flags
   const [errors, setErrors] = useState({
     date: {
       value: false,
@@ -44,6 +51,9 @@ export const PoProvider = ({ children }) => {
       msg: "",
     },
   });
+
+  //new values for po details
+  const [isNew, setIsNew] = useState(false);
 
   const setPo = (i) => {
     setPoLoading(true);
@@ -79,13 +89,37 @@ export const PoProvider = ({ children }) => {
   };
 
   const savePo = async () => {
+    var _customer = customer;
+    if (isNew) {
+      var isValidCustomer = structValidator(_customer, reqCustomerProperties);
+      console.log(isValidCustomer);
+      if (!isValidCustomer) {
+        setErrors({
+          ...errors,
+          customer: {
+            value: true,
+            msg: "No fields can be empty",
+          },
+        });
+        return;
+      }
+
+      var res = await addItemToMaster("customer", _customer);
+      if (res.success) {
+        setCustomer(res.data.data);
+        setIsNew(false);
+        _customer = res.data.data;
+      } else {
+        return;
+      }
+    }
     const err = povalidator({
       tax,
       date,
       products,
       distributor,
       billing,
-      customer,
+      customer: _customer,
       errors,
     });
     setErrors(err.errors);
@@ -106,7 +140,7 @@ export const PoProvider = ({ children }) => {
             products,
             distributor,
             billing,
-            customer,
+            customer: _customer,
             tc,
             poStatus,
           },
@@ -131,7 +165,7 @@ export const PoProvider = ({ children }) => {
             products,
             distributor,
             billing,
-            customer,
+            customer: _customer,
             tc,
             poStatus,
           },
@@ -190,6 +224,8 @@ export const PoProvider = ({ children }) => {
         setProducts,
         setTax,
         setTc,
+        isNew,
+        setIsNew,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { server } from "./server";
+import { server } from "../constants/server";
 import axios from "axios";
 
 export const runAxios = async (method, data, path, jwtToken) => {
