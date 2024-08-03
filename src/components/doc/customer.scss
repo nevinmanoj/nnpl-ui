@@ -1,7 +1,10 @@
 .customer-details{
     display: flex;
     margin-top: 20px;
-    justify-content: space-between;
+}
+.customer-address-block,.customer-contact-block{
+
+    width: 50%;
 }
 .primary-input-block{
     display: flex;

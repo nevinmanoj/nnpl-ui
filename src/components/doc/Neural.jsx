@@ -9,9 +9,8 @@ import { PoContext } from "../../context/poProvider";
 import "./neural.scss";
 import "./customAccordians.scss";
 
-export const Neural = () => {
+export const Neural = ({ setBilling, billing }) => {
   const { neuralOptions, getOptionDetails } = useContext(MasterContext);
-  const { setBilling, billing } = useContext(PoContext);
 
   var selectedOption = null;
   if (billing != null) {

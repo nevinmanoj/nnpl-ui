@@ -28,6 +28,9 @@ export const PoProvider = ({ children }) => {
   const [id, setid] = useState(null);
   const [poStatus, setPoStatus] = useState(null);
 
+  //new values for po details
+  const [isNew, setIsNew] = useState(false);
+
   //error flags
   const [errors, setErrors] = useState({
     date: {
@@ -51,9 +54,6 @@ export const PoProvider = ({ children }) => {
       msg: "",
     },
   });
-
-  //new values for po details
-  const [isNew, setIsNew] = useState(false);
 
   const setPo = (i) => {
     setPoLoading(true);
@@ -159,7 +159,6 @@ export const PoProvider = ({ children }) => {
         "post",
         {
           data: {
-            pno,
             tax,
             date,
             products,

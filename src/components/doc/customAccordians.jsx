@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import "./customAccordians.scss";
 
-export const CustomPoAccordian = ({ value, label, children }) => {
+export const CustomDocAccordian = ({ value, label, children }) => {
   const [expanded, setExpanded] = useState(true);
 
   return (

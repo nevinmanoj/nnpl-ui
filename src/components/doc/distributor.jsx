@@ -4,14 +4,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 
 import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
-import { PoContext } from "../../context/poProvider";
 
 import "./distributor.scss";
 import "./customAccordians.scss";
 
-export const Distributor = () => {
+export const Distributor = ({ setDistributor, distributor }) => {
   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
-  const { setDistributor, distributor } = useContext(PoContext);
+  // const = useContext(PoContext);
 
   var selectedOption = null;
   if (distributor != null) {

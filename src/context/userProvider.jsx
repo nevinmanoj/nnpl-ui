@@ -21,6 +21,7 @@ export const UserProvider = ({ children }) => {
       setSeverity(null);
     }, 5000);
   };
+
   return (
     <UserContext.Provider
       value={{

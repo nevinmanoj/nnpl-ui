@@ -7,15 +7,18 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useContext, useState } from "react";
 
 import { MasterContext } from "../../context/masterProvider";
-import { PoContext } from "../../context/poProvider";
 
 import "./customAccordians.scss";
 import "./customer.scss";
 
-export const Customer = () => {
+export const Customer = ({
+  setCustomer,
+  customer,
+  isNew,
+  setIsNew,
+  errors,
+}) => {
   const { customerOptions, getOptionDetails } = useContext(MasterContext);
-  const { setCustomer, customer, isNew, setIsNew, errors } =
-    useContext(PoContext);
 
   const errorActive = errors.customer.value;
   var selectedOption = null;

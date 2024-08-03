@@ -10,8 +10,7 @@ import { PoContext } from "../../context/poProvider";
 import "./Tc.scss";
 import "./customAccordians.scss";
 
-export const Tc = () => {
-  const { tc, setTc } = useContext(PoContext);
+export const Tc = ({ tc, setTc }) => {
   const handleTcChange = (value, key) => {
     setTc({ ...tc, [key]: value });
   };

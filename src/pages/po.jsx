@@ -2,51 +2,86 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { PoContext } from "../context/poProvider";
-import { PoInfo } from "../components/po/Info";
-import { PoHeader } from "../components/po/Header";
-import { Customer } from "../components/po/Customer";
-import { Neural } from "../components/po/Neural";
-import { Products } from "../components/po/Products";
+import { DocInfo } from "../components/doc/Info";
+import { DocHeader } from "../components/doc/Header";
+import { Customer } from "../components/doc/Customer";
+import { Neural } from "../components/doc/Neural";
+import { Products } from "../components/doc/Products";
+import { Tc } from "../components/doc/Tc";
+import { CustomDocAccordian } from "../components/doc/customAccordians";
+import { Distributor } from "../components/doc/distributor";
 
 import "./po.scss";
-import { Tc } from "../components/po/Tc";
-import { CustomPoAccordian } from "../components/po/customAccordians";
-import { Distributor } from "../components/po/distributor";
 
 export const Po = () => {
   const { id } = useParams();
-  const { setPo, distributor, billing, customer } = useContext(PoContext);
+  const {
+    pno,
+    setPo,
+    distributor,
+    billing,
+    customer,
+    savePo,
+    date,
+    setDate,
+    setDistributor,
+    setBilling,
+    setCustomer,
+    isNew,
+    setIsNew,
+    errors,
+    tc,
+    setTc,
+  } = useContext(PoContext);
 
   useEffect(() => {
     setPo(id);
   }, []);
   return (
     <div className="po-outer">
-      <PoHeader />
+      <DocHeader save={savePo} />
       <div className="po-body">
-        <PoInfo />
-        <div className="divider" />
-        <CustomPoAccordian
-          value={distributor}
-          label="Distributor"
-          children={<Distributor />}
+        <DocInfo
+          title="Purchase Order"
+          value={pno}
+          date={date}
+          setDate={setDate}
         />
         <div className="divider" />
-        <CustomPoAccordian
+        <CustomDocAccordian
+          value={distributor}
+          label="Distributor"
+          children={
+            <Distributor
+              distributor={distributor}
+              setDistributor={setDistributor}
+            />
+          }
+        />
+        <div className="divider" />
+        <CustomDocAccordian
           value={billing}
           label="Billing"
-          children={<Neural />}
+          children={<Neural billing={billing} setBilling={setBilling} />}
         />
         <div className="divider" />
         <Products />
         <div className="divider" />
-        <CustomPoAccordian
+        <CustomDocAccordian
           value={customer}
           label="Customer"
-          children={<Customer />}
+          children={
+            <Customer
+              customer={customer}
+              isNew={isNew}
+              setCustomer={setCustomer}
+              setIsNew={setIsNew}
+              errors={errors}
+            />
+          }
         />
         <div className="divider" />
-        <Tc />
+        <Tc tc={tc} setTc={setTc} />
       </div>
     </div>
   );
