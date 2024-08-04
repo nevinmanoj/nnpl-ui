@@ -26,7 +26,7 @@ export const PoProvider = ({ children }) => {
   const [tc, setTc] = useState({});
   const [poLoading, setPoLoading] = useState(false);
   const [id, setid] = useState(null);
-  const [poStatus, setPoStatus] = useState(null);
+  const [status, setPoStatus] = useState(null);
 
   //new values for po details
   const [isNew, setIsNew] = useState(false);
@@ -59,12 +59,12 @@ export const PoProvider = ({ children }) => {
     setPoLoading(true);
     if (i != null && i != "new") {
       axios
-        .get(server + "/po/" + i, {
+        .get(server + "/docs/po/" + i, {
           headers: {
             // authorization: "Bearer " + token,
           },
         })
-        .then((res) => res.data.po)
+        .then((res) => res.data.data)
         .then((data) => {
           setpno(data["pno"]);
           setDate(data["date"]);
@@ -76,7 +76,7 @@ export const PoProvider = ({ children }) => {
           setTc(data["tc"]);
           setid(i);
           setPoLoading(false);
-          setPoStatus(data["poStatus"]);
+          setPoStatus(data["status"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
@@ -142,10 +142,10 @@ export const PoProvider = ({ children }) => {
             billing,
             customer: _customer,
             tc,
-            poStatus,
+            status,
           },
         },
-        "/po/" + id,
+        "/docs/po/" + id,
         token
       );
       if (!result.success) {
@@ -166,10 +166,10 @@ export const PoProvider = ({ children }) => {
             billing,
             customer: _customer,
             tc,
-            poStatus,
+            status,
           },
         },
-        "/po",
+        "/docs/po",
         token
       );
       if (result.success) {
@@ -183,7 +183,7 @@ export const PoProvider = ({ children }) => {
   };
 
   const deletePo = async () => {
-    const result = await runAxios("delete", {}, "/po/" + id, token);
+    const result = await runAxios("delete", {}, "/docs/po/" + id, token);
     if (result.success) {
       //handle delete
     }
