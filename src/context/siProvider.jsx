@@ -1,33 +1,25 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import axios from "axios";
 
+import { sivalidator } from "../utils/siValidator";
 import { server } from "../constants/server";
-import { runAxios } from "../utils/runAxios";
-import { useContext } from "react";
 import { UserContext } from "./userProvider";
-import { povalidator } from "../utils/poValidator";
-import { MasterContext } from "./masterProvider";
-import { structValidator } from "../utils/structValidator";
-import { reqCustomerProperties } from "../constants/dataModalProperties";
+import { runAxios } from "../utils/runAxios";
 
-export const PoContext = createContext();
+export const SIContext = createContext();
 
-export const PoProvider = ({ children }) => {
+export const SIProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
-  const { addItemToMaster } = useContext(MasterContext);
 
-  //po details
-  const [pno, setpno] = useState(null);
-  const [date, setDate] = useState(0);
-  const [tax, setTax] = useState(0);
-  const [products, setProducts] = useState([]);
-  const [distributor, setDistributor] = useState(null);
-  const [billing, setBilling] = useState(null);
+  const [siId, setSiId] = useState(null);
+  const [sino, setSino] = useState(null);
   const [customer, setCustomer] = useState(null);
-  const [tc, setTc] = useState({});
-  const [poLoading, setPoLoading] = useState(false);
-  const [id, setid] = useState(null);
-  const [status, setPoStatus] = useState(null);
+  const [ledgerAccount, setLedgerAccount] = useState(null);
+  const [roundOff, setRoundOff] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [date, setDate] = useState(null);
+  const [status, setstatus] = useState(null);
+  const [billing, setBilling] = useState(null);
 
   //new values for po details
   const [isNew, setIsNew] = useState(false);
@@ -54,42 +46,42 @@ export const PoProvider = ({ children }) => {
       value: false,
       msg: "",
     },
+    ledgerAccount: {
+      value: false,
+      msg: "",
+    },
   });
 
-  const setPo = (i) => {
-    setPoLoading(true);
+  const setSi = (i) => {
     if (i != null && i != "new") {
       axios
-        .get(server + "/docs/po/" + i, {
+        .get(server + "/docs/sales-invoice/" + i, {
           headers: {
             // authorization: "Bearer " + token,
           },
         })
         .then((res) => res.data.data)
         .then((data) => {
-          setpno(data["pno"]);
+          setSino(data["sino"]);
           setDate(data["date"]);
-          setTax(data["tax"]);
+          setLedgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
-          setDistributor(data["distributor"]);
           setBilling(data["billing"]);
           setCustomer(data["customer"]);
-          setTc(data["tc"]);
-          setid(i);
-          setPoLoading(false);
-          setPoStatus(data["status"]);
+          setSiId(i);
+          setRoundOff(data["roundOff"]);
+          setstatus(data["status"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
-          setid(null);
-          setPoLoading(false);
+          setSiId(null);
         });
     } else {
-      setid(null);
+      setSiId(null);
     }
   };
 
-  const savePo = async () => {
+  const saveSi = async () => {
     var _customer = customer;
     if (isNew) {
       var isValidCustomer = structValidator(_customer, reqCustomerProperties);
@@ -114,39 +106,37 @@ export const PoProvider = ({ children }) => {
         return;
       }
     }
-    const err = povalidator({
-      tax,
+    var siData = {
+      ledgerAccount,
       date,
+      status,
       products,
-      distributor,
+      roundOff,
       billing,
       customer: _customer,
-      errors,
+    };
+    const err = sivalidator({
+      data: siData,
     });
+    console.log(err);
+
     setErrors(err.errors);
     if (err.fail) {
       return;
     }
-    setPoLoading(true);
-    if (id != null || id != "new") {
+
+    if (siId != null || siId != "new") {
       //Save  PO
 
       const result = await runAxios(
         "put",
         {
           data: {
-            pno,
-            tax,
-            date,
-            products,
-            distributor,
-            billing,
-            customer: _customer,
-            tc,
-            status,
+            sino,
+            ...siData,
           },
         },
-        "/docs/po/" + id,
+        "/docs/sales-invoice/" + siId,
         token
       );
       if (!result.success) {
@@ -159,22 +149,13 @@ export const PoProvider = ({ children }) => {
       const result = await runAxios(
         "post",
         {
-          data: {
-            tax,
-            date,
-            products,
-            distributor,
-            billing,
-            customer: _customer,
-            tc,
-            status,
-          },
+          data: siData,
         },
-        "/docs/po",
+        "/docs/sales-invoice",
         token
       );
       if (result.success) {
-        setid(result.data.data._id);
+        setSiId(result.data.data._id);
         showNotification("Save Success", "success");
       } else {
         showNotification("Error while saving", "error");
@@ -183,52 +164,32 @@ export const PoProvider = ({ children }) => {
     setPoLoading(false);
   };
 
-  const deletePo = async () => {
-    const result = await runAxios("delete", {}, "/docs/po/" + id, token);
-    if (result.success) {
-      //handle delete
-    }
-  };
-
-  const clearPo = () => {
-    setpno(null);
-    setDate(0);
-    setTax(0);
-    setProducts([]);
-    setDistributor(null);
-    setBilling(null);
-    setCustomer(null);
-    setTc({});
-  };
-
   return (
-    <PoContext.Provider
+    <SIContext.Provider
       value={{
-        id,
-        pno,
-        tax,
-        date,
-        products,
-        distributor,
-        billing,
         customer,
-        tc,
-        poLoading,
         errors,
-        setDate,
-        setPo,
-        savePo,
-        setDistributor,
-        setCustomer,
-        setBilling,
-        setProducts,
-        setTax,
-        setTc,
+        setErrors,
         isNew,
         setIsNew,
+        setCustomer,
+        sino,
+        setSino,
+        ledgerAccount,
+        setLedgerAccount,
+        roundOff,
+        setRoundOff,
+        products,
+        setProducts,
+        date,
+        setDate,
+        setSi,
+        saveSi,
+        billing,
+        setBilling,
       }}
     >
       {children}
-    </PoContext.Provider>
+    </SIContext.Provider>
   );
 };

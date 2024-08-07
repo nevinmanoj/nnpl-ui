@@ -18,21 +18,9 @@ import { MasterContext } from "../../context/masterProvider";
 
 import "./PoProducts.scss";
 import { ErrorMessage } from "./errorMessage";
-import { SIContext } from "../../context/siProvider";
 
-export const Products = () => {
-  const {
-    ledgerAccount,
-    roundOff,
-    products,
-    setProducts,
-    errors,
-    setRoundOff,
-  } = useContext(SIContext);
-  var tax = 0;
-  if (ledgerAccount != null) {
-    tax = ledgerAccount.tax;
-  }
+export const PoProducts = () => {
+  const { tax, products, setTax, setProducts, errors } = useContext(PoContext);
   const { productOptions, getOptionDetails } = useContext(MasterContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -76,7 +64,7 @@ export const Products = () => {
 
   const calcTotal = () => {
     const st = calcSubTotal();
-    return (parseFloat(roundOff) + st + safeMultiply(st, tax) / 100).toFixed(2);
+    return st + safeMultiply(st, tax) / 100;
   };
 
   const addNewProduct = () => {
@@ -279,16 +267,17 @@ export const Products = () => {
             <div className="table-footer">
               <div className="table-cell tabel-label md">Subtotal</div>
               <div className="table-cell md" align="right">
-                {calcSubTotal() + " ₹"}
+                {calcSubTotal()}
               </div>
             </div>
             <div className="table-footer">
               <div className="table-cell tabel-label md">Tax</div>
               <div className="table-cell md" align="right">
-                {tax + " %"}
-                {/* <TextField
-                  disabled
+                <TextField
                   error={errorActive && !isValidNumber(tax)}
+                  onChange={(e) => {
+                    setTax(e.target.value);
+                  }}
                   value={tax}
                   InputProps={{
                     endAdornment: (
@@ -297,31 +286,17 @@ export const Products = () => {
                   }}
                   variant="outlined"
                   size="small"
-                /> */}
-              </div>
-            </div>
-            <div className="table-footer">
-              <div className="table-cell tabel-label md">Round Off</div>
-              <div className="table-cell md" align="right">
-                <TextField
-                  onChange={(e) => setRoundOff(e.target.value)}
-                  error={errorActive && !isValidNumber(roundOff)}
-                  value={roundOff}
-                  variant="outlined"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="start">₹</InputAdornment>
-                    ),
-                  }}
-                  size="small"
                 />
               </div>
+            </div>
+            <div style={{ justifyContent: "end", display: "flex" }}>
+              <div className="table-hdivider-sm" />
             </div>
 
             <div className="table-footer">
               <div className="table-cell tabel-label md">Total</div>
               <div className="table-cell md" align="right">
-                {calcTotal() + " ₹"}
+                {calcTotal()}
               </div>
 
               {/* <div className="table-cell vm" /> */}

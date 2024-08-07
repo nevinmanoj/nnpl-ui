@@ -6,7 +6,7 @@ import { ErrorMessage } from "./errorMessage";
 import dayjs from "dayjs";
 import "./info.scss";
 
-export const DocInfo = ({ title, value, date, setDate }) => {
+export const DocInfo = ({ title, value, date, setDate, errors }) => {
   return (
     <div className="doc-info-outer">
       <div className="doc-pno-block">
@@ -14,7 +14,7 @@ export const DocInfo = ({ title, value, date, setDate }) => {
         <div className="doc-pno-value">{value}</div>
       </div>
       <div className="doc-info-date">
-        <ErrorMessage label="date" loc="top" />
+        <ErrorMessage label="date" loc="top" errors={errors} />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             sx={{ marginLeft: "10px" }}

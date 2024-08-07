@@ -1,52 +1,79 @@
-// import { useContext, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-// import { PoContext } from "../context/poProvider";
-// import { PoInfo } from "../components/doc/Info";
-// import { PoHeader } from "../components/doc/Header";
-// import { Customer } from "../components/doc/Customer";
-// import { Neural } from "../components/doc/Neural";
-// import { Products } from "../components/doc/Products";
-// import { Tc } from "../components/doc/Tc";
-// import { CustomPoAccordian } from "../components/doc/customAccordians";
-// import { Distributor } from "../components/doc/distributor";
+import { DocInfo } from "../components/doc/Info";
+import { DocHeader } from "../components/doc/Header";
+import { Customer } from "../components/doc/Customer";
+import { Neural } from "../components/doc/Neural";
+import { CustomDocAccordian } from "../components/doc/customAccordians";
+import { LedgerAccount } from "../components/doc/ledgerAccount";
+import { SIContext } from "../context/siProvider";
+import { Products } from "../components/doc/Products";
 
 export const SalesInvoice = () => {
-  // const { id } = useParams();
-  // const { setPo, distributor, billing, customer } = useContext(PoContext);
+  const { id } = useParams();
+  const {
+    setSi,
+    saveSi,
+    sino,
+    date,
+    setDate,
+    customer,
+    billing,
+    setBilling,
+    setCustomer,
+    isNew,
+    setIsNew,
+    errors,
+    ledgerAccount,
+    setLedgerAccount,
+  } = useContext(SIContext);
 
-  // useEffect(() => {
-  //   setPo(id);
-  // }, []);
+  useEffect(() => {
+    setSi(id);
+  }, []);
   return (
-    <>hi</>
-    // <div className="po-outer">
-    //   <PoHeader />
-    //   <div className="po-body">
-    //     <PoInfo />
-    //     <div className="divider" />
-    //     <CustomPoAccordian
-    //       value={distributor}
-    //       label="Distributor"
-    //       children={<Distributor />}
-    //     />
-    //     <div className="divider" />
-    //     <CustomPoAccordian
-    //       value={billing}
-    //       label="Billing"
-    //       children={<Neural />}
-    //     />
-    //     <div className="divider" />
-    //     <Products />
-    //     <div className="divider" />
-    //     <CustomPoAccordian
-    //       value={customer}
-    //       label="Customer"
-    //       children={<Customer />}
-    //     />
-    //     <div className="divider" />
-    //     <Tc />
-    //   </div>
-    // </div>
+    <div className="po-outer">
+      <DocHeader save={saveSi} />
+      <div className="po-body">
+        <DocInfo
+          errors={errors}
+          title="Sales Invoice"
+          value={sino}
+          date={date}
+          setDate={setDate}
+        />
+        <div className="divider" />
+        <CustomDocAccordian
+          errors={errors}
+          value={billing}
+          label="Billing"
+          children={<Neural billing={billing} setBilling={setBilling} />}
+        />
+        <div className="divider" />
+        <CustomDocAccordian
+          value={customer}
+          errors={errors}
+          label="Customer"
+          children={
+            <Customer
+              customer={customer}
+              isNew={isNew}
+              setCustomer={setCustomer}
+              setIsNew={setIsNew}
+              errors={errors}
+            />
+          }
+        />
+        <div className="divider" />
+        <LedgerAccount
+          errors={errors}
+          ledger={ledgerAccount}
+          setLedger={setLedgerAccount}
+        />
+        <div className="divider" />
+        <Products />
+      </div>
+    </div>
   );
 };

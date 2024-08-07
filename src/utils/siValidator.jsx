@@ -1,15 +1,8 @@
 import { isValidNumber } from "./validNumberChecker";
-export const povalidator = ({
-  tax,
-  date,
-  products,
-  distributor,
-  billing,
-  customer,
-  errors,
-}) => {
+export const sivalidator = ({ data }) => {
   var fail = false;
-  errors = {
+  const { ledgerAccount, date, products, roundOff, billing, customer } = data;
+  var errors = {
     date: {
       value: false,
       msg: "",
@@ -30,19 +23,16 @@ export const povalidator = ({
       value: false,
       msg: "",
     },
+    ledgerAccount: {
+      value: false,
+      msg: "",
+    },
   };
 
   if (customer == "" || customer == null) {
     errors["customer"] = {
       value: true,
       msg: "Select a valid Customer",
-    };
-    fail = true;
-  }
-  if (distributor == "" || distributor == null) {
-    errors["distributor"] = {
-      value: true,
-      msg: "Select a valid Distributor",
     };
     fail = true;
   }
@@ -60,7 +50,14 @@ export const povalidator = ({
     };
     fail = true;
   }
-  if (tax == "" || tax == null || !isValidNumber(tax)) {
+  if (ledgerAccount == null) {
+    errors["ledgerAccount"] = {
+      value: true,
+      msg: "Select valid Ledger Account",
+    };
+    fail = true;
+  }
+  if (roundOff == "" || roundOff == null || !isValidNumber(roundOff)) {
     errors["products"] = {
       value: true,
       msg: "Select valid values for required fields",

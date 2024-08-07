@@ -1,11 +1,8 @@
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useContext } from "react";
-import { PoContext } from "../../context/poProvider";
 
 import "./errorMessage.scss";
 
-export const ErrorMessage = ({ label, loc }) => {
-  const { errors } = useContext(PoContext);
+export const ErrorMessage = ({ label, loc, errors }) => {
   const error = errors[label];
   return error.value ? (
     <div className="error-msg-outer">

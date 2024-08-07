@@ -13,6 +13,7 @@ export const MasterProvider = ({ children }) => {
   const [neuralOptions, setneuralOptions] = useState([]);
   const [customerOptions, setCustomerOptions] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
+  const [ledgerOptions, setLedgerOptions] = useState([]);
 
   useEffect(() => {
     getAlloptions();
@@ -27,6 +28,8 @@ export const MasterProvider = ({ children }) => {
     setCustomerOptions(data);
     data = await getOptions("products");
     setProductOptions(data);
+    data = await getOptions("ledger");
+    setLedgerOptions(data);
   };
   const getOptions = async (item) => {
     return await axios
@@ -83,6 +86,7 @@ export const MasterProvider = ({ children }) => {
         neuralOptions,
         customerOptions,
         productOptions,
+        ledgerOptions,
         getOptionDetails,
         addItemToMaster,
       }}

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import "./customAccordians.scss";
 
-export const CustomDocAccordian = ({ value, label, children }) => {
+export const CustomDocAccordian = ({ value, label, children, errors }) => {
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -34,7 +34,11 @@ export const CustomDocAccordian = ({ value, label, children }) => {
                 </div>
               </div>
             )}
-            <ErrorMessage label={label.toLowerCase()} loc={"right"} />
+            <ErrorMessage
+              errors={errors}
+              label={label.toLowerCase()}
+              loc={"right"}
+            />
           </div>
         </AccordionSummary>
         {children}

@@ -6,7 +6,7 @@ import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
 import { Customer } from "../components/doc/Customer";
 import { Neural } from "../components/doc/Neural";
-import { Products } from "../components/doc/Products";
+import { PoProducts } from "../components/doc/PoProducts";
 import { Tc } from "../components/doc/Tc";
 import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { Distributor } from "../components/doc/distributor";
@@ -42,6 +42,7 @@ export const Po = () => {
       <DocHeader save={savePo} />
       <div className="po-body">
         <DocInfo
+          errors={errors}
           title="Purchase Order"
           value={pno}
           date={date}
@@ -49,6 +50,7 @@ export const Po = () => {
         />
         <div className="divider" />
         <CustomDocAccordian
+          errors={errors}
           value={distributor}
           label="Distributor"
           children={
@@ -60,14 +62,16 @@ export const Po = () => {
         />
         <div className="divider" />
         <CustomDocAccordian
+          errors={errors}
           value={billing}
           label="Billing"
           children={<Neural billing={billing} setBilling={setBilling} />}
         />
         <div className="divider" />
-        <Products />
+        <PoProducts />
         <div className="divider" />
         <CustomDocAccordian
+          errors={errors}
           value={customer}
           label="Customer"
           children={
