@@ -9,6 +9,7 @@ import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Products } from "../components/doc/Products";
 import { PIContext } from "../context/piProvider";
+import { Customer } from "../components/doc/Customer";
 
 export const PurchaseInvoice = () => {
   const { id } = useParams();
@@ -29,6 +30,11 @@ export const PurchaseInvoice = () => {
     products,
     roundOff,
     setRoundOff,
+    customer,
+    isNew,
+    setCustomer,
+    setIsNew,
+    setpino,
   } = useContext(PIContext);
 
   useEffect(() => {
@@ -39,8 +45,10 @@ export const PurchaseInvoice = () => {
       <DocHeader save={savePi} />
       <div className="po-body">
         <DocInfo
+          onNoChange={(e) => setpino(e.target.value)}
+          editableNo={true}
           errors={errors}
-          title="Sales Invoice"
+          title="Purchase Invoice No."
           value={pino}
           date={date}
           setDate={setDate}
@@ -61,6 +69,21 @@ export const PurchaseInvoice = () => {
             <Distributor
               distributor={distributor}
               setDistributor={setdistributor}
+            />
+          }
+        />{" "}
+        <div className="divider" />
+        <CustomDocAccordian
+          errors={errors}
+          value={customer}
+          label="Customer"
+          children={
+            <Customer
+              customer={customer}
+              isNew={isNew}
+              setCustomer={setCustomer}
+              setIsNew={setIsNew}
+              errors={errors}
             />
           }
         />

@@ -42,8 +42,10 @@ export const Po = () => {
       <DocHeader save={savePo} />
       <div className="po-body">
         <DocInfo
+          onNoChange={(e) => {}}
+          editableNo={false}
           errors={errors}
-          title="Purchase Order"
+          title="Purchase Order No."
           value={pno}
           date={date}
           setDate={setDate}

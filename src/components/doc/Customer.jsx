@@ -41,6 +41,8 @@ export const Customer = ({
 
   const handleChange = async (event, newValue) => {
     if (newValue == null) {
+      setCustomer(null);
+      setIsNew(false);
       return;
     }
     const res = await getOptionDetails("customer", newValue.value);

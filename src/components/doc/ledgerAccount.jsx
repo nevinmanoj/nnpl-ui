@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { MasterContext } from "../../context/masterProvider";
+import { ErrorMessage } from "./errorMessage";
 
 import "./ledgerAccount.scss";
 
@@ -10,6 +11,7 @@ export const LedgerAccount = ({ ledger, setLedger, errors }) => {
   const { ledgerOptions, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.ledgerAccount.value;
+
   var selectedOption = null;
   if (ledger != null) {
     selectedOption = {
@@ -29,28 +31,36 @@ export const LedgerAccount = ({ ledger, setLedger, errors }) => {
   };
 
   return (
-    <div className="ledger-block">
-      <div className="ledger-label">Ledger Account</div>
-      <Autocomplete
-        clearOnEscape={false}
-        componentsProps={{
-          clearIndicator: null,
-        }}
-        value={selectedOption}
-        onChange={handleChange}
-        options={ledgerOptions}
-        renderInput={(params) => (
-          <div className="option-textbox">
-            <TextField
-              sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
-              {...params}
-              variant="outlined"
-              placeholder="Select Ledger Account"
-              size="small"
-            />
-          </div>
-        )}
-      />
+    <div
+      className="ledger-outer"
+      style={{ display: "flex", alignItems: "center" }}
+    >
+      <div className="ledger-block">
+        <div className="ledger-label">Ledger Account</div>
+        <Autocomplete
+          clearOnEscape={false}
+          error={errorActive}
+          componentsProps={{
+            clearIndicator: null,
+          }}
+          value={selectedOption}
+          onChange={handleChange}
+          options={ledgerOptions}
+          renderInput={(params) => (
+            <div className="option-textbox">
+              <TextField
+                error={errorActive}
+                sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
+                {...params}
+                variant="outlined"
+                placeholder="Select Ledger Account"
+                size="small"
+              />
+            </div>
+          )}
+        />
+      </div>
+      <ErrorMessage errors={errors} label={"ledgerAccount"} loc={"right"} />
     </div>
   );
 };

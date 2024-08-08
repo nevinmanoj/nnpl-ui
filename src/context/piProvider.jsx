@@ -20,6 +20,10 @@ export const PIProvider = ({ children }) => {
   const [date, setDate] = useState(null);
   const [status, setstatus] = useState(null);
   const [billing, setBilling] = useState(null);
+  const [customer, setCustomer] = useState(null);
+
+  // flag for new customer
+  const [isNew, setIsNew] = useState(false);
 
   //error flags
   const [errors, setErrors] = useState({
@@ -47,6 +51,10 @@ export const PIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
+    customer: {
+      value: false,
+      msg: "",
+    },
   });
 
   const setPi = (i) => {
@@ -68,6 +76,7 @@ export const PIProvider = ({ children }) => {
           setpiId(i);
           setRoundOff(data["roundOff"].toString());
           setstatus(data["status"]);
+          setCustomer(data["customer"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
@@ -79,6 +88,29 @@ export const PIProvider = ({ children }) => {
   };
 
   const savePi = async () => {
+    var _customer = customer;
+    if (isNew) {
+      var isValidCustomer = structValidator(_customer, reqCustomerProperties);
+      if (!isValidCustomer) {
+        setErrors({
+          ...errors,
+          customer: {
+            value: true,
+            msg: "No fields can be empty",
+          },
+        });
+        return;
+      }
+
+      var res = await addItemToMaster("customer", _customer);
+      if (res.success) {
+        setCustomer(res.data.data);
+        setIsNew(false);
+        _customer = res.data.data;
+      } else {
+        return;
+      }
+    }
     var piData = {
       ledgerAccount,
       date,
@@ -87,6 +119,7 @@ export const PIProvider = ({ children }) => {
       roundOff,
       billing,
       distributor,
+      customer: _customer,
     };
 
     const err = pivalidator({
@@ -156,6 +189,10 @@ export const PIProvider = ({ children }) => {
         savePi,
         billing,
         setBilling,
+        customer,
+        setCustomer,
+        isNew,
+        setIsNew,
       }}
     >
       {children}

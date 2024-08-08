@@ -31,6 +31,7 @@ export const SalesInvoice = () => {
     products,
     setProducts,
     setRoundOff,
+    setSino,
   } = useContext(SIContext);
 
   useEffect(() => {
@@ -41,8 +42,10 @@ export const SalesInvoice = () => {
       <DocHeader save={saveSi} />
       <div className="po-body">
         <DocInfo
+          onNoChange={(e) => setSino(e.target.value)}
+          editableNo={true}
           errors={errors}
-          title="Sales Invoice"
+          title="Sales Invoice No."
           value={sino}
           date={date}
           setDate={setDate}
