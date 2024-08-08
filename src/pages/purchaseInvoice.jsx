@@ -3,47 +3,45 @@ import { useParams } from "react-router-dom";
 
 import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
-import { Customer } from "../components/doc/Customer";
+import { Distributor } from "../components/doc/distributor";
 import { Neural } from "../components/doc/Neural";
 import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
-import { SIContext } from "../context/siProvider";
 import { Products } from "../components/doc/Products";
+import { PIContext } from "../context/piProvider";
 
-export const SalesInvoice = () => {
+export const PurchaseInvoice = () => {
   const { id } = useParams();
   const {
-    setSi,
-    saveSi,
-    sino,
+    setPi,
+    savePi,
+    pino,
     date,
     setDate,
-    customer,
+    distributor,
     billing,
     setBilling,
-    setCustomer,
-    isNew,
-    setIsNew,
+    setdistributor,
     errors,
     ledgerAccount,
     setLedgerAccount,
-    roundOff,
-    products,
     setProducts,
+    products,
+    roundOff,
     setRoundOff,
-  } = useContext(SIContext);
+  } = useContext(PIContext);
 
   useEffect(() => {
-    setSi(id);
+    setPi(id);
   }, []);
   return (
     <div className="po-outer">
-      <DocHeader save={saveSi} />
+      <DocHeader save={savePi} />
       <div className="po-body">
         <DocInfo
           errors={errors}
           title="Sales Invoice"
-          value={sino}
+          value={pino}
           date={date}
           setDate={setDate}
         />
@@ -56,16 +54,13 @@ export const SalesInvoice = () => {
         />
         <div className="divider" />
         <CustomDocAccordian
-          value={customer}
           errors={errors}
-          label="Customer"
+          value={distributor}
+          label="Distributor"
           children={
-            <Customer
-              customer={customer}
-              isNew={isNew}
-              setCustomer={setCustomer}
-              setIsNew={setIsNew}
-              errors={errors}
+            <Distributor
+              distributor={distributor}
+              setDistributor={setdistributor}
             />
           }
         />

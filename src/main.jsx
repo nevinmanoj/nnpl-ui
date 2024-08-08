@@ -9,20 +9,23 @@ import { UserProvider } from "./context/userProvider.jsx";
 import { SIProvider } from "./context/siProvider.jsx";
 import { PoProvider } from "./context/poProvider.jsx";
 import { MasterProvider } from "./context/masterProvider.jsx";
+import { PIProvider } from "./context/piProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
       <MasterProvider>
-        <SIProvider>
-          <PoProvider>
-            <BrowserRouter>
-              <ThemeProvider theme={theme}>
-                <AppRoutes />
-              </ThemeProvider>
-            </BrowserRouter>
-          </PoProvider>
-        </SIProvider>
+        <PIProvider>
+          <SIProvider>
+            <PoProvider>
+              <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                  <AppRoutes />
+                </ThemeProvider>
+              </BrowserRouter>
+            </PoProvider>
+          </SIProvider>
+        </PIProvider>
       </MasterProvider>
     </UserProvider>
   </React.StrictMode>

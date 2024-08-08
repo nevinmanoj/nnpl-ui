@@ -1,20 +1,19 @@
 import { createContext, useState, useContext } from "react";
 import axios from "axios";
 
-import { sivalidator } from "../utils/siValidator";
-import { structValidator } from "../utils/structValidator";
+import { pivalidator } from "../utils/piValidator";
 import { server } from "../constants/server";
 import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
 
-export const SIContext = createContext();
+export const PIContext = createContext();
 
-export const SIProvider = ({ children }) => {
+export const PIProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
 
-  const [siId, setSiId] = useState(null);
-  const [sino, setSino] = useState(null);
-  const [customer, setCustomer] = useState(null);
+  const [piId, setpiId] = useState(null);
+  const [pino, setpino] = useState(null);
+  const [distributor, setdistributor] = useState(null);
   const [ledgerAccount, setLedgerAccount] = useState(null);
   const [roundOff, setRoundOff] = useState(0);
   const [products, setProducts] = useState([]);
@@ -22,12 +21,13 @@ export const SIProvider = ({ children }) => {
   const [status, setstatus] = useState(null);
   const [billing, setBilling] = useState(null);
 
-  //new values for po details
-  const [isNew, setIsNew] = useState(false);
-
   //error flags
   const [errors, setErrors] = useState({
     date: {
+      value: false,
+      msg: "",
+    },
+    distributor: {
       value: false,
       msg: "",
     },
@@ -39,7 +39,7 @@ export const SIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
-    customer: {
+    distributor: {
       value: false,
       msg: "",
     },
@@ -49,92 +49,66 @@ export const SIProvider = ({ children }) => {
     },
   });
 
-  const setSi = (i) => {
+  const setPi = (i) => {
     if (i != null && i != "new") {
       axios
-        .get(server + "/docs/sales-invoice/" + i, {
+        .get(server + "/docs/purchase-invoice/" + i, {
           headers: {
             // authorization: "Bearer " + token,
           },
         })
         .then((res) => res.data.data)
         .then((data) => {
-          setSino(data["sino"]);
+          setpino(data["pino"]);
           setDate(data["date"]);
           setLedgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
           setBilling(data["billing"]);
-          setCustomer(data["customer"]);
-          setSiId(i);
+          setdistributor(data["distributor"]);
+          setpiId(i);
           setRoundOff(data["roundOff"].toString());
           setstatus(data["status"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
-          setSiId(null);
+          setpiId(null);
         });
     } else {
-      setSiId(null);
+      setpiId(null);
     }
   };
 
-  const saveSi = async () => {
-    var _customer = customer;
-    if (isNew) {
-      var isValidCustomer = structValidator(_customer, reqCustomerProperties);
-      console.log(isValidCustomer);
-      if (!isValidCustomer) {
-        setErrors({
-          ...errors,
-          customer: {
-            value: true,
-            msg: "No fields can be empty",
-          },
-        });
-        return;
-      }
-
-      var res = await addItemToMaster("customer", _customer);
-      if (res.success) {
-        setCustomer(res.data.data);
-        setIsNew(false);
-        _customer = res.data.data;
-      } else {
-        return;
-      }
-    }
-
-    var siData = {
+  const savePi = async () => {
+    var piData = {
       ledgerAccount,
       date,
       status,
       products,
       roundOff,
       billing,
-      customer: _customer,
+      distributor,
     };
-    console.log(siData);
-    const err = sivalidator({
-      data: siData,
-    });
 
+    const err = pivalidator({
+      data: piData,
+    });
     setErrors(err.errors);
     if (err.fail) {
       return;
     }
 
-    if (siId != null || siId != "new") {
+    if (piId != null || piId != "new") {
       //Save  PO
 
       const result = await runAxios(
         "put",
         {
           data: {
-            sino,
-            ...siData,
+            pino,
+            ...piData,
           },
         },
-        "/docs/sales-invoice/" + siId,
+        "/docs/purchase-invoice/" + piId,
         token
       );
       if (!result.success) {
@@ -147,13 +121,13 @@ export const SIProvider = ({ children }) => {
       const result = await runAxios(
         "post",
         {
-          data: siData,
+          data: piData,
         },
-        "/docs/sales-invoice",
+        "/docs/purchase-invoice",
         token
       );
       if (result.success) {
-        setSiId(result.data.data._id);
+        setpiId(result.data.data._id);
         showNotification("Save Success", "success");
       } else {
         showNotification("Error while saving", "error");
@@ -162,16 +136,14 @@ export const SIProvider = ({ children }) => {
   };
 
   return (
-    <SIContext.Provider
+    <PIContext.Provider
       value={{
-        customer,
+        distributor,
         errors,
         setErrors,
-        isNew,
-        setIsNew,
-        setCustomer,
-        sino,
-        setSino,
+        setdistributor,
+        pino,
+        setpino,
         ledgerAccount,
         setLedgerAccount,
         roundOff,
@@ -180,13 +152,13 @@ export const SIProvider = ({ children }) => {
         setProducts,
         date,
         setDate,
-        setSi,
-        saveSi,
+        setPi,
+        savePi,
         billing,
         setBilling,
       }}
     >
       {children}
-    </SIContext.Provider>
+    </PIContext.Provider>
   );
 };

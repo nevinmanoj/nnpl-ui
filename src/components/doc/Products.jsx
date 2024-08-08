@@ -13,22 +13,19 @@ import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isValidNumber } from "../../utils/validNumberChecker";
-import { PoContext } from "../../context/poProvider";
 import { MasterContext } from "../../context/masterProvider";
 
 import "./PoProducts.scss";
 import { ErrorMessage } from "./errorMessage";
-import { SIContext } from "../../context/siProvider";
 
-export const Products = () => {
-  const {
-    ledgerAccount,
-    roundOff,
-    products,
-    setProducts,
-    errors,
-    setRoundOff,
-  } = useContext(SIContext);
+export const Products = ({
+  ledgerAccount,
+  roundOff,
+  products,
+  setProducts,
+  errors,
+  setRoundOff,
+}) => {
   var tax = 0;
   if (ledgerAccount != null) {
     tax = ledgerAccount.tax;
