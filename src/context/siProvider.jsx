@@ -2,6 +2,7 @@ import { createContext, useState, useContext } from "react";
 import axios from "axios";
 
 import { sivalidator } from "../utils/siValidator";
+import { structValidator } from "../utils/structValidator";
 import { server } from "../constants/server";
 import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
@@ -69,7 +70,7 @@ export const SIProvider = ({ children }) => {
           setBilling(data["billing"]);
           setCustomer(data["customer"]);
           setSiId(i);
-          setRoundOff(data["roundOff"]);
+          setRoundOff(data["roundOff"].toString());
           setstatus(data["status"]);
         })
         .catch((error) => {
@@ -106,6 +107,7 @@ export const SIProvider = ({ children }) => {
         return;
       }
     }
+
     var siData = {
       ledgerAccount,
       date,
@@ -115,10 +117,10 @@ export const SIProvider = ({ children }) => {
       billing,
       customer: _customer,
     };
+    console.log(siData);
     const err = sivalidator({
       data: siData,
     });
-    console.log(err);
 
     setErrors(err.errors);
     if (err.fail) {
@@ -161,7 +163,6 @@ export const SIProvider = ({ children }) => {
         showNotification("Error while saving", "error");
       }
     }
-    setPoLoading(false);
   };
 
   return (

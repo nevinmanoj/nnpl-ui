@@ -304,11 +304,14 @@ export const Products = () => {
               <div className="table-cell tabel-label md">Round Off</div>
               <div className="table-cell md" align="right">
                 <TextField
-                  onChange={(e) => setRoundOff(e.target.value)}
+                  onChange={(e) => {
+                    setRoundOff(e.target.value);
+                  }}
                   error={errorActive && !isValidNumber(roundOff)}
                   value={roundOff}
                   variant="outlined"
                   InputProps={{
+                    style: { textAlign: "right" },
                     endAdornment: (
                       <InputAdornment position="start">₹</InputAdornment>
                     ),

@@ -69,7 +69,7 @@ export const PoProvider = ({ children }) => {
         .then((data) => {
           setpno(data["pno"]);
           setDate(data["date"]);
-          setTax(data["tax"]);
+          setTax(data["tax"].toString());
           setProducts(data["products"]);
           setDistributor(data["distributor"]);
           setBilling(data["billing"]);
@@ -114,6 +114,7 @@ export const PoProvider = ({ children }) => {
         return;
       }
     }
+
     const err = povalidator({
       tax,
       date,
