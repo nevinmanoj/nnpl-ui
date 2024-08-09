@@ -21,6 +21,7 @@ export const SIProvider = ({ children }) => {
   const [date, setDate] = useState(null);
   const [status, setstatus] = useState(null);
   const [billing, setBilling] = useState(null);
+  const [executive, setExecutive] = useState(null);
 
   //new values for po details
   const [isNew, setIsNew] = useState(false);
@@ -47,6 +48,10 @@ export const SIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
+    executive: {
+      value: false,
+      msg: "",
+    },
   });
 
   const setSi = (i) => {
@@ -68,6 +73,7 @@ export const SIProvider = ({ children }) => {
           setSiId(i);
           setRoundOff(data["roundOff"].toString());
           setstatus(data["status"]);
+          setExecutive(data["executive"]);
         })
         .catch((error) => {
           console.error(" Error:", error);
@@ -111,6 +117,7 @@ export const SIProvider = ({ children }) => {
       products,
       roundOff,
       billing,
+      executive,
       customer: _customer,
     };
     console.log(siData);
@@ -184,6 +191,8 @@ export const SIProvider = ({ children }) => {
         saveSi,
         billing,
         setBilling,
+        executive,
+        setExecutive,
       }}
     >
       {children}

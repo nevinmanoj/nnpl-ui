@@ -1,8 +1,20 @@
 import { isValidNumber } from "./validNumberChecker";
 export const sivalidator = ({ data }) => {
   var fail = false;
-  const { ledgerAccount, date, products, roundOff, billing, customer } = data;
+  const {
+    ledgerAccount,
+    date,
+    products,
+    roundOff,
+    billing,
+    customer,
+    executive,
+  } = data;
   var errors = {
+    executive: {
+      value: false,
+      msg: "",
+    },
     date: {
       value: false,
       msg: "",
@@ -28,6 +40,13 @@ export const sivalidator = ({ data }) => {
       msg: "",
     },
   };
+  if (executive == "" || executive == null) {
+    errors["executive"] = {
+      value: true,
+      msg: "Select a valid Sales Executive",
+    };
+    fail = true;
+  }
 
   if (customer == "" || customer == null) {
     errors["customer"] = {

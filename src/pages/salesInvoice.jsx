@@ -9,6 +9,7 @@ import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { SIContext } from "../context/siProvider";
 import { Products } from "../components/doc/Products";
+import { Executive } from "../components/doc/Executive";
 
 export const SalesInvoice = () => {
   const { id } = useParams();
@@ -32,6 +33,8 @@ export const SalesInvoice = () => {
     setProducts,
     setRoundOff,
     setSino,
+    executive,
+    setExecutive,
   } = useContext(SIContext);
 
   useEffect(() => {
@@ -49,6 +52,12 @@ export const SalesInvoice = () => {
           value={sino}
           date={date}
           setDate={setDate}
+        />
+        <div className="divider" />
+        <Executive
+          executive={executive}
+          setExecutive={setExecutive}
+          errors={errors}
         />
         <div className="divider" />
         <CustomDocAccordian

@@ -14,6 +14,7 @@ export const MasterProvider = ({ children }) => {
   const [customerOptions, setCustomerOptions] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [ledgerOptions, setLedgerOptions] = useState([]);
+  const [executiveOptions, setexecutiveOptions] = useState([]);
 
   useEffect(() => {
     getAlloptions();
@@ -30,6 +31,8 @@ export const MasterProvider = ({ children }) => {
     setProductOptions(data);
     data = await getOptions("ledger");
     setLedgerOptions(data);
+    data = await getOptions("executive");
+    setexecutiveOptions(data);
   };
   const getOptions = async (item) => {
     return await axios
@@ -87,6 +90,7 @@ export const MasterProvider = ({ children }) => {
         customerOptions,
         productOptions,
         ledgerOptions,
+        executiveOptions,
         getOptionDetails,
         addItemToMaster,
       }}
