@@ -1,20 +1,21 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import "./topbar.scss";
 
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import PersonIcon from "@mui/icons-material/Person";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import { useNavigate } from "react-router-dom";
 
-import "./topbar.css";
+import { topBarOptions } from "../../constants/topBarOptions";
 
 export const Topbar = () => {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const jwtToken = null;
+  const navigator = useNavigate();
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const jwtToken = "null";
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -28,55 +29,81 @@ export const Topbar = () => {
   };
 
   return (
-    <AppBar position="fixed">
-      {/* <Container maxWidth="xl"> */}
-      <Toolbar disableGutters>
-        <DashboardIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+    <div className="topbar-outer2">
+      <div className="topbar-logo">
+        <DashboardIcon
+          sx={{ display: { xs: "none", md: "flex" }, color: "white", mr: 1 }}
+        />
         <Typography
-          variant="h6"
+          sx={{ color: "white", marginRight: "20px" }}
+          variant="h5"
           noWrap
-          onClick={() => {
-            createTask({});
-          }}
         >
-          Task Board
+          NNPL
         </Typography>
+      </div>
+      {topBarOptions.map((v, i) => (
+        <Button
+          sx={{ color: "white", marginRight: "10px" }}
+          className="topbar-button"
+          variant="text"
+          onClick={() => navigator(v.path)}
+        >
+          {v.value}
+        </Button>
+      ))}
 
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Box sx={{ flexGrow: 0 }}>
-          {jwtToken == null ? (
-            <div>he</div>
-          ) : (
-            <>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {<img className="profile-pic" src={pic} alt="Logo" />}
-              </IconButton>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+      <div className="topbar-profile">
+        {jwtToken == null ? (
+          <div>
+            <Button variant="text">Login</Button>
+          </div>
+        ) : (
+          <>
+            <Typography
+              sx={{ color: "white", marginRight: "20px" }}
+              variant="h6"
+              noWrap
+            >
+              Nevin Manoj
+            </Typography>
+            <IconButton
+              onClick={handleOpenUserMenu}
+              sx={{
+                backgroundColor: "beige",
+              }}
+            >
+              <PersonIcon
+                sx={{
+                  height: "35px",
+                  width: "35px",
+                  borderRadius: "40px",
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem key="logout" onClick={handleLogout}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </Menu>
-            </>
-          )}
-        </Box>
-      </Toolbar>
-      {/* </Container> */}
-    </AppBar>
+              />
+            </IconButton>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem key="logout" onClick={handleLogout}>
+                Logout
+              </MenuItem>
+            </Menu>
+          </>
+        )}
+      </div>
+    </div>
   );
 };

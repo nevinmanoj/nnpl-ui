@@ -1,0 +1,24 @@
+.topbar-outer2{
+    background-color: rgb(0, 0, 0);
+    height: 65px;
+    width: 100vw;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid beige;
+}
+.topbar-profile{
+    position: absolute;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.topbar-logo{
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
