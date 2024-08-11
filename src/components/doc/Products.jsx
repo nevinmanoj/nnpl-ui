@@ -103,22 +103,22 @@ export const Products = ({
           <div className="table">
             {/* table Header */}
             <div className="table-header">
-              <div className="table-cell tabel-label vm">Sl No</div>
-              <div className="table-cell tabel-label lg">Product</div>
-              <div className="table-cell tabel-label xl">
+              <div className="table-cell table-label vm">Sl No</div>
+              <div className="table-cell table-label lg">Product</div>
+              <div className="table-cell table-label xl">
                 Product Description
               </div>
-              <div className="table-cell tabel-label md">Part Code</div>
-              <div align="center" className="table-cell tabel-label sm">
+              <div className="table-cell table-label md">Part Code</div>
+              <div align="center" className="table-cell table-label sm">
                 Qty
               </div>
-              <div align="center" className="table-cell tabel-label md">
+              <div align="center" className="table-cell table-label md">
                 Rate/Unit
               </div>
-              <div align="right" className="table-cell tabel-label md">
+              <div align="right" className="table-cell table-label md">
                 Amount Rs
               </div>
-              <div className="table-cell tabel-label vm"></div>
+              <div className="table-cell table-label vm"></div>
             </div>
             {/* table Body */}
             <div className="table-body">
@@ -274,13 +274,13 @@ export const Products = ({
             <div className="table-hdivider" />
             {/*table Footer */}
             <div className="table-footer">
-              <div className="table-cell tabel-label md">Subtotal</div>
+              <div className="table-cell table-label md">Subtotal</div>
               <div className="table-cell md" align="right">
                 {calcSubTotal() + " ₹"}
               </div>
             </div>
             <div className="table-footer">
-              <div className="table-cell tabel-label md">Tax</div>
+              <div className="table-cell table-label md">Tax</div>
               <div className="table-cell md" align="right">
                 {tax + " %"}
                 {/* <TextField
@@ -298,7 +298,7 @@ export const Products = ({
               </div>
             </div>
             <div className="table-footer">
-              <div className="table-cell tabel-label md">Round Off</div>
+              <div className="table-cell table-label md">Round Off</div>
               <div className="table-cell md" align="right">
                 <TextField
                   onChange={(e) => {
@@ -319,7 +319,7 @@ export const Products = ({
             </div>
 
             <div className="table-footer">
-              <div className="table-cell tabel-label md">Total</div>
+              <div className="table-cell table-label md">Total</div>
               <div className="table-cell md" align="right">
                 {calcTotal() + " ₹"}
               </div>

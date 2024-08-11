@@ -13,7 +13,7 @@ export const SIProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
 
   const [siId, setSiId] = useState(null);
-  const [sino, setSino] = useState(null);
+  const [ref, setref] = useState(null);
   const [customer, setCustomer] = useState(null);
   const [ledgerAccount, setLedgerAccount] = useState(null);
   const [roundOff, setRoundOff] = useState(0);
@@ -64,7 +64,7 @@ export const SIProvider = ({ children }) => {
         })
         .then((res) => res.data.data)
         .then((data) => {
-          setSino(data["sino"]);
+          setref(data["ref"]);
           setDate(data["date"]);
           setLedgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
@@ -137,7 +137,7 @@ export const SIProvider = ({ children }) => {
         "put",
         {
           data: {
-            sino,
+            ref,
             ...siData,
           },
         },
@@ -177,8 +177,8 @@ export const SIProvider = ({ children }) => {
         isNew,
         setIsNew,
         setCustomer,
-        sino,
-        setSino,
+        ref,
+        setref,
         ledgerAccount,
         setLedgerAccount,
         roundOff,

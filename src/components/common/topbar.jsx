@@ -8,12 +8,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { topBarOptions } from "../../constants/topBarOptions";
 
 export const Topbar = () => {
   const navigator = useNavigate();
+  const location = useLocation();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const jwtToken = "null";
 
@@ -47,7 +48,11 @@ export const Topbar = () => {
           sx={{ color: "white", marginRight: "10px" }}
           className="topbar-button"
           variant="text"
-          onClick={() => navigator(v.path)}
+          onClick={() => {
+            if (location.pathname != v.path) {
+              navigator(v.path);
+            }
+          }}
         >
           {v.value}
         </Button>

@@ -16,7 +16,7 @@ export const SalesInvoice = () => {
   const {
     setSi,
     saveSi,
-    sino,
+    ref,
     date,
     setDate,
     customer,
@@ -32,7 +32,7 @@ export const SalesInvoice = () => {
     products,
     setProducts,
     setRoundOff,
-    setSino,
+    setref,
     executive,
     setExecutive,
   } = useContext(SIContext);
@@ -45,11 +45,11 @@ export const SalesInvoice = () => {
       <DocHeader save={saveSi} />
       <div className="po-body">
         <DocInfo
-          onNoChange={(e) => setSino(e.target.value)}
+          onNoChange={(e) => setref(e.target.value)}
           editableNo={true}
           errors={errors}
           title="Sales Invoice No."
-          value={sino}
+          value={ref}
           date={date}
           setDate={setDate}
         />

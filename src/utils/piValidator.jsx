@@ -62,7 +62,7 @@ export const pivalidator = ({ data }) => {
     };
     fail = true;
   }
-  if (roundOff == "" || roundOff == null || !isValidNumber(roundOff)) {
+  if (roundOff === "" || roundOff === null || !isValidNumber(roundOff)) {
     errors["products"] = {
       value: true,
       msg: "Select valid values for required fields",

@@ -5,10 +5,10 @@ export const topBarOptions = [
   },
   {
     value: "Purchase Invoices",
-    path: "/po",
+    path: "/purchase-invoice",
   },
   {
     value: "Sales Invoices",
-    path: "/po",
+    path: "/sales-invoice",
   },
 ];

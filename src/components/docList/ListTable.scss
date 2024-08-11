@@ -1,0 +1,79 @@
+
+.doc-table{
+    position: absolute;
+    left:0;
+
+    width: 100vw;
+    border:1px solid rgb(209, 209, 209);
+    // border-radius: 5px;
+
+}
+.doc-table-body{
+    
+    overflow-y: scroll;
+    height: calc(100vh - 215px);;
+    overflow-x: hidden;
+    &::-webkit-scrollbar-thumb {
+        background: #959595;
+        border-radius: 5px;  
+      }
+}
+.doc-table-body::-webkit-scrollbar {
+    width: 15px;
+}
+
+  
+.doc-table-body::-webkit-scrollbar-track {
+    background: #c9c9c9; /* Color of the scrollbar track */
+}
+.doc-table-header{
+    display: flex;
+    padding: 10px 0px;
+    justify-content: center;
+}
+.main-row{
+    cursor: pointer;
+    display: flex;
+    padding: 5px 0px;
+    justify-content: center;
+}
+.vm{
+    width:3vw;
+    max-width:3vw;
+    // background-color: rgb(55, 222, 216);
+}
+.sm{
+    width:5vw;
+    max-width:5vw;
+    // background-color: rgb(223, 144, 144);
+}
+.md{
+    width:9vw;
+    max-width:9vw;
+    
+    // background-color: rgb(249, 98, 214);
+}
+.lg{
+    width:20vw;
+    max-width:20vw;
+    // background-color: rgb(12, 200, 93);
+}
+.xl{
+    width:35vw;
+    max-width:35vw;
+    // background-color: rgb(86, 136, 228);
+}
+.doc-table-cell{
+    padding: 4px 10px;
+    overflow: clip;
+    align-self: center;
+    font-size: 18px;
+}
+.doc-table-label{
+    font-weight: 600;
+}
+.doc-table-hdivider{
+    // width: 95vw;
+    height: 1px;
+    background-color: rgb(209, 209, 209);;
+}

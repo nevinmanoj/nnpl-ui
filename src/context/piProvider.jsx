@@ -12,7 +12,7 @@ export const PIProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
 
   const [piId, setpiId] = useState(null);
-  const [pino, setpino] = useState(null);
+  const [ref, setref] = useState(null);
   const [distributor, setdistributor] = useState(null);
   const [ledgerAccount, setLedgerAccount] = useState(null);
   const [roundOff, setRoundOff] = useState(0);
@@ -31,10 +31,7 @@ export const PIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
-    distributor: {
-      value: false,
-      msg: "",
-    },
+
     billing: {
       value: false,
       msg: "",
@@ -67,7 +64,7 @@ export const PIProvider = ({ children }) => {
         })
         .then((res) => res.data.data)
         .then((data) => {
-          setpino(data["pino"]);
+          setref(data["ref"]);
           setDate(data["date"]);
           setLedgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
@@ -83,7 +80,7 @@ export const PIProvider = ({ children }) => {
           setpiId(null);
         });
     } else {
-      setpiId(null);
+      setpiId("new");
     }
   };
 
@@ -112,6 +109,7 @@ export const PIProvider = ({ children }) => {
       }
     }
     var piData = {
+      ref,
       ledgerAccount,
       date,
       status,
@@ -130,14 +128,14 @@ export const PIProvider = ({ children }) => {
       return;
     }
 
-    if (piId != null || piId != "new") {
+    if (piId != null && piId != "new") {
       //Save  PO
 
       const result = await runAxios(
         "put",
         {
           data: {
-            pino,
+            ref,
             ...piData,
           },
         },
@@ -162,6 +160,7 @@ export const PIProvider = ({ children }) => {
       if (result.success) {
         setpiId(result.data.data._id);
         showNotification("Save Success", "success");
+        return result.data.data._id;
       } else {
         showNotification("Error while saving", "error");
       }
@@ -175,8 +174,8 @@ export const PIProvider = ({ children }) => {
         errors,
         setErrors,
         setdistributor,
-        pino,
-        setpino,
+        ref,
+        setref,
         ledgerAccount,
         setLedgerAccount,
         roundOff,

@@ -40,7 +40,7 @@ export const sivalidator = ({ data }) => {
       msg: "",
     },
   };
-  if (executive == "" || executive == null) {
+  if (executive === "" || executive == null) {
     errors["executive"] = {
       value: true,
       msg: "Select a valid Sales Executive",
@@ -48,21 +48,21 @@ export const sivalidator = ({ data }) => {
     fail = true;
   }
 
-  if (customer == "" || customer == null) {
+  if (customer === "" || customer == null) {
     errors["customer"] = {
       value: true,
       msg: "Select a valid Customer",
     };
     fail = true;
   }
-  if (billing == "" || billing == null) {
+  if (billing === "" || billing == null) {
     errors["billing"] = {
       value: true,
       msg: "Select a valid Billing site",
     };
     fail = true;
   }
-  if (date == "" || date == null) {
+  if (date === "" || date == null) {
     errors["date"] = {
       value: true,
       msg: "Select a valid Date",
@@ -76,7 +76,7 @@ export const sivalidator = ({ data }) => {
     };
     fail = true;
   }
-  if (roundOff == "" || roundOff == null || !isValidNumber(roundOff)) {
+  if (roundOff === "" || roundOff == null || !isValidNumber(roundOff)) {
     errors["products"] = {
       value: true,
       msg: "Select valid values for required fields",

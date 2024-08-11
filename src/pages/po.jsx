@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { PoContext } from "../context/poProvider";
 import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
+import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Customer } from "../components/doc/Customer";
 import { Neural } from "../components/doc/Neural";
 import { PoProducts } from "../components/doc/PoProducts";
@@ -16,7 +17,7 @@ import "./po.scss";
 export const Po = () => {
   const { id } = useParams();
   const {
-    pno,
+    ref,
     setPo,
     distributor,
     billing,
@@ -32,6 +33,8 @@ export const Po = () => {
     errors,
     tc,
     setTc,
+    ledgerAccount,
+    setledgerAccount,
   } = useContext(PoContext);
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export const Po = () => {
           editableNo={false}
           errors={errors}
           title="Purchase Order No."
-          value={pno}
+          value={ref}
           date={date}
           setDate={setDate}
         />
@@ -68,6 +71,12 @@ export const Po = () => {
           value={billing}
           label="Billing"
           children={<Neural billing={billing} setBilling={setBilling} />}
+        />
+        <div className="divider" />
+        <LedgerAccount
+          errors={errors}
+          ledger={ledgerAccount}
+          setLedger={setledgerAccount}
         />
         <div className="divider" />
         <PoProducts />

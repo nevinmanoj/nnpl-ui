@@ -10,13 +10,15 @@ import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Products } from "../components/doc/Products";
 import { PIContext } from "../context/piProvider";
 import { Customer } from "../components/doc/Customer";
-
+import { useNavigate, useLocation } from "react-router-dom";
 export const PurchaseInvoice = () => {
+  const navigator = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const {
     setPi,
     savePi,
-    pino,
+    ref,
     date,
     setDate,
     distributor,
@@ -34,22 +36,29 @@ export const PurchaseInvoice = () => {
     isNew,
     setCustomer,
     setIsNew,
-    setpino,
+    setref,
   } = useContext(PIContext);
+
+  const saveNewPi = async () => {
+    const newId = await savePi();
+    if (id == "new" && newId != null) {
+      navigator("/purchase-invoice/" + newId);
+    }
+  };
 
   useEffect(() => {
     setPi(id);
   }, []);
   return (
     <div className="po-outer">
-      <DocHeader save={savePi} />
+      <DocHeader save={saveNewPi} />
       <div className="po-body">
         <DocInfo
-          onNoChange={(e) => setpino(e.target.value)}
+          onNoChange={(e) => setref(e.target.value)}
           editableNo={true}
           errors={errors}
           title="Purchase Invoice No."
-          value={pino}
+          value={ref}
           date={date}
           setDate={setDate}
         />

@@ -17,9 +17,9 @@ export const PoProvider = ({ children }) => {
   const { addItemToMaster } = useContext(MasterContext);
 
   //po details
-  const [pno, setpno] = useState(null);
+  const [ref, setref] = useState(null);
   const [date, setDate] = useState(0);
-  const [tax, setTax] = useState(0);
+  const [ledgerAccount, setledgerAccount] = useState(null);
   const [products, setProducts] = useState([]);
   const [distributor, setDistributor] = useState(null);
   const [billing, setBilling] = useState(null);
@@ -54,6 +54,10 @@ export const PoProvider = ({ children }) => {
       value: false,
       msg: "",
     },
+    ledgerAccount: {
+      value: false,
+      msg: "",
+    },
   });
 
   const setPo = (i) => {
@@ -67,9 +71,9 @@ export const PoProvider = ({ children }) => {
         })
         .then((res) => res.data.data)
         .then((data) => {
-          setpno(data["pno"]);
+          setref(data["ref"]);
           setDate(data["date"]);
-          setTax(data["tax"].toString());
+          setledgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
           setDistributor(data["distributor"]);
           setBilling(data["billing"]);
@@ -86,8 +90,17 @@ export const PoProvider = ({ children }) => {
         });
     } else {
       setid(null);
+      setTc({
+        payment:
+          "100 % of the product cost will be paid within 60 days from the date of billing",
+        billing: "new billings",
+        taxes:
+          "Taxes as applicable will be charged extra or as applicable at the time of billing.",
+        delivery: "At the earliest",
+      });
     }
   };
+  console.log();
 
   const savePo = async () => {
     var _customer = customer;
@@ -116,13 +129,12 @@ export const PoProvider = ({ children }) => {
     }
 
     const err = povalidator({
-      tax,
+      ledgerAccount,
       date,
       products,
       distributor,
       billing,
       customer: _customer,
-      errors,
     });
     setErrors(err.errors);
     if (err.fail) {
@@ -136,8 +148,8 @@ export const PoProvider = ({ children }) => {
         "put",
         {
           data: {
-            pno,
-            tax,
+            ref,
+            ledgerAccount,
             date,
             products,
             distributor,
@@ -161,7 +173,7 @@ export const PoProvider = ({ children }) => {
         "post",
         {
           data: {
-            tax,
+            ledgerAccount,
             date,
             products,
             distributor,
@@ -192,9 +204,9 @@ export const PoProvider = ({ children }) => {
   };
 
   const clearPo = () => {
-    setpno(null);
+    setref(null);
     setDate(0);
-    setTax(0);
+    setledgerAccount(0);
     setProducts([]);
     setDistributor(null);
     setBilling(null);
@@ -206,8 +218,8 @@ export const PoProvider = ({ children }) => {
     <PoContext.Provider
       value={{
         id,
-        pno,
-        tax,
+        ref,
+        ledgerAccount,
         date,
         products,
         distributor,
@@ -223,7 +235,7 @@ export const PoProvider = ({ children }) => {
         setCustomer,
         setBilling,
         setProducts,
-        setTax,
+        setledgerAccount,
         setTc,
         isNew,
         setIsNew,
