@@ -1,5 +1,9 @@
-import { server } from "../constants/server";
 import axios from "axios";
+
+const prod = "";
+const dev = "http://localhost:3000";
+export const server = dev;
+// export const server=prod;
 
 export const runAxios = async (method, data, path, jwtToken) => {
   const config = {
@@ -16,7 +20,7 @@ export const runAxios = async (method, data, path, jwtToken) => {
     })
     .catch((error) => {
       console.error("Error " + method + "ing data:", error);
-      return { success: false };
+      return { success: false, error };
     });
   return result;
 };

@@ -1,11 +1,9 @@
 import { createContext, useState, useContext } from "react";
-import axios from "axios";
 
 import { sivalidator } from "../utils/siValidator";
 import { pivalidator } from "../utils/piValidator";
 import { povalidator } from "../utils/poValidator";
 import { structValidator } from "../utils/structValidator";
-import { server } from "../constants/server";
 import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
 import { MasterContext } from "./masterProvider";
@@ -70,12 +68,7 @@ export const DocProvider = ({ children }) => {
   const setDoc = ({ i, type }) => {
     setItem(type);
     if (i != null && i != "new") {
-      axios
-        .get(server + "/docs/" + type + "/" + i, {
-          headers: {
-            // authorization: "Bearer " + token,
-          },
-        })
+      runAxios("get", {}, "/docs/" + type + "/" + i, token)
         .then((res) => res.data.data)
         .then((data) => {
           setref(data["ref"]);

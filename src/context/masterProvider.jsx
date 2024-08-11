@@ -1,7 +1,4 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
-
-import { server } from "../constants/server";
 import { runAxios } from "../utils/runAxios";
 import { UserContext } from "./userProvider";
 
@@ -35,12 +32,7 @@ export const MasterProvider = ({ children }) => {
     setexecutiveOptions(data);
   };
   const getOptions = async (item) => {
-    return await axios
-      .get(server + "/master/" + item, {
-        headers: {
-          // authorization: "Bearer " + token,
-        },
-      })
+    return await runAxios("get", {}, "/master/" + item, token)
       .then((res) => res.data.data)
       .then((data) => {
         return data;
@@ -51,12 +43,7 @@ export const MasterProvider = ({ children }) => {
       });
   };
   const getOptionDetails = async (item, id) => {
-    return await axios
-      .get(server + "/master/" + item + "/" + id, {
-        headers: {
-          // authorization: "Bearer " + token,
-        },
-      })
+    return await runAxios("get", {}, "/master/" + item + "/" + id, token)
       .then((res) => res.data.data)
       .then((data) => {
         return data;
