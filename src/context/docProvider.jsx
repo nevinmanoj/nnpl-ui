@@ -81,6 +81,7 @@ export const DocProvider = ({ children }) => {
           setdocId(i);
           setstatus(data["status"]);
           setExecutive(data["executive"]);
+          setTc(data["tc"] != null ? data["tc"] : {});
           setRoundOff(data["roundOff"] && data["roundOff"].toString());
         })
         .catch((error) => {
@@ -182,6 +183,7 @@ export const DocProvider = ({ children }) => {
       }
     } else {
       //create and save Doc
+
       const result = await runAxios(
         "post",
         {

@@ -44,7 +44,7 @@ export const Po = () => {
 
   const saveNewPo = async () => {
     const newId = await saveDoc();
-    if (id == "new" && newId != null) {
+    if (newId != null) {
       navigator("/po/" + newId);
     }
   };
