@@ -4,7 +4,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { MasterContext } from "../../context/masterProvider";
 
@@ -17,6 +17,7 @@ export const Customer = ({
   isNew,
   setIsNew,
   errors,
+  status,
 }) => {
   const { customerOptions, getOptionDetails } = useContext(MasterContext);
 
@@ -78,6 +79,7 @@ export const Customer = ({
           />
         ) : (
           <Autocomplete
+            disabled={status != "draft"}
             clearOnEscape={false}
             componentsProps={{
               clearIndicator: null,
@@ -98,17 +100,19 @@ export const Customer = ({
             )}
           />
         )}
-        <ToggleButtonGroup
-          color="primary"
-          value={isNew}
-          size="small"
-          exclusive
-          onChange={handleModeChange}
-          aria-label="Platform"
-        >
-          <ToggleButton value={false}>Use Existing Customer</ToggleButton>
-          <ToggleButton value={true}>Add New Customer</ToggleButton>
-        </ToggleButtonGroup>
+        {status == "draft" && (
+          <ToggleButtonGroup
+            color="primary"
+            value={isNew}
+            size="small"
+            exclusive
+            onChange={handleModeChange}
+            aria-label="Platform"
+          >
+            <ToggleButton value={false}>Use Existing Customer</ToggleButton>
+            <ToggleButton value={true}>Add New Customer</ToggleButton>
+          </ToggleButtonGroup>
+        )}
       </div>
 
       {((selectedOption != null && customer != null) || isNew) && (

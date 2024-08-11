@@ -7,7 +7,7 @@ import { ErrorMessage } from "./errorMessage";
 
 import "./ledgerAccount.scss";
 
-export const Executive = ({ executive, setExecutive, errors }) => {
+export const Executive = ({ executive, setExecutive, errors, status }) => {
   const { executiveOptions, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.executive.value;

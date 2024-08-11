@@ -8,7 +8,7 @@ import { MasterContext } from "../../context/masterProvider";
 import "./distributor.scss";
 import "./customAccordians.scss";
 
-export const Distributor = ({ setDistributor, distributor }) => {
+export const Distributor = ({ setDistributor, distributor, status }) => {
   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
 
   var selectedOption = null;
@@ -34,6 +34,7 @@ export const Distributor = ({ setDistributor, distributor }) => {
     <AccordionDetails>
       <div>
         <Autocomplete
+          disabled={status != "draft"}
           clearOnEscape={false}
           componentsProps={{
             clearIndicator: null,

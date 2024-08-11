@@ -20,7 +20,7 @@ import { ErrorMessage } from "./errorMessage";
 import { DocContext } from "../../context/docProvider";
 
 export const PoProducts = () => {
-  const { ledgerAccount, products, setProducts, errors } =
+  const { ledgerAccount, products, setProducts, errors, status } =
     useContext(DocContext);
 
   var tax = 0;
@@ -128,6 +128,7 @@ export const PoProducts = () => {
                       <div className="table-cell vm">{i + 1}</div>
                       <div className="table-cell lg">
                         <Autocomplete
+                          disabled={status != "draft"}
                           value={product["product"]}
                           onChange={(e, v) => {
                             handleChange(e, v, i);
@@ -153,6 +154,7 @@ export const PoProducts = () => {
                       </div>
                       <div className="table-cell xl">
                         <TextField
+                          disabled={status != "draft"}
                           multiline
                           onChange={(e) => {
                             modifyProduct(i, { productDesc: e.target.value });
@@ -166,6 +168,7 @@ export const PoProducts = () => {
                       <div className="table-cell md">{product["partCode"]}</div>
                       <div className="table-cell sm">
                         <TextField
+                          disabled={status != "draft"}
                           error={errorActive && !isValidNumber(product["qty"])}
                           onChange={(e) => {
                             modifyProduct(i, { qty: e.target.value });
@@ -177,6 +180,7 @@ export const PoProducts = () => {
                       </div>
                       <div className="table-cell md">
                         <TextField
+                          disabled={status != "draft"}
                           error={
                             errorActive &&
                             !isValidNumber(product["ratePerUnit"])
@@ -193,56 +197,63 @@ export const PoProducts = () => {
                         {safeMultiply(product["qty"], product["ratePerUnit"])}
                       </div>
                       <div className="table-cell vm">
-                        <IconButton
-                          id="demo-positioned-button"
-                          aria-controls={
-                            open ? "demo-positioned-menu" : undefined
-                          }
-                          aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          onClick={(e) => {
-                            handleClick(e);
-                            setIndex(i);
-                          }}
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                          }}
-                          transformOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                          }}
-                        >
-                          <MenuItem
-                            onClick={() => {
-                              modifyProduct(index, {
-                                footNote:
-                                  products[index].footNote == null ? "" : null,
-                              });
-                              handleClose();
-                            }}
-                          >
-                            {products[index].footNote == null
-                              ? "Add"
-                              : "Remove"}
-                            Footnote
-                          </MenuItem>
-                          <MenuItem onClick={() => deleteProduct(index)}>
-                            Delete
-                          </MenuItem>
-                        </Menu>
+                        {status == "draft" && (
+                          <>
+                            <IconButton
+                              id="demo-positioned-button"
+                              aria-controls={
+                                open ? "demo-positioned-menu" : undefined
+                              }
+                              aria-haspopup="true"
+                              aria-expanded={open ? "true" : undefined}
+                              onClick={(e) => {
+                                handleClick(e);
+                                setIndex(i);
+                              }}
+                            >
+                              <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={open}
+                              onClose={handleClose}
+                              anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                              }}
+                              transformOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                              }}
+                            >
+                              <MenuItem
+                                onClick={() => {
+                                  modifyProduct(index, {
+                                    footNote:
+                                      products[index].footNote == null
+                                        ? ""
+                                        : null,
+                                  });
+                                  handleClose();
+                                }}
+                              >
+                                {products[index].footNote == null
+                                  ? "Add"
+                                  : "Remove"}
+                                Footnote
+                              </MenuItem>
+                              <MenuItem onClick={() => deleteProduct(index)}>
+                                Delete
+                              </MenuItem>
+                            </Menu>
+                          </>
+                        )}
                       </div>
                     </div>
                     {product["footNote"] != null && (
                       <div className="footnote">
                         <TextField
+                          disabled={status != "draft"}
                           sx={{ width: "50%" }}
                           multiline
                           label="Footnote"
@@ -262,13 +273,11 @@ export const PoProducts = () => {
             </div>
             {/*table Add option */}
 
-            <div
-              sx={{ cursor: "pointer" }}
-              onClick={addNewProduct}
-              className="add-new-item"
-            >
-              Add New Entry <AddIcon />
-            </div>
+            {status == "draft" && (
+              <div onClick={addNewProduct} className="add-new-item">
+                Add New Entry <AddIcon />
+              </div>
+            )}
             <div className="table-hdivider" />
             {/*table Footer */}
             <div className="table-footer">

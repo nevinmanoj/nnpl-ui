@@ -233,6 +233,7 @@ export const DocProvider = ({ children }) => {
         setItem,
         tc,
         setTc,
+        status,
       }}
     >
       {children}

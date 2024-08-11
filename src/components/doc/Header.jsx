@@ -1,8 +1,7 @@
 import Button from "@mui/material/Button";
 import "./Header.scss";
 
-export const DocHeader = ({ save, download }) => {
-  // const { savePo } = useContext(PoContext);
+export const DocHeader = ({ save, download, status }) => {
   return (
     <div className="doc-header">
       <Button

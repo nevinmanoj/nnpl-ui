@@ -7,7 +7,7 @@ import { ErrorMessage } from "./errorMessage";
 
 import "./ledgerAccount.scss";
 
-export const LedgerAccount = ({ ledger, setLedger, errors }) => {
+export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
   const { ledgerOptions, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.ledgerAccount.value;
@@ -38,6 +38,7 @@ export const LedgerAccount = ({ ledger, setLedger, errors }) => {
       <div className="ledger-block">
         <div className="ledger-label">Ledger Account</div>
         <Autocomplete
+          disabled={status != "draft"}
           clearOnEscape={false}
           error={errorActive}
           componentsProps={{

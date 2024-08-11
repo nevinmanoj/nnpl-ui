@@ -36,6 +36,7 @@ export const Po = () => {
     setTc,
     ledgerAccount,
     setLedgerAccount,
+    status,
   } = useContext(DocContext);
 
   useEffect(() => {
@@ -50,9 +51,10 @@ export const Po = () => {
   };
   return (
     <div className="po-outer">
-      <DocHeader save={saveNewPo} />
+      <DocHeader save={saveNewPo} status={status} />
       <div className="po-body">
         <DocInfo
+          status={status}
           onNoChange={(e) => {}}
           editableNo={false}
           errors={errors}
@@ -68,6 +70,7 @@ export const Po = () => {
           label="Distributor"
           children={
             <Distributor
+              status={status}
               distributor={distributor}
               setDistributor={setDistributor}
             />
@@ -78,16 +81,19 @@ export const Po = () => {
           errors={errors}
           value={billing}
           label="Billing"
-          children={<Neural billing={billing} setBilling={setBilling} />}
+          children={
+            <Neural status={status} billing={billing} setBilling={setBilling} />
+          }
         />
         <div className="divider" />
         <LedgerAccount
+          status={status}
           errors={errors}
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
         />
         <div className="divider" />
-        <PoProducts />
+        <PoProducts status={status} />
         <div className="divider" />
         <CustomDocAccordian
           errors={errors}
@@ -95,6 +101,7 @@ export const Po = () => {
           label="Customer"
           children={
             <Customer
+              status={status}
               customer={customer}
               isNew={isNew}
               setCustomer={setCustomer}
@@ -104,7 +111,7 @@ export const Po = () => {
           }
         />
         <div className="divider" />
-        <Tc tc={tc} setTc={setTc} />
+        <Tc status={status} tc={tc} setTc={setTc} />
       </div>
     </div>
   );

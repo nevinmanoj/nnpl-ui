@@ -15,6 +15,7 @@ export const DocInfo = ({
   errors,
   editableNo,
   onNoChange,
+  status,
 }) => {
   return (
     <div className="doc-info-outer">
@@ -24,7 +25,7 @@ export const DocInfo = ({
           multiline
           onChange={(e) => onNoChange(e)}
           variant="outlined"
-          disabled={!editableNo}
+          disabled={!editableNo || status != "draft"}
           size="small"
           sx={{ width: "20vw" }}
           value={value}
@@ -34,6 +35,7 @@ export const DocInfo = ({
         <ErrorMessage label="date" loc="top" errors={errors} />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            disabled={status != "draft"}
             sx={{ marginLeft: "10px" }}
             format="LL"
             label="Date"

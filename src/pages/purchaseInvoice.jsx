@@ -35,6 +35,7 @@ export const PurchaseInvoice = () => {
     setCustomer,
     setIsNew,
     setref,
+    status,
   } = useContext(DocContext);
 
   const saveNewPi = async () => {
@@ -49,10 +50,11 @@ export const PurchaseInvoice = () => {
   }, [id]);
   return (
     <div className="po-outer">
-      <DocHeader save={saveNewPi} />
+      <DocHeader save={saveNewPi} status={status} />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => setref(e.target.value)}
+          status={status}
           editableNo={true}
           errors={errors}
           title="Purchase Invoice No."
@@ -65,7 +67,9 @@ export const PurchaseInvoice = () => {
           errors={errors}
           value={billing}
           label="Billing"
-          children={<Neural billing={billing} setBilling={setBilling} />}
+          children={
+            <Neural billing={billing} setBilling={setBilling} status={status} />
+          }
         />
         <div className="divider" />
         <CustomDocAccordian
@@ -75,6 +79,7 @@ export const PurchaseInvoice = () => {
           children={
             <Distributor
               distributor={distributor}
+              status={status}
               setDistributor={setdistributor}
             />
           }
@@ -87,6 +92,7 @@ export const PurchaseInvoice = () => {
           children={
             <Customer
               customer={customer}
+              status={status}
               isNew={isNew}
               setCustomer={setCustomer}
               setIsNew={setIsNew}
@@ -99,10 +105,12 @@ export const PurchaseInvoice = () => {
           errors={errors}
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
+          status={status}
         />
         <div className="divider" />
         <Products
           ledgerAccount={ledgerAccount}
+          status={status}
           roundOff={roundOff}
           products={products}
           setProducts={setProducts}

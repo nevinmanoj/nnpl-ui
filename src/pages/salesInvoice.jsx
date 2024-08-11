@@ -14,29 +14,7 @@ import { DocContext } from "../context/docProvider";
 export const SalesInvoice = () => {
   const navigator = useNavigate();
   const { id } = useParams();
-  // const {
-  //   setSi,
-  //   saveSi,
-  //   ref,
-  //   date,
-  //   setDate,
-  //   customer,
-  //   billing,
-  //   setBilling,
-  //   setCustomer,
-  //   isNew,
-  //   setIsNew,
-  //   errors,
-  //   ledgerAccount,
-  //   setLedgerAccount,
-  //   roundOff,
-  //   products,
-  //   setProducts,
-  //   setRoundOff,
-  //   setref,
-  //   executive,
-  //   setExecutive,
-  // } = useContext(SIContext);
+
   const {
     setDoc,
     saveDoc,
@@ -59,6 +37,7 @@ export const SalesInvoice = () => {
     setref,
     executive,
     setExecutive,
+    status,
   } = useContext(DocContext);
 
   useEffect(() => {
@@ -72,7 +51,7 @@ export const SalesInvoice = () => {
   };
   return (
     <div className="po-outer">
-      <DocHeader save={saveNew} />
+      <DocHeader save={saveNew} status={status} />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => setref(e.target.value)}
@@ -82,19 +61,23 @@ export const SalesInvoice = () => {
           value={ref}
           date={date}
           setDate={setDate}
+          status={status}
         />
         <div className="divider" />
         <Executive
           executive={executive}
           setExecutive={setExecutive}
           errors={errors}
+          status={status}
         />
         <div className="divider" />
         <CustomDocAccordian
           errors={errors}
           value={billing}
           label="Billing"
-          children={<Neural billing={billing} setBilling={setBilling} />}
+          children={
+            <Neural billing={billing} setBilling={setBilling} status={status} />
+          }
         />
         <div className="divider" />
         <CustomDocAccordian
@@ -105,6 +88,7 @@ export const SalesInvoice = () => {
             <Customer
               customer={customer}
               isNew={isNew}
+              status={status}
               setCustomer={setCustomer}
               setIsNew={setIsNew}
               errors={errors}
@@ -114,6 +98,7 @@ export const SalesInvoice = () => {
         <div className="divider" />
         <LedgerAccount
           errors={errors}
+          status={status}
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
         />
@@ -122,6 +107,7 @@ export const SalesInvoice = () => {
           ledgerAccount={ledgerAccount}
           roundOff={roundOff}
           products={products}
+          status={status}
           setProducts={setProducts}
           errors={errors}
           setRoundOff={setRoundOff}

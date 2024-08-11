@@ -8,7 +8,7 @@ import { MasterContext } from "../../context/masterProvider";
 import "./neural.scss";
 import "./customAccordians.scss";
 
-export const Neural = ({ setBilling, billing }) => {
+export const Neural = ({ setBilling, billing, status }) => {
   const { neuralOptions, getOptionDetails } = useContext(MasterContext);
 
   var selectedOption = null;
@@ -34,6 +34,7 @@ export const Neural = ({ setBilling, billing }) => {
     <div>
       <AccordionDetails>
         <Autocomplete
+          disabled={status != "draft"}
           clearOnEscape={false}
           componentsProps={{
             clearIndicator: null,

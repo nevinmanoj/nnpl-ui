@@ -11,7 +11,7 @@ import { useState } from "react";
 import "./Tc.scss";
 import "./customAccordians.scss";
 
-export const Tc = ({ tc, setTc }) => {
+export const Tc = ({ tc, setTc, status }) => {
   const [heading, setheading] = useState("");
   const [value, setvalue] = useState("");
   const [isErr, setisErr] = useState(false);
@@ -33,47 +33,50 @@ export const Tc = ({ tc, setTc }) => {
           <div className="acc-heading-value"> Terms & Conditions </div>
         </AccordionSummary>
         <AccordionDetails>
-          <div className="tc-add-block">
-            <TextField
-              className="tc-input-key"
-              variant="outlined"
-              size="small"
-              label={"Heading"}
-              placeholder="Eg:Payment"
-              onChange={(e) => setheading(e.target.value)}
-              value={heading}
-              error={isErr}
-            />
-            <TextField
-              className="tc-input-value"
-              variant="outlined"
-              size="small"
-              label="Value"
-              value={value}
-              onChange={(e) => setvalue(e.target.value)}
-              placeholder="Eg: paid within 60 days from the date of billing"
-            />
-            <Button
-              variant="outlined"
-              className="save-button"
-              onClick={() => {
-                if (heading === "") {
-                  setisErr(true);
-                } else {
-                  handleTcChange(value, heading);
-                  setheading("");
-                  setvalue("");
-                  setisErr(false);
-                }
-              }}
-            >
-              Add
-            </Button>
-          </div>
+          {status == "draft" && (
+            <div className="tc-add-block">
+              <TextField
+                className="tc-input-key"
+                variant="outlined"
+                size="small"
+                label={"Heading"}
+                placeholder="Eg:Payment"
+                onChange={(e) => setheading(e.target.value)}
+                value={heading}
+                error={isErr}
+              />
+              <TextField
+                className="tc-input-value"
+                variant="outlined"
+                size="small"
+                label="Value"
+                value={value}
+                onChange={(e) => setvalue(e.target.value)}
+                placeholder="Eg: paid within 60 days from the date of billing"
+              />
+              <Button
+                variant="outlined"
+                className="save-button"
+                onClick={() => {
+                  if (heading === "") {
+                    setisErr(true);
+                  } else {
+                    handleTcChange(value, heading);
+                    setheading("");
+                    setvalue("");
+                    setisErr(false);
+                  }
+                }}
+              >
+                Add
+              </Button>
+            </div>
+          )}
 
           {Object.entries(tc).map(([key, value]) => (
             <div key={key} className="tc-input-div">
               <TextField
+                disabled={status != "draft"}
                 className="tc-input"
                 label={key.charAt(0).toUpperCase() + key.slice(1)}
                 variant="outlined"
@@ -90,13 +93,15 @@ export const Tc = ({ tc, setTc }) => {
                 }
               />
 
-              <IconButton
-                onClick={(e) => {
-                  removeKeyValuePair(key);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
+              {status == "draft" && (
+                <IconButton
+                  onClick={(e) => {
+                    removeKeyValuePair(key);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
             </div>
           ))}
         </AccordionDetails>
