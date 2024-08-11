@@ -1,12 +1,7 @@
 import { isValidNumber } from "./validNumberChecker";
-export const povalidator = ({
-  ledgerAccount,
-  date,
-  products,
-  distributor,
-  billing,
-  customer,
-}) => {
+export const povalidator = ({ data }) => {
+  const { ledgerAccount, date, products, distributor, billing, customer } =
+    data;
   var fail = false;
   var errors = {
     date: {

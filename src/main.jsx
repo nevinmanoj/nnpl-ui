@@ -6,26 +6,21 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import { AppRoutes } from "./Routes.jsx";
 import { UserProvider } from "./context/userProvider.jsx";
-import { SIProvider } from "./context/siProvider.jsx";
-import { PoProvider } from "./context/poProvider.jsx";
 import { MasterProvider } from "./context/masterProvider.jsx";
-import { PIProvider } from "./context/piProvider.jsx";
+
+import { DocProvider } from "./context/docProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
       <MasterProvider>
-        <PIProvider>
-          <SIProvider>
-            <PoProvider>
-              <BrowserRouter>
-                <ThemeProvider theme={theme}>
-                  <AppRoutes />
-                </ThemeProvider>
-              </BrowserRouter>
-            </PoProvider>
-          </SIProvider>
-        </PIProvider>
+        <DocProvider>
+          <BrowserRouter>
+            <ThemeProvider theme={theme}>
+              <AppRoutes />
+            </ThemeProvider>
+          </BrowserRouter>
+        </DocProvider>
       </MasterProvider>
     </UserProvider>
   </React.StrictMode>

@@ -1,28 +1,38 @@
 import { createContext, useState, useContext } from "react";
 import axios from "axios";
 
+import { sivalidator } from "../utils/siValidator";
 import { pivalidator } from "../utils/piValidator";
+import { povalidator } from "../utils/poValidator";
+import { structValidator } from "../utils/structValidator";
 import { server } from "../constants/server";
 import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
+import { MasterContext } from "./masterProvider";
+import { reqCustomerProperties } from "../constants/dataModalProperties";
 
-export const PIContext = createContext();
+export const DocContext = createContext();
 
-export const PIProvider = ({ children }) => {
+export const DocProvider = ({ children }) => {
   const { token, showNotification } = useContext(UserContext);
+  const { addItemToMaster } = useContext(MasterContext);
 
-  const [piId, setpiId] = useState(null);
+  const [item, setItem] = useState(null);
+
+  const [tc, setTc] = useState({});
+  const [docId, setdocId] = useState(null);
   const [ref, setref] = useState(null);
-  const [distributor, setdistributor] = useState(null);
+  const [customer, setCustomer] = useState(null);
+  const [distributor, setDistributor] = useState(null);
   const [ledgerAccount, setLedgerAccount] = useState(null);
   const [roundOff, setRoundOff] = useState(0);
   const [products, setProducts] = useState([]);
   const [date, setDate] = useState(null);
   const [status, setstatus] = useState(null);
   const [billing, setBilling] = useState(null);
-  const [customer, setCustomer] = useState(null);
+  const [executive, setExecutive] = useState(null);
 
-  // flag for new customer
+  //new values for po details
   const [isNew, setIsNew] = useState(false);
 
   //error flags
@@ -31,7 +41,6 @@ export const PIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
-
     billing: {
       value: false,
       msg: "",
@@ -40,7 +49,7 @@ export const PIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
-    distributor: {
+    customer: {
       value: false,
       msg: "",
     },
@@ -48,16 +57,21 @@ export const PIProvider = ({ children }) => {
       value: false,
       msg: "",
     },
-    customer: {
+    executive: {
+      value: false,
+      msg: "",
+    },
+    distributor: {
       value: false,
       msg: "",
     },
   });
 
-  const setPi = (i) => {
+  const setDoc = ({ i, type }) => {
+    setItem(type);
     if (i != null && i != "new") {
       axios
-        .get(server + "/docs/purchase-invoice/" + i, {
+        .get(server + "/docs/" + type + "/" + i, {
           headers: {
             // authorization: "Bearer " + token,
           },
@@ -69,22 +83,33 @@ export const PIProvider = ({ children }) => {
           setLedgerAccount(data["ledgerAccount"]);
           setProducts(data["products"]);
           setBilling(data["billing"]);
-          setdistributor(data["distributor"]);
-          setpiId(i);
-          setRoundOff(data["roundOff"].toString());
-          setstatus(data["status"]);
           setCustomer(data["customer"]);
+          setDistributor(data["distributor"]);
+          setdocId(i);
+          setstatus(data["status"]);
+          setExecutive(data["executive"]);
+          setRoundOff(data["roundOff"] && data["roundOff"].toString());
         })
         .catch((error) => {
           console.error(" Error:", error);
-          setpiId(null);
+          setdocId(null);
         });
     } else {
-      setpiId("new");
+      setdocId(null);
+      if (type == "po") {
+        setTc({
+          payment:
+            "100 % of the product cost will be paid within 60 days from the date of billing",
+          billing: "new billings",
+          taxes:
+            "Taxes as applicable will be charged extra or as applicable at the time of billing.",
+          delivery: "At the earliest",
+        });
+      }
     }
   };
 
-  const savePi = async () => {
+  const saveDoc = async () => {
     var _customer = customer;
     if (isNew) {
       var isValidCustomer = structValidator(_customer, reqCustomerProperties);
@@ -108,38 +133,52 @@ export const PIProvider = ({ children }) => {
         return;
       }
     }
-    var piData = {
-      ref,
+    var docData = {
       ledgerAccount,
       date,
+      ref,
+      distributor,
       status,
       products,
       roundOff,
       billing,
-      distributor,
+      executive,
       customer: _customer,
     };
+    if (item == "po") {
+      docData = { ...docData, tc };
+    }
+    var dataErr = {};
+    switch (item) {
+      case "purchase-invoice":
+        dataErr = pivalidator({ data: docData });
+        break;
+      case "sales-invoice":
+        dataErr = sivalidator({
+          data: docData,
+        });
+      case "po":
+        dataErr = povalidator({ data: docData });
+        break;
+    }
 
-    const err = pivalidator({
-      data: piData,
-    });
-    setErrors(err.errors);
-    if (err.fail) {
+    setErrors(dataErr.errors);
+    if (dataErr.fail) {
       return;
     }
 
-    if (piId != null && piId != "new") {
-      //Save  PO
+    if (docId != null && docId != "new") {
+      //Save  Doc
 
       const result = await runAxios(
         "put",
         {
           data: {
             ref,
-            ...piData,
+            ...docData,
           },
         },
-        "/docs/purchase-invoice/" + piId,
+        "/docs/" + item + "/" + docId,
         token
       );
       if (!result.success) {
@@ -149,16 +188,17 @@ export const PIProvider = ({ children }) => {
         showNotification("Save Success", "success");
       }
     } else {
+      //create and save Doc
       const result = await runAxios(
         "post",
         {
-          data: piData,
+          data: docData,
         },
-        "/docs/purchase-invoice",
+        "/docs/" + item,
         token
       );
       if (result.success) {
-        setpiId(result.data.data._id);
+        setdocId(result.data.data._id);
         showNotification("Save Success", "success");
         return result.data.data._id;
       } else {
@@ -168,12 +208,14 @@ export const PIProvider = ({ children }) => {
   };
 
   return (
-    <PIContext.Provider
+    <DocContext.Provider
       value={{
-        distributor,
+        customer,
         errors,
         setErrors,
-        setdistributor,
+        isNew,
+        setIsNew,
+        setCustomer,
         ref,
         setref,
         ledgerAccount,
@@ -184,17 +226,21 @@ export const PIProvider = ({ children }) => {
         setProducts,
         date,
         setDate,
-        setPi,
-        savePi,
+        setDoc,
+        saveDoc,
         billing,
         setBilling,
-        customer,
-        setCustomer,
-        isNew,
-        setIsNew,
+        executive,
+        setExecutive,
+        distributor,
+        setDistributor,
+        item,
+        setItem,
+        tc,
+        setTc,
       }}
     >
       {children}
-    </PIContext.Provider>
+    </DocContext.Provider>
   );
 };

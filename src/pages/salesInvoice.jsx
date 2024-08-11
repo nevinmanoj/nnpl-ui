@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
@@ -7,15 +7,39 @@ import { Customer } from "../components/doc/Customer";
 import { Neural } from "../components/doc/Neural";
 import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
-import { SIContext } from "../context/siProvider";
 import { Products } from "../components/doc/Products";
 import { Executive } from "../components/doc/Executive";
+import { DocContext } from "../context/docProvider";
 
 export const SalesInvoice = () => {
+  const navigator = useNavigate();
   const { id } = useParams();
+  // const {
+  //   setSi,
+  //   saveSi,
+  //   ref,
+  //   date,
+  //   setDate,
+  //   customer,
+  //   billing,
+  //   setBilling,
+  //   setCustomer,
+  //   isNew,
+  //   setIsNew,
+  //   errors,
+  //   ledgerAccount,
+  //   setLedgerAccount,
+  //   roundOff,
+  //   products,
+  //   setProducts,
+  //   setRoundOff,
+  //   setref,
+  //   executive,
+  //   setExecutive,
+  // } = useContext(SIContext);
   const {
-    setSi,
-    saveSi,
+    setDoc,
+    saveDoc,
     ref,
     date,
     setDate,
@@ -35,14 +59,20 @@ export const SalesInvoice = () => {
     setref,
     executive,
     setExecutive,
-  } = useContext(SIContext);
+  } = useContext(DocContext);
 
   useEffect(() => {
-    setSi(id);
-  }, []);
+    setDoc({ i: id, type: "sales-invoice" });
+  }, [id]);
+  const saveNew = async () => {
+    const newId = await saveDoc();
+    if (id == "new" && newId != null) {
+      navigator("/sales-invoice/" + newId);
+    }
+  };
   return (
     <div className="po-outer">
-      <DocHeader save={saveSi} />
+      <DocHeader save={saveNew} />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => setref(e.target.value)}

@@ -28,10 +28,6 @@ export const pivalidator = ({ data }) => {
       value: false,
       msg: "",
     },
-    customer: {
-      value: false,
-      msg: "",
-    },
   };
 
   if (distributor == "" || distributor == null) {

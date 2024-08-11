@@ -13,15 +13,16 @@ import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isValidNumber } from "../../utils/validNumberChecker";
-import { PoContext } from "../../context/poProvider";
 import { MasterContext } from "../../context/masterProvider";
 
 import "./PoProducts.scss";
 import { ErrorMessage } from "./errorMessage";
+import { DocContext } from "../../context/docProvider";
 
 export const PoProducts = () => {
   const { ledgerAccount, products, setProducts, errors } =
-    useContext(PoContext);
+    useContext(DocContext);
+
   var tax = 0;
   if (ledgerAccount != null) {
     tax = ledgerAccount.tax;

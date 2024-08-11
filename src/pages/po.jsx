@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { PoContext } from "../context/poProvider";
 import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
@@ -13,16 +12,18 @@ import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { Distributor } from "../components/doc/distributor";
 
 import "./po.scss";
+import { DocContext } from "../context/docProvider";
 
 export const Po = () => {
   const { id } = useParams();
+  const navigator = useNavigate();
   const {
     ref,
-    setPo,
+    setDoc,
     distributor,
     billing,
     customer,
-    savePo,
+    saveDoc,
     date,
     setDate,
     setDistributor,
@@ -34,15 +35,22 @@ export const Po = () => {
     tc,
     setTc,
     ledgerAccount,
-    setledgerAccount,
-  } = useContext(PoContext);
+    setLedgerAccount,
+  } = useContext(DocContext);
 
   useEffect(() => {
-    setPo(id);
-  }, []);
+    setDoc({ i: id, type: "po" });
+  }, [id]);
+
+  const saveNewPo = async () => {
+    const newId = await saveDoc();
+    if (id == "new" && newId != null) {
+      navigator("/po/" + newId);
+    }
+  };
   return (
     <div className="po-outer">
-      <DocHeader save={savePo} />
+      <DocHeader save={saveNewPo} />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => {}}
@@ -76,7 +84,7 @@ export const Po = () => {
         <LedgerAccount
           errors={errors}
           ledger={ledgerAccount}
-          setLedger={setledgerAccount}
+          setLedger={setLedgerAccount}
         />
         <div className="divider" />
         <PoProducts />

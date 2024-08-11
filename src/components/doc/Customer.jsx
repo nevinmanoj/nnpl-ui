@@ -49,7 +49,6 @@ export const Customer = ({
     if (res != null) {
       setCustomer(res);
       setIsNew(false);
-      setMode("old");
     }
   };
 

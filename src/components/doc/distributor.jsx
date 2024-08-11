@@ -10,7 +10,6 @@ import "./customAccordians.scss";
 
 export const Distributor = ({ setDistributor, distributor }) => {
   const { distributorOptions, getOptionDetails } = useContext(MasterContext);
-  // const = useContext(PoContext);
 
   var selectedOption = null;
   if (distributor != null) {

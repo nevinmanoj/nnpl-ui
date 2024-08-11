@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { DocInfo } from "../components/doc/Info";
 import { DocHeader } from "../components/doc/Header";
@@ -8,16 +8,14 @@ import { Neural } from "../components/doc/Neural";
 import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Products } from "../components/doc/Products";
-import { PIContext } from "../context/piProvider";
 import { Customer } from "../components/doc/Customer";
-import { useNavigate, useLocation } from "react-router-dom";
+import { DocContext } from "../context/docProvider";
 export const PurchaseInvoice = () => {
   const navigator = useNavigate();
-  const location = useLocation();
   const { id } = useParams();
   const {
-    setPi,
-    savePi,
+    saveDoc,
+    setDoc,
     ref,
     date,
     setDate,
@@ -37,18 +35,18 @@ export const PurchaseInvoice = () => {
     setCustomer,
     setIsNew,
     setref,
-  } = useContext(PIContext);
+  } = useContext(DocContext);
 
   const saveNewPi = async () => {
-    const newId = await savePi();
+    const newId = await saveDoc();
     if (id == "new" && newId != null) {
       navigator("/purchase-invoice/" + newId);
     }
   };
 
   useEffect(() => {
-    setPi(id);
-  }, []);
+    setDoc({ i: id, type: "purchase-invoice" });
+  }, [id]);
   return (
     <div className="po-outer">
       <DocHeader save={saveNewPi} />

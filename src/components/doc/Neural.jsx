@@ -4,7 +4,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 
 import { useContext } from "react";
 import { MasterContext } from "../../context/masterProvider";
-import { PoContext } from "../../context/poProvider";
 
 import "./neural.scss";
 import "./customAccordians.scss";
