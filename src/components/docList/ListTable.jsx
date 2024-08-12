@@ -1,33 +1,39 @@
 import { useContext } from "react";
 import { UserContext } from "../../context/userProvider";
 import { useNavigate, useLocation } from "react-router-dom";
+import Chip from "@mui/material/Chip";
 import "./ListTable.scss";
-import { capsFirst } from "../../utils/firstcaps";
-export const ListTable = ({ item }) => {
+import { capsFirst } from "../../utils/formatting/firstcaps";
+import { formatDateString } from "../../utils/formatting/dateFormatting";
+export const ListTable = () => {
   const navigator = useNavigate();
   const location = useLocation();
   const { docList } = useContext(UserContext);
-  const col5 = item != "purchase-invoice" ? "customer" : "distributor";
-  // const col5 = "billing";
 
   return (
     <div className="doc-table">
       {/* doc-table Header */}
       <div className="doc-table-header">
-        <div className="doc-table-cell doc-table-label vm">Sl No Value</div>
+        <div className="doc-table-cell doc-table-label vm">Sl No</div>
         <div className="doc-table-cell doc-table-label lg">Ref No</div>
-        <div className="doc-table-cell doc-table-label md">Status</div>
-        <div className="doc-table-cell doc-table-label lg">Date</div>
-        <div className="doc-table-cell doc-table-label lg">
-          {capsFirst(col5)}
+        <div className="doc-table-cell doc-table-label sm">Status</div>
+        <div className="doc-table-cell doc-table-label md">Date</div>
+        <div className="doc-table-cell doc-table-label lg">Customer</div>
+        <div className="doc-table-cell doc-table-label lg">Distributor</div>
+        <div className="doc-table-cell doc-table-label md endcol">
+          Total Value
         </div>
-        <div className="doc-table-cell doc-table-label sm">Total Value</div>
         {/* <div className="doc-table-cell doc-table-label vm"></div> */}
       </div>
       {/* doc-table Body */}
       <div className="doc-table-body">
         {docList != null &&
           docList.map((doc, i) => {
+            const distributor =
+              doc["distributor"] == null ? "-" : doc["distributor"].title;
+            const customer =
+              doc["customer"] == null ? "-" : doc["customer"].title;
+
             return (
               <>
                 <div className="doc-table-hdivider" />
@@ -39,12 +45,20 @@ export const ListTable = ({ item }) => {
                 >
                   <div className="doc-table-cell vm">{i + 1}</div>
                   <div className="doc-table-cell lg">{doc["ref"]}</div>
-                  <div className="doc-table-cell md">{doc["status"]}</div>
-                  <div className="doc-table-cell lg"> {doc["date"]}</div>
-                  <div className="doc-table-cell lg">
-                    {doc[col5] && doc[col5].title}
+                  <div className="doc-table-cell sm">
+                    <Chip
+                      color={doc["status"] == "draft" ? "primary" : "success"}
+                      // color="success"
+                      label={capsFirst(doc["status"])}
+                      variant="outlined"
+                    />
                   </div>
-                  <div className="doc-table-cell sm">{doc["grandTotal"]}</div>
+                  <div className="doc-table-cell md">
+                    {formatDateString(doc["date"])}
+                  </div>
+                  <div className="doc-table-cell lg">{distributor}</div>
+                  <div className="doc-table-cell lg">{customer}</div>
+                  <div className="doc-table-cell md">{doc["grandTotal"]} </div>
 
                   {/* <div className="doc-table-cell vm">
                         <IconButton

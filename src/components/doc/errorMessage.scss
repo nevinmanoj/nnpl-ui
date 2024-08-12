@@ -1,16 +1,16 @@
+@import '../../constants/colors.scss';
 .error-msg-outer{
     margin-left: 10px;
-    color: red;
+    color: $error-icon-red;
     position: relative;
     display: inline-block;
-      
 
 }
 .error-message{
   font-size: 18px;
   position: absolute;
   background-color: #f8d7da;
-  color: #721c24;
+  color: $error-msg-red;
   padding: 10px;
   border: 1px solid #f5c6cb;
   border-radius: 3px;

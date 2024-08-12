@@ -1,9 +1,9 @@
 import { createContext, useState, useContext } from "react";
 
-import { sivalidator } from "../utils/siValidator";
-import { pivalidator } from "../utils/piValidator";
-import { povalidator } from "../utils/poValidator";
-import { structValidator } from "../utils/structValidator";
+import { sivalidator } from "../utils/validators/siValidator";
+import { pivalidator } from "../utils/validators/piValidator";
+import { povalidator } from "../utils/validators/poValidator";
+import { structValidator } from "../utils/validators/structValidator";
 import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
 import { MasterContext } from "./masterProvider";

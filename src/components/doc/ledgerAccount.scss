@@ -1,7 +1,8 @@
+@import '../../constants/colors.scss';
 .ledger-label{
     margin-bottom: 10px;
     font-size: 16px;
-    color: #939393;
+    color: $item-label-grey;
     font-weight: 100;
 }
 .ledger-outer{ 

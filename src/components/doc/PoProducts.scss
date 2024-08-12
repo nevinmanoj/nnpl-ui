@@ -1,4 +1,5 @@
 
+@import '../../constants/colors.scss';
 .accordian{
     box-shadow: none !important;
     border: none !important;
@@ -17,7 +18,7 @@
 }
 .acc-heading-value{
     font-size: 20px;
-    color: #494949;
+    color: $item-value-black;
     font-weight:500;
 }
 .table{
@@ -27,7 +28,7 @@
     min-height: 400px;
     max-height: 600px;
     width: 95vw;
-    border:1px solid rgb(209, 209, 209);
+    border:1px solid $table-border-grey;
     border-radius: 5px;
 
 }
@@ -36,7 +37,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar-thumb {
-        background: #959595;
+        background: $scroll-head-grey;
         border-radius: 10px;  
       }
 }
@@ -46,16 +47,17 @@
 
   
 .table-body::-webkit-scrollbar-track {
-    background: #c9c9c9; /* Color of the scrollbar track */
+    background: $border-grey; /* Color of the scrollbar track */
 }
 .table-header{
     display: flex;
     padding: 10px 0px;
     justify-content: center;
 }
-.main-row{
+.doc-main-row{
     display: flex;
     padding: 5px 0px;
+    height: 55px;
     justify-content: center;
 }
 .vm{
@@ -96,17 +98,22 @@
 .table-hdivider{
     width: 95vw;
     height: 1px;
-    background-color: rgb(209, 209, 209);;
+    background-color: $border-grey;
+}
+.table-main-hdivider{
+    width: 95vw;
+    height: 1px;
+    background-color: $table-border-grey;
 }
 .add-new-item{
-    height:5vh;
+    height:40px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 16px;
     font-weight: bold;
-    color:rgb(131, 131, 131)
+    color:$item-label-grey
 }
 .table-footer{
     display: flex;

@@ -1,5 +1,6 @@
+@import '../../constants/colors.scss';
 .topbar-outer2{
-    background-color: rgb(0, 0, 0);
+    background-color:$topbar-black;
     height: 65px;
     width: 100vw;
     position: absolute;
@@ -8,7 +9,6 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid beige;
 }
 .topbar-profile{
     position: absolute;

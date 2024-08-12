@@ -1,3 +1,4 @@
+@import '../../constants/colors.scss';
 .doc-info-outer{
     display: flex;
     justify-content: space-between;
@@ -12,8 +13,8 @@
 }
 .doc-pno-label{
     
-    color: #939393;
-    font-weight: 100;
+    color: $item-label-grey;
+    font-weight: 200;
     font-size: 16px;
 }
 .doc-pno-value{

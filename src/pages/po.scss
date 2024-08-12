@@ -1,4 +1,6 @@
+@import '../constants/colors.scss';
 .po-outer{
+
     padding: 0px 10px;
     max-height: 90vh;
     margin-top: 75px;
@@ -17,20 +19,26 @@
       }
 }
 .po-body{
-    border:1px solid rgb(209, 209, 209);;
+    background-color: $doc-body-white;
+    border:1px solid $border-grey;
     border-radius: 8px;
-    margin-top: 10px;
+    
+    margin: 10px;
     padding: 10px;
     padding-top: 20px;
+    box-shadow: 0px 4px 10px  $doc-shadow-black;
+ 
+
 
 }
 .divider{
     padding: 0px;
     margin: 10px -10px;
     height: 1px;
-    background-color: rgb(209, 209, 209);;
+    background-color: $border-grey;
 }
 html,body{
     margin:0;
+    background-color: $main-background-white;
     overflow: hidden;
 }

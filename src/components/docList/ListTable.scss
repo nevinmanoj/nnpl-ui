@@ -1,9 +1,9 @@
-
+@import '../../constants/colors.scss';
 .doc-table{
     position: absolute;
-    left:0;
+right:0;
 
-    width: 100vw;
+    width: 80vw;
     border:1px solid rgb(209, 209, 209);
     // border-radius: 5px;
 
@@ -24,7 +24,7 @@
 
   
 .doc-table-body::-webkit-scrollbar-track {
-    background: #c9c9c9; /* Color of the scrollbar track */
+    background: $border-grey; /* Color of the scrollbar track */
 }
 .doc-table-header{
     display: flex;
@@ -32,6 +32,9 @@
     justify-content: center;
 }
 .main-row{
+    &:hover{
+        background-color: $hover-grey
+    }
     cursor: pointer;
     display: flex;
     padding: 5px 0px;
@@ -75,5 +78,10 @@
 .doc-table-hdivider{
     // width: 95vw;
     height: 1px;
-    background-color: rgb(209, 209, 209);;
+    background-color:$border-grey;
+    // background-color: rgb(209, 209, 209);
+
+}
+.endcol{
+    margin-right:15px
 }

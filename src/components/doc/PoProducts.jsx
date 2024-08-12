@@ -12,7 +12,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { isValidNumber } from "../../utils/validNumberChecker";
+import { isValidNumber } from "../../utils/validators/validNumberChecker";
 import { MasterContext } from "../../context/masterProvider";
 
 import "./PoProducts.scss";
@@ -118,13 +118,13 @@ export const PoProducts = () => {
               </div>
               <div className="table-cell table-label vm"></div>
             </div>
+            <div className="table-main-hdivider" />
             {/* table Body */}
             <div className="table-body">
               {products != null &&
                 products.map((product, i) => (
                   <>
-                    <div className="table-hdivider" />
-                    <div className="main-row">
+                    <div className="doc-main-row">
                       <div className="table-cell vm">{i + 1}</div>
                       <div className="table-cell lg">
                         <Autocomplete
@@ -267,9 +267,9 @@ export const PoProducts = () => {
                         />
                       </div>
                     )}
+                    <div className="table-hdivider" />
                   </>
                 ))}
-              <div className="table-hdivider" />
             </div>
             {/*table Add option */}
 

@@ -1,4 +1,4 @@
-
+@import '../../constants/colors.scss';
 .accordian{
     box-shadow: none !important;
     border: none !important;
@@ -23,20 +23,20 @@
 }
 .item-detail-label{
   font-size: 16px;
-  font-weight: 500;
-  color:rgb(130, 130, 130)
+  font-weight: 550;
+  color:$item-label-grey
 
 }
 .item-detail-line{
   font-size: 18px;
   font-weight: 500;
-  color:rgb(34, 34, 34)
+  color:$item-value-black
 
 }
 .acc-heading-label{
   font-size: 16px;
-  color: #939393;
-  font-weight: 100;
+  color: $item-label-grey;
+  font-weight: 300;
 }
 .acc-heading-value{
   
@@ -44,6 +44,6 @@
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  color: #494949;
+  color: $item-value-black;
   font-weight:500;
 }
