@@ -118,6 +118,35 @@ export const Customer = ({
       {((selectedOption != null && customer != null) || isNew) && (
         <div className="customer-details">
           <div className="customer-address-block">
+            <div className="customer-name-block">
+              <div className="item-detail-label">Company Name</div>
+              {isNew ? (
+                <>
+                  <div className="customer-value-input">
+                    <TextField
+                      error={
+                        errorActive &&
+                        (customer.companyName == null ||
+                          customer.companyName == "")
+                      }
+                      sx={{ marginTop: "10px", width: "20vw" }}
+                      label="Company Name"
+                      onChange={(e) => {
+                        modifyNewCustomer("companyName", e.target.value);
+                      }}
+                      variant="outlined"
+                      size="small"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="item-detail-line">
+                    {customer["companyName"]}
+                  </div>
+                </>
+              )}
+            </div>
             <div className="item-detail-label">Address</div>
             {isNew ? (
               <>

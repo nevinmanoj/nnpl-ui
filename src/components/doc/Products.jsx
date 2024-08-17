@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isValidNumber } from "../../utils/validators/validNumberChecker";
 import { MasterContext } from "../../context/masterProvider";
 
-import "./PoProducts.scss";
+import "./Products.scss";
 import { ErrorMessage } from "./errorMessage";
 
 export const Products = ({
@@ -24,7 +24,9 @@ export const Products = ({
   products,
   setProducts,
   errors,
+  setDiscount,
   setRoundOff,
+  discount,
   status,
 }) => {
   var tax = 0;
@@ -74,7 +76,12 @@ export const Products = ({
 
   const calcTotal = () => {
     const st = calcSubTotal();
-    return (parseFloat(roundOff) + st + safeMultiply(st, tax) / 100).toFixed(2);
+    return (
+      parseFloat(roundOff) -
+      parseFloat(discount) +
+      st +
+      safeMultiply(st, tax) / 100
+    ).toFixed(2);
   };
 
   const addNewProduct = () => {
@@ -305,6 +312,27 @@ export const Products = ({
                   variant="outlined"
                   size="small"
                 /> */}
+              </div>
+            </div>
+            <div className="table-footer">
+              <div className="table-cell table-label md">Discount</div>
+              <div className="table-cell md" align="right">
+                <TextField
+                  disabled={status != "draft"}
+                  onChange={(e) => {
+                    setDiscount(e.target.value);
+                  }}
+                  error={errorActive && !isValidNumber(discount)}
+                  value={discount}
+                  variant="outlined"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    endAdornment: (
+                      <InputAdornment position="start">₹</InputAdornment>
+                    ),
+                  }}
+                  size="small"
+                />
               </div>
             </div>
             <div className="table-footer">

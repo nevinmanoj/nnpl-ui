@@ -6,7 +6,7 @@ import { DocHeader } from "../components/doc/Header";
 import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Customer } from "../components/doc/Customer";
 import { Neural } from "../components/doc/Neural";
-import { PoProducts } from "../components/doc/PoProducts";
+import { Products } from "../components/doc/Products";
 import { Tc } from "../components/doc/Tc";
 import { CustomDocAccordian } from "../components/doc/customAccordians";
 import { Distributor } from "../components/doc/distributor";
@@ -18,6 +18,10 @@ export const Po = () => {
   const { id } = useParams();
   const navigator = useNavigate();
   const {
+    setProducts,
+    products,
+    roundOff,
+    setRoundOff,
     ref,
     setDoc,
     distributor,
@@ -37,6 +41,8 @@ export const Po = () => {
     ledgerAccount,
     setLedgerAccount,
     status,
+    discount,
+    setDiscount,
   } = useContext(DocContext);
 
   useEffect(() => {
@@ -93,7 +99,18 @@ export const Po = () => {
           setLedger={setLedgerAccount}
         />
         <div className="divider" />
-        <PoProducts status={status} />
+        {/* <PoProducts status={status} /> */}
+        <Products
+          ledgerAccount={ledgerAccount}
+          roundOff={roundOff}
+          products={products}
+          status={status}
+          setProducts={setProducts}
+          errors={errors}
+          setRoundOff={setRoundOff}
+          discount={discount}
+          setDiscount={setDiscount}
+        />
         <div className="divider" />
         <CustomDocAccordian
           errors={errors}

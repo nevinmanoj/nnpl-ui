@@ -38,6 +38,8 @@ export const SalesInvoice = () => {
     executive,
     setExecutive,
     status,
+    discount,
+    setDiscount,
   } = useContext(DocContext);
 
   useEffect(() => {
@@ -111,6 +113,8 @@ export const SalesInvoice = () => {
           setProducts={setProducts}
           errors={errors}
           setRoundOff={setRoundOff}
+          discount={discount}
+          setDiscount={setDiscount}
         />
       </div>
     </div>

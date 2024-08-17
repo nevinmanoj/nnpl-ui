@@ -24,6 +24,7 @@ export const DocProvider = ({ children }) => {
   const [distributor, setDistributor] = useState(null);
   const [ledgerAccount, setLedgerAccount] = useState(null);
   const [roundOff, setRoundOff] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [products, setProducts] = useState([]);
   const [date, setDate] = useState(null);
   const [status, setstatus] = useState(null);
@@ -82,6 +83,7 @@ export const DocProvider = ({ children }) => {
           setstatus(data["status"]);
           setExecutive(data["executive"]);
           setTc(data["tc"] != null ? data["tc"] : {});
+          setDiscount(data["discount"] && data["discount"].toString());
           setRoundOff(data["roundOff"] && data["roundOff"].toString());
         })
         .catch((error) => {
@@ -130,6 +132,7 @@ export const DocProvider = ({ children }) => {
     var docData = {
       ledgerAccount,
       date,
+      discount,
       ref,
       distributor,
       status,
@@ -234,6 +237,8 @@ export const DocProvider = ({ children }) => {
         tc,
         setTc,
         status,
+        discount,
+        setDiscount,
       }}
     >
       {children}

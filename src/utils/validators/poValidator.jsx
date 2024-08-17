@@ -1,7 +1,14 @@
 import { isValidNumber } from "./validNumberChecker";
 export const povalidator = ({ data }) => {
-  const { ledgerAccount, date, products, distributor, billing, customer } =
-    data;
+  const {
+    ledgerAccount,
+    date,
+    products,
+    distributor,
+    billing,
+    customer,
+    discount,
+  } = data;
   var fail = false;
   var errors = {
     date: {
@@ -60,6 +67,13 @@ export const povalidator = ({ data }) => {
   }
   if (ledgerAccount == "" || ledgerAccount == null) {
     errors["ledgerAccount"] = {
+      value: true,
+      msg: "Select valid values for required fields",
+    };
+    fail = true;
+  }
+  if (discount === "" || discount === null || !isValidNumber(discount)) {
+    errors["products"] = {
       value: true,
       msg: "Select valid values for required fields",
     };

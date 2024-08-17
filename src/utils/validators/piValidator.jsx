@@ -1,8 +1,15 @@
 import { isValidNumber } from "./validNumberChecker";
 export const pivalidator = ({ data }) => {
   var fail = false;
-  const { ledgerAccount, date, products, roundOff, billing, distributor } =
-    data;
+  const {
+    ledgerAccount,
+    date,
+    products,
+    roundOff,
+    billing,
+    distributor,
+    discount,
+  } = data;
   var errors = {
     date: {
       value: false,
@@ -59,6 +66,13 @@ export const pivalidator = ({ data }) => {
     fail = true;
   }
   if (roundOff === "" || roundOff === null || !isValidNumber(roundOff)) {
+    errors["products"] = {
+      value: true,
+      msg: "Select valid values for required fields",
+    };
+    fail = true;
+  }
+  if (discount === "" || discount === null || !isValidNumber(discount)) {
     errors["products"] = {
       value: true,
       msg: "Select valid values for required fields",

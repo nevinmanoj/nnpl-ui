@@ -22,11 +22,11 @@
     font-weight:500;
 }
 .table{
-    
+    padding-bottom: 10px;
     width: 100%;
     // background-color: red;
     min-height: 400px;
-    max-height: 600px;
+    max-height: 710px;
     width: 95vw;
     border:1px solid $table-border-grey;
     border-radius: 5px;
@@ -57,7 +57,7 @@
 .doc-main-row{
     display: flex;
     padding: 5px 0px;
-    height: 55px;
+    // height: 55px;
     justify-content: center;
 }
 .vm{

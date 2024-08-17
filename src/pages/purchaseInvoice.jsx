@@ -36,6 +36,8 @@ export const PurchaseInvoice = () => {
     setIsNew,
     setref,
     status,
+    discount,
+    setDiscount,
   } = useContext(DocContext);
 
   const saveNewPi = async () => {
@@ -109,6 +111,8 @@ export const PurchaseInvoice = () => {
         />
         <div className="divider" />
         <Products
+          discount={discount}
+          setDiscount={setDiscount}
           ledgerAccount={ledgerAccount}
           status={status}
           roundOff={roundOff}

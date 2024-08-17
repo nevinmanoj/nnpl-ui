@@ -30,9 +30,8 @@ export const ListTable = () => {
         {docList != null &&
           docList.map((doc, i) => {
             const distributor =
-              doc["distributor"] == null ? "-" : doc["distributor"].title;
-            const customer =
-              doc["customer"] == null ? "-" : doc["customer"].title;
+              doc["distributor"] == null ? "-" : doc["distributor"];
+            const customer = doc["customer"] == null ? "-" : doc["customer"];
 
             return (
               <>
@@ -56,8 +55,8 @@ export const ListTable = () => {
                   <div className="doc-table-cell md">
                     {formatDateString(doc["date"])}
                   </div>
-                  <div className="doc-table-cell lg">{distributor}</div>
                   <div className="doc-table-cell lg">{customer}</div>
+                  <div className="doc-table-cell lg">{distributor}</div>
                   <div className="doc-table-cell md">{doc["grandTotal"]} </div>
 
                   {/* <div className="doc-table-cell vm">

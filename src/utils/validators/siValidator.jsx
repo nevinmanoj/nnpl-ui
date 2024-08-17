@@ -9,6 +9,7 @@ export const sivalidator = ({ data }) => {
     billing,
     customer,
     executive,
+    discount,
   } = data;
   var errors = {
     executive: {
@@ -52,6 +53,13 @@ export const sivalidator = ({ data }) => {
     errors["customer"] = {
       value: true,
       msg: "Select a valid Customer",
+    };
+    fail = true;
+  }
+  if (discount === "" || discount === null || !isValidNumber(discount)) {
+    errors["products"] = {
+      value: true,
+      msg: "Select valid values for required fields",
     };
     fail = true;
   }
