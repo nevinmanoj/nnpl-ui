@@ -1,9 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../../context/userProvider";
 import { useNavigate, useLocation } from "react-router-dom";
-import Chip from "@mui/material/Chip";
 import "./ListTable.scss";
-import { capsFirst } from "../../utils/formatting/firstcaps";
 import { formatDateString } from "../../utils/formatting/dateFormatting";
 export const ListTable = () => {
   const navigator = useNavigate();
@@ -16,7 +14,7 @@ export const ListTable = () => {
       <div className="doc-table-header">
         <div className="doc-table-cell doc-table-label vm">Sl No</div>
         <div className="doc-table-cell doc-table-label lg">Ref No</div>
-        <div className="doc-table-cell doc-table-label sm">Status</div>
+        {/* <div className="doc-table-cell doc-table-label sm">Status</div> */}
         <div className="doc-table-cell doc-table-label md">Date</div>
         <div className="doc-table-cell doc-table-label lg">Customer</div>
         <div className="doc-table-cell doc-table-label lg">Distributor</div>
@@ -44,14 +42,14 @@ export const ListTable = () => {
                 >
                   <div className="doc-table-cell vm">{i + 1}</div>
                   <div className="doc-table-cell lg">{doc["ref"]}</div>
-                  <div className="doc-table-cell sm">
+                  {/* <div className="doc-table-cell sm">
                     <Chip
                       color={doc["status"] == "draft" ? "primary" : "success"}
                       // color="success"
                       label={capsFirst(doc["status"])}
                       variant="outlined"
                     />
-                  </div>
+                  </div> */}
                   <div className="doc-table-cell md">
                     {formatDateString(doc["date"])}
                   </div>

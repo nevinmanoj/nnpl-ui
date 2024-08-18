@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const prod = "";
+const devPublic = "https://6vc9m5px-3000.inc1.devtunnels.ms";
 const dev = "http://localhost:3000";
 export const server = dev;
 // export const server=prod;
 
-export const runAxios = async (method, data, path, jwtToken) => {
-  const config = {
+export const runAxios = async (method, data, path, jwtToken, config) => {
+  const finalconfig = {
+    ...config,
     method,
     url: server + path,
     headers: {
@@ -14,7 +16,7 @@ export const runAxios = async (method, data, path, jwtToken) => {
     },
     data,
   };
-  const result = await axios(config)
+  const result = await axios(finalconfig)
     .then((response) => {
       return { data: response.data, success: response.status == 200 };
     })

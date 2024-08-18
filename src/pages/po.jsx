@@ -43,6 +43,7 @@ export const Po = () => {
     status,
     discount,
     setDiscount,
+    downloadExcel,
   } = useContext(DocContext);
 
   useEffect(() => {
@@ -57,7 +58,12 @@ export const Po = () => {
   };
   return (
     <div className="po-outer">
-      <DocHeader save={saveNewPo} status={status} />
+      <DocHeader
+        save={saveNewPo}
+        status={status}
+        download={downloadExcel}
+        id={ref}
+      />
       <div className="po-body">
         <DocInfo
           status={status}
@@ -130,6 +136,12 @@ export const Po = () => {
         <div className="divider" />
         <Tc status={status} tc={tc} setTc={setTc} />
       </div>
+      <DocHeader
+        save={saveNewPo}
+        status={status}
+        download={downloadExcel}
+        id={ref}
+      />
     </div>
   );
 };

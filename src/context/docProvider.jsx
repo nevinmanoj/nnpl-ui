@@ -5,9 +5,12 @@ import { pivalidator } from "../utils/validators/piValidator";
 import { povalidator } from "../utils/validators/poValidator";
 import { structValidator } from "../utils/validators/structValidator";
 import { UserContext } from "./userProvider";
-import { runAxios } from "../utils/runAxios";
+import { runAxios, server } from "../utils/runAxios";
 import { MasterContext } from "./masterProvider";
 import { reqCustomerProperties } from "../constants/dataModalProperties";
+
+import axios from "axios";
+import { saveAs } from "file-saver";
 
 export const DocContext = createContext();
 
@@ -27,7 +30,7 @@ export const DocProvider = ({ children }) => {
   const [discount, setDiscount] = useState(0);
   const [products, setProducts] = useState([]);
   const [date, setDate] = useState(null);
-  const [status, setstatus] = useState(null);
+  const [status, setstatus] = useState("draft");
   const [billing, setBilling] = useState(null);
   const [executive, setExecutive] = useState(null);
 
@@ -80,7 +83,7 @@ export const DocProvider = ({ children }) => {
           setCustomer(data["customer"]);
           setDistributor(data["distributor"]);
           setdocId(i);
-          setstatus(data["status"]);
+          // setstatus(data["status"]);
           setExecutive(data["executive"]);
           setTc(data["tc"] != null ? data["tc"] : {});
           setDiscount(data["discount"] && data["discount"].toString());
@@ -92,6 +95,7 @@ export const DocProvider = ({ children }) => {
         });
     } else {
       setdocId(null);
+      setDate(Date.now());
       if (type == "po") {
         setTc({
           payment:
@@ -205,6 +209,34 @@ export const DocProvider = ({ children }) => {
     }
   };
 
+  const downloadExcel = async () => {
+    console.log("hi");
+
+    try {
+      const response = await axios.get(
+        server + "/docs/po/" + docId + "/excel",
+        {
+          responseType: "blob",
+        }
+      );
+      console.log(response.headers);
+
+      const contentDisposition = response.headers["Content-Disposition"];
+      const filename = contentDisposition
+        ? contentDisposition.split("filename=")[1].replace(/"/g, "")
+        : distributor.title.split(" ")[0] + "_" + ref.replace(/\//g, "_");
+      (".xlsx");
+
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      saveAs(blob, filename);
+    } catch (error) {
+      console.error("Error downloading the Excel file:", error);
+    }
+  };
+
   return (
     <DocContext.Provider
       value={{
@@ -239,6 +271,7 @@ export const DocProvider = ({ children }) => {
         status,
         discount,
         setDiscount,
+        downloadExcel,
       }}
     >
       {children}

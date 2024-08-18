@@ -28,7 +28,7 @@ export const Tc = ({ tc, setTc, status }) => {
 
   return (
     <div>
-      <Accordion className="accordian">
+      <Accordion className="accordian" defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className="acc-heading-value"> Terms & Conditions </div>
         </AccordionSummary>
@@ -39,7 +39,7 @@ export const Tc = ({ tc, setTc, status }) => {
                 className="tc-input-key"
                 variant="outlined"
                 size="small"
-                label={"Heading"}
+                label={"Add'l. T & C"}
                 placeholder="Eg:Payment"
                 onChange={(e) => setheading(e.target.value)}
                 value={heading}

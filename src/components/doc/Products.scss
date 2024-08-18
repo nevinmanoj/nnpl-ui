@@ -21,18 +21,9 @@
     color: $item-value-black;
     font-weight:500;
 }
-.table{
-    padding-bottom: 10px;
-    width: 100%;
-    // background-color: red;
-    min-height: 400px;
-    max-height: 710px;
-    width: 95vw;
-    border:1px solid $table-border-grey;
-    border-radius: 5px;
 
-}
 .table-body{
+    
     max-height: 350px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -60,32 +51,32 @@
     // height: 55px;
     justify-content: center;
 }
-.vm{
-    width:3vw;
-    max-width:3vw;
-    // background-color: rgb(55, 222, 216);
-}
-.sm{
-    width:5vw;
-    max-width:5vw;
-    // background-color: rgb(223, 144, 144);
-}
-.md{
-    width:9vw;
-    max-width:9vw;
+// .vm{
+//     width:3vw;
+//     max-width:3vw;
+//     // background-color: rgb(55, 222, 216);
+// }
+// .sm{
+//     width:5vw;
+//     max-width:5vw;
+//     // background-color: rgb(223, 144, 144);
+// }
+// .md{
+//     width:9vw;
+//     max-width:9vw;
     
-    // background-color: rgb(249, 98, 214);
-}
-.lg{
-    width:20vw;
-    max-width:20vw;
-    // background-color: rgb(12, 200, 93);
-}
-.xl{
-    width:35vw;
-    max-width:35vw;
-    // background-color: rgb(86, 136, 228);
-}
+//     // background-color: rgb(249, 98, 214);
+// }
+// .lg{
+//     width:20vw;
+//     max-width:20vw;
+//     // background-color: rgb(12, 200, 93);
+// }
+// .xl{
+//     width:35vw;
+//     max-width:35vw;
+//     // background-color: rgb(86, 136, 228);
+// }
 .table-cell{
     padding: 4px 10px;
     overflow: clip;
@@ -96,12 +87,12 @@
     font-weight: 600;
 }
 .table-hdivider{
-    width: 95vw;
+    width: 100%;
     height: 1px;
     background-color: $border-grey;
 }
 .table-main-hdivider{
-    width: 95vw;
+    width: 100%;
     height: 1px;
     background-color: $table-border-grey;
 }
@@ -125,5 +116,17 @@
     align-items: center;
     padding: 10px 0;
     justify-content: center;
+
+}
+.table{
+    overflow-y: scrollauto;
+    padding-bottom: 10px;
+    max-width: 100%;
+    // background-color: red;
+    min-height: 400px;
+    max-height: 710px;
+    width: 95vw;
+    border:1px solid $table-border-grey;
+    border-radius: 5px;
 
 }

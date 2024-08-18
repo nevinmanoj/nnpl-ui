@@ -36,7 +36,7 @@ export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
       style={{ display: "flex", alignItems: "center" }}
     >
       <div className="ledger-block">
-        <div className="ledger-label">Ledger Account</div>
+        <div className="ledger-label">GST Precentage</div>
         <Autocomplete
           disabled={status != "draft"}
           clearOnEscape={false}
@@ -54,7 +54,7 @@ export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
                 sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
                 {...params}
                 variant="outlined"
-                placeholder="Select Ledger Account"
+                placeholder="Select GST Precentage"
                 size="small"
               />
             </div>

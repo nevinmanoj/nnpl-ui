@@ -39,6 +39,8 @@ export const Products = ({
   const [index, setIndex] = useState(0);
   const open = Boolean(anchorEl);
   const errorActive = errors.products.value;
+  const formatter = new Intl.NumberFormat("en-IN");
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -72,6 +74,11 @@ export const Products = ({
     });
 
     return st;
+  };
+
+  const calcSubTotalWithTax = () => {
+    const st = calcSubTotal();
+    return (st + safeMultiply(st, tax) / 100).toFixed(2);
   };
 
   const calcTotal = () => {
@@ -146,6 +153,7 @@ export const Products = ({
                           options={productOptions}
                           renderInput={(params) => (
                             <TextField
+                              multiline
                               error={
                                 errorActive &&
                                 (product["product"] == null ||
@@ -175,7 +183,17 @@ export const Products = ({
                           value={product["productDesc"]}
                         />
                       </div>
-                      <div className="table-cell md">{product["partCode"]}</div>
+                      <div className="table-cell md">
+                        <TextField
+                          disabled={status != "draft"}
+                          onChange={(e) => {
+                            modifyProduct(i, { partCode: e.target.value });
+                          }}
+                          variant="outlined"
+                          size="small"
+                          value={product["partCode"]}
+                        />
+                      </div>
                       <div className="table-cell sm">
                         <TextField
                           disabled={status != "draft"}
@@ -204,7 +222,9 @@ export const Products = ({
                         />
                       </div>
                       <div align="right" className="table-cell md">
-                        {safeMultiply(product["qty"], product["ratePerUnit"])}
+                        {formatter.format(
+                          safeMultiply(product["qty"], product["ratePerUnit"])
+                        )}
                       </div>
                       <div className="table-cell vm">
                         {status == "draft" && (
@@ -293,25 +313,15 @@ export const Products = ({
             <div className="table-footer">
               <div className="table-cell table-label md">Subtotal</div>
               <div className="table-cell md" align="right">
-                {calcSubTotal() + " ₹"}
+                {formatter.format(calcSubTotal())}
               </div>
             </div>
             <div className="table-footer">
-              <div className="table-cell table-label md">Tax</div>
+              <div className="table-cell table-label md">
+                Tax @ {tax + " %"}
+              </div>
               <div className="table-cell md" align="right">
-                {tax + " %"}
-                {/* <TextField
-                  disabled
-                  error={errorActive && !isValidNumber(tax)}
-                  value={tax}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="start">%</InputAdornment>
-                    ),
-                  }}
-                  variant="outlined"
-                  size="small"
-                /> */}
+                {formatter.format(calcSubTotalWithTax())}
               </div>
             </div>
             <div className="table-footer">
@@ -360,7 +370,7 @@ export const Products = ({
             <div className="table-footer">
               <div className="table-cell table-label md">Total</div>
               <div className="table-cell md" align="right">
-                {calcTotal() + " ₹"}
+                {formatter.format(calcTotal())}
               </div>
 
               {/* <div className="table-cell vm" /> */}
