@@ -11,12 +11,15 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { topBarOptions } from "../../constants/topBarOptions";
+import { useContext } from "react";
+import { UserContext } from "../../context/userProvider";
+import { LoginModal } from "./login/loginModal";
 
 export const Topbar = () => {
   const navigator = useNavigate();
   const location = useLocation();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const jwtToken = "null";
+  const { token, logout, clearFilter } = useContext(UserContext);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -26,7 +29,7 @@ export const Topbar = () => {
   };
   const handleLogout = () => {
     setAnchorElUser(null);
-    // logout();
+    logout();
   };
 
   return (
@@ -49,9 +52,8 @@ export const Topbar = () => {
           className="topbar-button"
           variant="text"
           onClick={() => {
-            if (location.pathname != v.path) {
-              navigator(v.path);
-            }
+            navigator(v.path);
+            clearFilter();
           }}
         >
           {v.value}
@@ -59,29 +61,33 @@ export const Topbar = () => {
       ))}
 
       <div className="topbar-profile">
-        {jwtToken == null ? (
+        {token === null ? (
           <div>
-            <Button variant="text">Login</Button>
+            {/* <Button variant="text">Login</Button> */}
+            <LoginModal />
           </div>
         ) : (
           <>
-            <Typography
+            {/* <Typography
               sx={{ color: "white", marginRight: "20px" }}
               variant="h6"
               noWrap
             >
               Nevin Manoj
-            </Typography>
+            </Typography> */}
             <IconButton
               onClick={handleOpenUserMenu}
-              sx={{
-                backgroundColor: "beige",
-              }}
+              sx={
+                {
+                  // backgroundColor: "beige",
+                }
+              }
             >
               <PersonIcon
                 sx={{
-                  height: "35px",
-                  width: "35px",
+                  height: "45px",
+                  width: "45px",
+                  backgroundColor: "beige",
                   borderRadius: "40px",
                 }}
               />

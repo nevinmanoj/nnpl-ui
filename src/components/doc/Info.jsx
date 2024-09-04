@@ -16,6 +16,7 @@ export const DocInfo = ({
   editableNo,
   onNoChange,
   status,
+  setErrors,
 }) => {
   return (
     <div className="doc-info-outer">
@@ -41,8 +42,10 @@ export const DocInfo = ({
             label="Date"
             value={dayjs(date)}
             onChange={(newValue) => {
-              console.log(newValue);
               setDate(newValue);
+              if (errors.date.value) {
+                setErrors({ ...errors, date: { value: false, msg: "" } });
+              }
             }}
           />
         </LocalizationProvider>

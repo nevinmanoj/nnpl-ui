@@ -8,8 +8,14 @@ import { MasterContext } from "../../context/masterProvider";
 import "./distributor.scss";
 import "./customAccordians.scss";
 
-export const Distributor = ({ setDistributor, distributor, status }) => {
-  const { distributorOptions, getOptionDetails } = useContext(MasterContext);
+export const Distributor = ({
+  setDistributor,
+  distributor,
+  status,
+  errors,
+  setErrors,
+}) => {
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   var selectedOption = null;
   if (distributor != null) {
@@ -27,6 +33,9 @@ export const Distributor = ({ setDistributor, distributor, status }) => {
 
     if (res != null) {
       setDistributor(res);
+      if (errors.distributor.value) {
+        setErrors({ ...errors, distributor: { value: false, msg: "" } });
+      }
     }
   };
 
@@ -41,7 +50,7 @@ export const Distributor = ({ setDistributor, distributor, status }) => {
           }}
           value={selectedOption}
           onChange={handleChange}
-          options={distributorOptions}
+          options={getOptionValues("distributor")}
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField

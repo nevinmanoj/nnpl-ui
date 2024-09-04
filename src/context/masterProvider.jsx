@@ -5,6 +5,14 @@ import { UserContext } from "./userProvider";
 export const MasterContext = createContext();
 
 export const MasterProvider = ({ children }) => {
+  const masters = [
+    "distributor",
+    "neural",
+    "customer",
+    "products",
+    "ledger",
+    "executive",
+  ];
   const { token } = useContext(UserContext);
   const [distributorOptions, setDistributorOptions] = useState([]);
   const [neuralOptions, setneuralOptions] = useState([]);
@@ -12,24 +20,50 @@ export const MasterProvider = ({ children }) => {
   const [productOptions, setProductOptions] = useState([]);
   const [ledgerOptions, setLedgerOptions] = useState([]);
   const [executiveOptions, setexecutiveOptions] = useState([]);
-
+  const getOptionValues = (item) => {
+    switch (item) {
+      case "distributor":
+        return distributorOptions;
+      case "neural":
+        return neuralOptions;
+      case "customer":
+        return customerOptions;
+      case "products":
+        return productOptions;
+      case "ledger":
+        return ledgerOptions;
+      case "executive":
+        return executiveOptions;
+    }
+  };
+  const getOptionSetter = (item) => {
+    switch (item) {
+      case "distributor":
+        return setDistributorOptions;
+      case "neural":
+        return setneuralOptions;
+      case "customer":
+        return setCustomerOptions;
+      case "products":
+        return setProductOptions;
+      case "ledger":
+        return setLedgerOptions;
+      case "executive":
+        return setexecutiveOptions;
+    }
+  };
   useEffect(() => {
     getAlloptions();
-  }, []);
+  }, [token]);
 
   const getAlloptions = async () => {
-    var data = await getOptions("distributor");
-    setDistributorOptions(data);
-    data = await getOptions("neural");
-    setneuralOptions(data);
-    data = await getOptions("customer");
-    setCustomerOptions(data);
-    data = await getOptions("products");
-    setProductOptions(data);
-    data = await getOptions("ledger");
-    setLedgerOptions(data);
-    data = await getOptions("executive");
-    setexecutiveOptions(data);
+    if (token != null) {
+      masters.map(async (v, i) => {
+        var data = await getOptions(v);
+        var setter = getOptionSetter(v);
+        setter(data);
+      });
+    }
   };
   const getOptions = async (item) => {
     return await runAxios("get", {}, "/master/" + item, token)
@@ -50,7 +84,7 @@ export const MasterProvider = ({ children }) => {
       })
       .catch((error) => {
         console.error(" Error:", error);
-        return null;
+        return [];
       });
   };
   const addItemToMaster = async (item, data) => {
@@ -72,12 +106,8 @@ export const MasterProvider = ({ children }) => {
   return (
     <MasterContext.Provider
       value={{
-        distributorOptions,
-        neuralOptions,
-        customerOptions,
-        productOptions,
-        ledgerOptions,
-        executiveOptions,
+        getOptionValues,
+        getOptionSetter,
         getOptionDetails,
         addItemToMaster,
       }}

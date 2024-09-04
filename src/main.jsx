@@ -12,16 +12,16 @@ import { DocProvider } from "./context/docProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserProvider>
-      <MasterProvider>
-        <DocProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <UserProvider>
+        <MasterProvider>
+          <DocProvider>
             <ThemeProvider theme={theme}>
               <AppRoutes />
             </ThemeProvider>
-          </BrowserRouter>
-        </DocProvider>
-      </MasterProvider>
-    </UserProvider>
+          </DocProvider>
+        </MasterProvider>
+      </UserProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

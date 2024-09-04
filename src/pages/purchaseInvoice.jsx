@@ -10,6 +10,7 @@ import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Products } from "../components/doc/Products";
 import { Customer } from "../components/doc/Customer";
 import { DocContext } from "../context/docProvider";
+import { UserContext } from "../context/userProvider";
 export const PurchaseInvoice = () => {
   const navigator = useNavigate();
   const { id } = useParams();
@@ -39,7 +40,7 @@ export const PurchaseInvoice = () => {
     discount,
     setDiscount,
   } = useContext(DocContext);
-
+  const { token } = useContext(UserContext);
   const saveNewPi = async () => {
     const newId = await saveDoc();
     if (id == "new" && newId != null) {
@@ -49,7 +50,7 @@ export const PurchaseInvoice = () => {
 
   useEffect(() => {
     setDoc({ i: id, type: "purchase-invoice" });
-  }, [id]);
+  }, [id, token]);
   return (
     <div className="po-outer">
       <DocHeader save={saveNewPi} status={status} />

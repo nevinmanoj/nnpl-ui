@@ -4,18 +4,21 @@ import { ListTable } from "../components/docList/ListTable";
 import { ListSearch } from "../components/docList/ListSeatch";
 import "./DocList.scss";
 import { DocFilter } from "../components/docList/filters";
-
+import { useNavigate, useLocation } from "react-router-dom";
 export const DocList = ({ item }) => {
-  const { fetchAndSetdocList } = useContext(UserContext);
+  const { fetchAndSetdocList, token } = useContext(UserContext);
+  const navigator = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     fetchAndSetdocList(item);
-  }, [item]);
+  }, [item, token, location]);
 
   return (
     <div className="doclist-outer">
-      <ListSearch />
-      <div style={{ display: "flex" }}>
-        <DocFilter />
+      <DocFilter />
+      <div>
+        <ListSearch />
         <ListTable />
       </div>
     </div>

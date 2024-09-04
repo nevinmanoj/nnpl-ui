@@ -13,6 +13,7 @@ import { Distributor } from "../components/doc/distributor";
 
 import "./po.scss";
 import { DocContext } from "../context/docProvider";
+import { UserContext } from "../context/userProvider";
 
 export const Po = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ export const Po = () => {
     billing,
     customer,
     saveDoc,
+    setErrors,
     date,
     setDate,
     setDistributor,
@@ -45,10 +47,10 @@ export const Po = () => {
     setDiscount,
     downloadExcel,
   } = useContext(DocContext);
-
+  const { token } = useContext(UserContext);
   useEffect(() => {
     setDoc({ i: id, type: "po" });
-  }, [id]);
+  }, [id, token]);
 
   const saveNewPo = async () => {
     const newId = await saveDoc();
@@ -70,6 +72,7 @@ export const Po = () => {
           onNoChange={(e) => {}}
           editableNo={false}
           errors={errors}
+          setErrors={setErrors}
           title="Purchase Order No."
           value={ref}
           date={date}
@@ -85,6 +88,8 @@ export const Po = () => {
               status={status}
               distributor={distributor}
               setDistributor={setDistributor}
+              errors={errors}
+              setErrors={setErrors}
             />
           }
         />
@@ -94,7 +99,13 @@ export const Po = () => {
           value={billing}
           label="Billing"
           children={
-            <Neural status={status} billing={billing} setBilling={setBilling} />
+            <Neural
+              status={status}
+              billing={billing}
+              setBilling={setBilling}
+              errors={errors}
+              setErrors={setErrors}
+            />
           }
         />
         <div className="divider" />
@@ -103,6 +114,7 @@ export const Po = () => {
           errors={errors}
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
+          setErrors={setErrors}
         />
         <div className="divider" />
         {/* <PoProducts status={status} /> */}
@@ -130,6 +142,7 @@ export const Po = () => {
               setCustomer={setCustomer}
               setIsNew={setIsNew}
               errors={errors}
+              setErrors={setErrors}
             />
           }
         />

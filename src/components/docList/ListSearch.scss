@@ -1,3 +1,28 @@
-.listsearch-outer{
-    height: 80px;
+@import '../../constants/colors.scss';
+
+.listsearch-outer {
+    width: calc(80vw - 30px);
+    background-color: $doc-body-white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    // justify-content: center;
+    position: relative;
+    // border: 1px solid rgb(209, 209, 209);
+    margin: 10px 0;
+    box-shadow: 0px 1px 5px $doc-shadow-black;
+    border-radius: 5px;
 }
+
+.listsearch-field {
+    width: 40vw;
+    margin: 0 10px;
+}
+
+.listsearch-new-btn {
+    position: absolute;
+    right: 10px;
+
+}
+
+.listsearch-search-btn {}

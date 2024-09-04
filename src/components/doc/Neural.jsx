@@ -8,8 +8,8 @@ import { MasterContext } from "../../context/masterProvider";
 import "./neural.scss";
 import "./customAccordians.scss";
 
-export const Neural = ({ setBilling, billing, status }) => {
-  const { neuralOptions, getOptionDetails } = useContext(MasterContext);
+export const Neural = ({ setBilling, billing, status, errors, setErrors }) => {
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   var selectedOption = null;
   if (billing != null) {
@@ -27,6 +27,9 @@ export const Neural = ({ setBilling, billing, status }) => {
 
     if (res != null) {
       setBilling(res);
+      if (errors.billing.value) {
+        setErrors({ ...errors, billing: { value: false, msg: "" } });
+      }
     }
   };
 
@@ -41,7 +44,7 @@ export const Neural = ({ setBilling, billing, status }) => {
           }}
           value={selectedOption}
           onChange={handleChange}
-          options={neuralOptions}
+          options={getOptionValues("neural")}
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField

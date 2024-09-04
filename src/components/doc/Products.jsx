@@ -33,7 +33,7 @@ export const Products = ({
   if (ledgerAccount != null) {
     tax = ledgerAccount.tax;
   }
-  const { productOptions, getOptionDetails } = useContext(MasterContext);
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [index, setIndex] = useState(0);
@@ -150,7 +150,7 @@ export const Products = ({
                           onChange={(e, v) => {
                             handleChange(e, v, i);
                           }}
-                          options={productOptions}
+                          options={getOptionValues("products")}
                           renderInput={(params) => (
                             <TextField
                               multiline

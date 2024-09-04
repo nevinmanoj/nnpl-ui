@@ -10,6 +10,7 @@ import { LedgerAccount } from "../components/doc/ledgerAccount";
 import { Products } from "../components/doc/Products";
 import { Executive } from "../components/doc/Executive";
 import { DocContext } from "../context/docProvider";
+import { UserContext } from "../context/userProvider";
 
 export const SalesInvoice = () => {
   const navigator = useNavigate();
@@ -41,10 +42,10 @@ export const SalesInvoice = () => {
     discount,
     setDiscount,
   } = useContext(DocContext);
-
+  const { token } = useContext(UserContext);
   useEffect(() => {
     setDoc({ i: id, type: "sales-invoice" });
-  }, [id]);
+  }, [id, token]);
   const saveNew = async () => {
     const newId = await saveDoc();
     if (id == "new" && newId != null) {

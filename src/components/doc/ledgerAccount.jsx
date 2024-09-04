@@ -7,8 +7,14 @@ import { ErrorMessage } from "./errorMessage";
 
 import "./ledgerAccount.scss";
 
-export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
-  const { ledgerOptions, getOptionDetails } = useContext(MasterContext);
+export const LedgerAccount = ({
+  ledger,
+  setLedger,
+  errors,
+  status,
+  setErrors,
+}) => {
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.ledgerAccount.value;
 
@@ -27,6 +33,9 @@ export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
     const res = await getOptionDetails("ledger", newValue.value);
     if (res != null) {
       setLedger(res);
+      if (errors.ledgerAccount.value) {
+        setErrors({ ...errors, ledgerAccount: { value: false, msg: "" } });
+      }
     }
   };
 
@@ -46,7 +55,7 @@ export const LedgerAccount = ({ ledger, setLedger, errors, status }) => {
           }}
           value={selectedOption}
           onChange={handleChange}
-          options={ledgerOptions}
+          options={getOptionValues("ledger")}
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField

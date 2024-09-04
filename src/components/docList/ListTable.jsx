@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { UserContext } from "../../context/userProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./ListTable.scss";
-import { formatDateString } from "../../utils/formatting/dateFormatting";
+import { ddmmmyyyy } from "../../utils/formatting/dateFormatting";
 export const ListTable = () => {
   const navigator = useNavigate();
   const location = useLocation();
@@ -51,7 +51,7 @@ export const ListTable = () => {
                     />
                   </div> */}
                   <div className="doc-table-cell md">
-                    {formatDateString(doc["date"])}
+                    {ddmmmyyyy(doc["date"])}
                   </div>
                   <div className="doc-table-cell lg">{customer}</div>
                   <div className="doc-table-cell lg">{distributor}</div>

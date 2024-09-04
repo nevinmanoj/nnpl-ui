@@ -43,7 +43,7 @@ export const Tc = ({ tc, setTc, status }) => {
                 placeholder="Eg:Payment"
                 onChange={(e) => setheading(e.target.value)}
                 value={heading}
-                error={isErr}
+                error={heading === "" && isErr}
               />
               <TextField
                 className="tc-input-value"
@@ -51,6 +51,7 @@ export const Tc = ({ tc, setTc, status }) => {
                 size="small"
                 label="Value"
                 value={value}
+                error={value === "" && isErr}
                 onChange={(e) => setvalue(e.target.value)}
                 placeholder="Eg: paid within 60 days from the date of billing"
               />
@@ -58,7 +59,7 @@ export const Tc = ({ tc, setTc, status }) => {
                 variant="outlined"
                 className="save-button"
                 onClick={() => {
-                  if (heading === "") {
+                  if (heading === "" || value === "") {
                     setisErr(true);
                   } else {
                     handleTcChange(value, heading);

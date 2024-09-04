@@ -17,9 +17,10 @@ export const Customer = ({
   isNew,
   setIsNew,
   errors,
+  setErrors,
   status,
 }) => {
-  const { customerOptions, getOptionDetails } = useContext(MasterContext);
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.customer.value;
   var selectedOption = null;
@@ -50,6 +51,9 @@ export const Customer = ({
     if (res != null) {
       setCustomer(res);
       setIsNew(false);
+      if (errors.customer.value) {
+        setErrors({ ...errors, customer: { value: false, msg: "" } });
+      }
     }
   };
 
@@ -86,7 +90,7 @@ export const Customer = ({
             }}
             value={selectedOption}
             onChange={handleChange}
-            options={customerOptions}
+            options={getOptionValues("customer")}
             renderInput={(params) => (
               <div className="option-textbox">
                 <TextField

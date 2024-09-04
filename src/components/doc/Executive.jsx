@@ -8,7 +8,7 @@ import { ErrorMessage } from "./errorMessage";
 import "./ledgerAccount.scss";
 
 export const Executive = ({ executive, setExecutive, errors, status }) => {
-  const { executiveOptions, getOptionDetails } = useContext(MasterContext);
+  const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.executive.value;
 
@@ -45,7 +45,7 @@ export const Executive = ({ executive, setExecutive, errors, status }) => {
           }}
           value={selectedOption}
           onChange={handleChange}
-          options={executiveOptions}
+          options={getOptionValues("executive")}
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField

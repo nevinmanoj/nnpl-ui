@@ -210,16 +210,17 @@ export const DocProvider = ({ children }) => {
   };
 
   const downloadExcel = async () => {
-    console.log("hi");
-
     try {
-      const response = await axios.get(
-        server + "/docs/po/" + docId + "/excel",
+      const response = await runAxios(
+        "get",
+        {},
+        "/docs/po/" + docId + "/excel",
+        token,
         {
           responseType: "blob",
         }
       );
-      console.log(response.headers);
+      console.log(response);
 
       const contentDisposition = response.headers["Content-Disposition"];
       const filename = contentDisposition

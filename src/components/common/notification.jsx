@@ -1,5 +1,7 @@
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
+import Grow from "@mui/material/Grow";
+import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useContext } from "react";
@@ -14,20 +16,27 @@ export const NotficationToast = () => {
   };
 
   return (
-    <Box sx={{ width: 600 }}>
+    <Box sx={{ width: 80 }}>
       <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
         onClose={handleClose}
         message={message}
-        TransitionComponent={Fade.name}
+        TransitionComponent={Slide}
         key={message}
+        // autoHideDuration={5000}
       >
         <Alert
+          sx={{
+            width: "300px",
+            height: "45px",
+            display: "flex",
+            alignItems: "center",
+            fontSize: " 1.1em",
+          }}
           onClose={handleClose}
           severity={severity}
           variant="filled"
-          sx={{ width: "100%" }}
         >
           {message}
         </Alert>
