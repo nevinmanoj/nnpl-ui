@@ -23,6 +23,8 @@ export const UserProvider = ({ children }) => {
   //notifcations
   const [message, setMessage] = useState(null);
   const [severity, setSeverity] = useState(null);
+  //loading
+  const [loading, setloading] = useState(false);
 
   const login = async (key) => {
     //run code to verify key
@@ -65,6 +67,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const fetchAndSetdocList = async (item) => {
+    setloading(true);
     const formattedPage = page + 1;
     if (token != null) {
       const result = await runAxios(
@@ -89,6 +92,7 @@ export const UserProvider = ({ children }) => {
         showNotification(`Error while fetching ${item}s`, "error");
       }
     }
+    setloading(false);
   };
   const showNotification = (msg, sev) => {
     setMessage(msg);
@@ -125,6 +129,7 @@ export const UserProvider = ({ children }) => {
         totalDocs,
         limit,
         setlimit,
+        loading,
       }}
     >
       {children}

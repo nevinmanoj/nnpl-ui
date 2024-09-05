@@ -14,6 +14,7 @@ import { Distributor } from "../components/doc/distributor";
 import "./po.scss";
 import { DocContext } from "../context/docProvider";
 import { UserContext } from "../context/userProvider";
+import { DocLoading } from "../components/doc/docLoading";
 
 export const Po = () => {
   const { id } = useParams();
@@ -46,6 +47,9 @@ export const Po = () => {
     discount,
     setDiscount,
     downloadExcel,
+    saving,
+    downloading,
+    loading,
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   useEffect(() => {
@@ -58,13 +62,17 @@ export const Po = () => {
       navigator("/po/" + newId);
     }
   };
-  return (
+  return loading ? (
+    <DocLoading />
+  ) : (
     <div className="po-outer">
       <DocHeader
         save={saveNewPo}
         status={status}
         download={downloadExcel}
         id={ref}
+        saving={saving}
+        downloading={downloading}
       />
       <div className="po-body">
         <DocInfo

@@ -5,7 +5,7 @@ import { pivalidator } from "../utils/validators/piValidator";
 import { povalidator } from "../utils/validators/poValidator";
 import { structValidator } from "../utils/validators/structValidator";
 import { UserContext } from "./userProvider";
-import { runAxios, server } from "../utils/runAxios";
+import { runAxios } from "../utils/runAxios";
 import { MasterContext } from "./masterProvider";
 import { reqCustomerProperties } from "../constants/dataModalProperties";
 
@@ -69,7 +69,13 @@ export const DocProvider = ({ children }) => {
     },
   });
 
-  const setDoc = ({ i, type }) => {
+  //loading
+  const [loading, setloading] = useState(false);
+  const [saving, setsaving] = useState(false);
+  const [downloading, setdownloading] = useState(false);
+
+  const setDoc = async ({ i, type }) => {
+    setloading(true);
     setItem(type);
     setErrors({
       date: {
@@ -102,7 +108,7 @@ export const DocProvider = ({ children }) => {
       },
     });
     if (i != null && i != "new") {
-      runAxios("get", {}, "/docs/" + type + "/" + i, token)
+      await runAxios("get", {}, "/docs/" + type + "/" + i, token)
         .then((res) => res.data.data)
         .then((data) => {
           setref(data["ref"]);
@@ -137,9 +143,11 @@ export const DocProvider = ({ children }) => {
         });
       }
     }
+    setloading(false);
   };
 
   const saveDoc = async () => {
+    setsaving(true);
     var _customer = customer;
     if (isNew) {
       var isValidCustomer = structValidator(_customer, reqCustomerProperties);
@@ -151,6 +159,7 @@ export const DocProvider = ({ children }) => {
             msg: "No fields can be empty",
           },
         });
+        setsaving(false);
         return;
       }
 
@@ -160,6 +169,7 @@ export const DocProvider = ({ children }) => {
         setIsNew(false);
         _customer = res.data.data;
       } else {
+        setsaving(false);
         return;
       }
     }
@@ -195,6 +205,8 @@ export const DocProvider = ({ children }) => {
 
     setErrors(dataErr.errors);
     if (dataErr.fail) {
+      setsaving(false);
+
       return;
     }
 
@@ -232,14 +244,17 @@ export const DocProvider = ({ children }) => {
       if (result.success) {
         setdocId(result.data.data._id);
         showNotification("Save Success", "success");
+        setsaving(false);
         return result.data.data._id;
       } else {
         showNotification("Error while saving", "error");
       }
     }
+    setsaving(false);
   };
 
   const downloadExcel = async () => {
+    setdownloading(true);
     try {
       const response = await runAxios(
         "get",
@@ -250,7 +265,6 @@ export const DocProvider = ({ children }) => {
           responseType: "blob",
         }
       );
-      console.log(response);
 
       const contentDisposition = response.headers["Content-Disposition"];
       const filename = contentDisposition
@@ -266,6 +280,7 @@ export const DocProvider = ({ children }) => {
     } catch (error) {
       console.error("Error downloading the Excel file:", error);
     }
+    // setdownloading(false);
   };
 
   return (
@@ -303,6 +318,9 @@ export const DocProvider = ({ children }) => {
         discount,
         setDiscount,
         downloadExcel,
+        loading,
+        saving,
+        downloading,
       }}
     >
       {children}

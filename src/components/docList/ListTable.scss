@@ -110,3 +110,17 @@
 .endcol {
     margin-right: 15px
 }
+
+.docs-loading {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
+    // overflow-x: auto;
+
+}
+
+.docs-loader {
+    flex: 0 0 auto;
+    // margin-right: 10px;
+
+}

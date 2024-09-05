@@ -17,6 +17,9 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.5
     version: 11.11.5(@emotion/react@11.11.4)(@types/react@18.3.3)(react@18.3.1)
+  '@lottiefiles/dotlottie-react':
+    specifier: ^0.8.11
+    version: 0.8.11(react-dom@18.3.1)(react@18.3.1)
   '@mui/icons-material':
     specifier: ^5.15.14
     version: 5.15.20(@mui/material@5.15.20)(@types/react@18.3.3)(react@18.3.1)
@@ -780,6 +783,21 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /@lottiefiles/dotlottie-react@0.8.11(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-hFMcxT6GANmG7uzoaNubxp7HYL9FzNRuZb2eaf6TpOXO8WfotxYfNW8RLMpXx9mMNDxzNK9XwIq+gfIx3OuHPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.32.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@lottiefiles/dotlottie-web@0.32.0:
+    resolution: {integrity: sha512-uzVg66pQWVf3vUF8r0O14FBMH3RvrxltLtdngNqpD3komjsC22zDsIPug/C+GuudD5tGhj3SFrPqelV1fW6kJQ==}
+    dev: false
 
   /@mui/base@5.0.0-beta.40(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-I/lGHztkCzvwlXpjD2+SNmvNQvB4227xBXhISPjEaJUXGImOQ9f3D2Yj/T3KasSI/h0MLWy74X0J6clhPmsRbQ==}
