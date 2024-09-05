@@ -11,6 +11,7 @@ import { Products } from "../components/doc/Products";
 import { Executive } from "../components/doc/Executive";
 import { DocContext } from "../context/docProvider";
 import { UserContext } from "../context/userProvider";
+import { DocLoading } from "../components/doc/docLoading";
 
 export const SalesInvoice = () => {
   const navigator = useNavigate();
@@ -41,6 +42,7 @@ export const SalesInvoice = () => {
     status,
     discount,
     setDiscount,
+    loading,
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   useEffect(() => {
@@ -52,7 +54,9 @@ export const SalesInvoice = () => {
       navigator("/sales-invoice/" + newId);
     }
   };
-  return (
+  return loading ? (
+    <DocLoading />
+  ) : (
     <div className="po-outer">
       <DocHeader save={saveNew} status={status} />
       <div className="po-body">

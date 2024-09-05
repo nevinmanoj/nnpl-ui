@@ -11,6 +11,7 @@ import { Products } from "../components/doc/Products";
 import { Customer } from "../components/doc/Customer";
 import { DocContext } from "../context/docProvider";
 import { UserContext } from "../context/userProvider";
+import { DocLoading } from "../components/doc/docLoading";
 export const PurchaseInvoice = () => {
   const navigator = useNavigate();
   const { id } = useParams();
@@ -39,6 +40,7 @@ export const PurchaseInvoice = () => {
     status,
     discount,
     setDiscount,
+    loading,
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   const saveNewPi = async () => {
@@ -51,7 +53,9 @@ export const PurchaseInvoice = () => {
   useEffect(() => {
     setDoc({ i: id, type: "purchase-invoice" });
   }, [id, token]);
-  return (
+  return loading ? (
+    <DocLoading />
+  ) : (
     <div className="po-outer">
       <DocHeader save={saveNewPi} status={status} />
       <div className="po-body">
