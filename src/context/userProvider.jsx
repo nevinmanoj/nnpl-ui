@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { runAxios } from "../utils/runAxios";
 export const UserContext = createContext();
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,6 +13,11 @@ export const UserProvider = ({ children }) => {
 
   //sales invoices, purchase orders, purchase invoices
   const [docList, setdocList] = useState([]);
+  const [page, setpage] = useState(0);
+  const [limit, setlimit] = useState(25);
+  const [totalDocs, settotalDocs] = useState(0);
+  const [totalPages, settotalPages] = useState(0);
+
   const [filter, setFilter] = useState({});
 
   //notifcations
@@ -50,20 +55,36 @@ export const UserProvider = ({ children }) => {
     navigator(location.pathname + str);
   };
   const clearFilter = () => {
+    setpage(0);
+    setlimit(25);
     setFilter({});
   };
 
+  const getPaginationSeparator = (search) => {
+    return search == "" ? `?` : "&";
+  };
+
   const fetchAndSetdocList = async (item) => {
+    const formattedPage = page + 1;
     if (token != null) {
       const result = await runAxios(
         "get",
         {},
-        "/docs/" + item + location.search,
+        "/docs/" +
+          item +
+          location.search +
+          getPaginationSeparator(location.search) +
+          "limit=" +
+          limit +
+          "&page=" +
+          formattedPage,
         token
       );
       if (result.success) {
         // setdocList(Array.from({ length: 30 }, () => result.data.data[0]));
         setdocList(result.data.data);
+        settotalDocs(result.data.totalDocs);
+        settotalPages(result.data.totalPages);
       } else {
         showNotification(`Error while fetching ${item}s`, "error");
       }
@@ -96,6 +117,14 @@ export const UserProvider = ({ children }) => {
         setFilter,
         modifyFilter,
         clearFilter,
+        setdocList,
+        totalDocs,
+        totalPages,
+        page,
+        setpage,
+        totalDocs,
+        limit,
+        setlimit,
       }}
     >
       {children}

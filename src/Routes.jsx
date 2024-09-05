@@ -8,26 +8,36 @@ import { SalesInvoice } from "./pages/salesInvoice";
 import { PurchaseInvoice } from "./pages/purchaseInvoice";
 import { DocList } from "./pages/DocList";
 import { Topbar } from "./components/common/topbar";
+
+import { docOptions } from "./constants/docOptions";
 export const AppRoutes = () => {
   return (
     <div style={{ fontFamily: "sans-serif" }}>
       <Topbar />
       <NotficationToast />
       <Routes>
+        {docOptions.map((v, i) => (
+          <>
+            <Route path={"/" + v.path} element={<DocList item={v.path} />} />
+            <Route
+              path={"/" + v.path + "/:id"}
+              element={getDocDetailPage(v.path)}
+            />
+          </>
+        ))}
         <Route path="/" element={<Home />} />
-        <Route path="/po" element={<DocList item={"po"} />} />
-        <Route
-          path="/sales-invoice"
-          element={<DocList item={"sales-invoice"} />}
-        />
-        <Route
-          path="/purchase-invoice"
-          element={<DocList item={"purchase-invoice"} />}
-        />
-        <Route path="/po/:id" element={<Po />} />
-        <Route path="/sales-invoice/:id" element={<SalesInvoice />} />
-        <Route path="/purchase-invoice/:id" element={<PurchaseInvoice />} />
       </Routes>
     </div>
   );
+};
+
+const getDocDetailPage = (item) => {
+  switch (item) {
+    case "po":
+      return <Po />;
+    case "sales-invoice":
+      return <SalesInvoice />;
+    case "purchase-invoice":
+      return <PurchaseInvoice />;
+  }
 };

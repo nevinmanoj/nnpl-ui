@@ -4,7 +4,7 @@
     background-color: $doc-body-white;
     position: absolute;
     right: 10px;
-    height: calc(100vh - 155px);
+    // height: calc(100vh - 155px);
     width: calc(80vw - 30px);
     border-radius: 8px;
     box-shadow: 0px 4px 10px $doc-shadow-black;
@@ -13,7 +13,7 @@
 .doc-table-body {
 
     overflow-y: scroll;
-    // height: calc(100vh - 185px);
+    max-height: calc(100vh - 210px);
     overflow-x: hidden;
 
     &::-webkit-scrollbar-thumb {
@@ -22,8 +22,16 @@
     }
 }
 
+.docs-pagination {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color: red;
+}
+
 .doc-table-body::-webkit-scrollbar {
-    width: 15px;
+    width: 10px;
 }
 
 

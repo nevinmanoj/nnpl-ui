@@ -1,12 +1,24 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/userProvider";
+import { Pagination, TablePagination } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./ListTable.scss";
 import { ddmmmyyyy } from "../../utils/formatting/dateFormatting";
+
 export const ListTable = () => {
   const navigator = useNavigate();
   const location = useLocation();
-  const { docList } = useContext(UserContext);
+  const { docList, page, setpage, totalPages, limit, setlimit, totalDocs } =
+    useContext(UserContext);
+
+  const handleChangePage = (event, newPage) => {
+    setpage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setlimit(parseInt(event.target.value, 10));
+    setpage(0);
+  };
 
   return (
     <div className="doc-table">
@@ -108,6 +120,17 @@ export const ListTable = () => {
               </>
             );
           })}
+        <div className="doc-table-hdivider" />
+        <div className="docs-pagination">
+          <TablePagination
+            component="div"
+            count={totalDocs}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={limit}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
       </div>
       <div className="doc-table-hdivider" />
     </div>

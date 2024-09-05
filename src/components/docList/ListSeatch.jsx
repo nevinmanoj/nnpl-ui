@@ -1,4 +1,4 @@
-import { TextField, Button, IconButton } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import "./ListSearch.scss";
@@ -9,7 +9,7 @@ export const ListSearch = () => {
   const navigator = useNavigate();
   const location = useLocation();
 
-  const { modifyFilter, filter } = useContext(UserContext);
+  const { modifyFilter, filter, setdocList } = useContext(UserContext);
 
   const [refNo, setrefNo] = useState(null);
   useEffect(() => {

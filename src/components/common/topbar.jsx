@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { topBarOptions } from "../../constants/topBarOptions";
+import { docOptions } from "../../constants/docOptions";
 import { useContext } from "react";
 import { UserContext } from "../../context/userProvider";
 import { LoginModal } from "./login/loginModal";
@@ -46,13 +46,13 @@ export const Topbar = () => {
           NNPL
         </Typography>
       </div>
-      {topBarOptions.map((v, i) => (
+      {docOptions.map((v, i) => (
         <Button
           sx={{ color: "white", marginRight: "10px" }}
           className="topbar-button"
           variant="text"
           onClick={() => {
-            navigator(v.path);
+            navigator("/" + v.path);
             clearFilter();
           }}
         >

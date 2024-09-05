@@ -1,14 +1,14 @@
-export const topBarOptions = [
+export const docOptions = [
   {
     value: "Purchase Orders",
-    path: "/po",
+    path: "po",
   },
   {
     value: "Purchase Invoices",
-    path: "/purchase-invoice",
+    path: "purchase-invoice",
   },
   {
     value: "Sales Invoices",
-    path: "/sales-invoice",
+    path: "sales-invoice",
   },
 ];

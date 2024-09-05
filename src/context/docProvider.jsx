@@ -71,6 +71,36 @@ export const DocProvider = ({ children }) => {
 
   const setDoc = ({ i, type }) => {
     setItem(type);
+    setErrors({
+      date: {
+        value: false,
+        msg: "",
+      },
+      billing: {
+        value: false,
+        msg: "",
+      },
+      products: {
+        value: false,
+        msg: "",
+      },
+      customer: {
+        value: false,
+        msg: "",
+      },
+      ledgerAccount: {
+        value: false,
+        msg: "",
+      },
+      executive: {
+        value: false,
+        msg: "",
+      },
+      distributor: {
+        value: false,
+        msg: "",
+      },
+    });
     if (i != null && i != "new") {
       runAxios("get", {}, "/docs/" + type + "/" + i, token)
         .then((res) => res.data.data)
