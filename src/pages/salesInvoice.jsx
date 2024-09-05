@@ -43,6 +43,9 @@ export const SalesInvoice = () => {
     discount,
     setDiscount,
     loading,
+    setErrors,
+    downloading,
+    saving,
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   useEffect(() => {
@@ -58,7 +61,12 @@ export const SalesInvoice = () => {
     <DocLoading />
   ) : (
     <div className="po-outer">
-      <DocHeader save={saveNew} status={status} />
+      <DocHeader
+        save={saveNew}
+        status={status}
+        saving={saving}
+        downloading={downloading}
+      />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => setref(e.target.value)}
@@ -69,13 +77,15 @@ export const SalesInvoice = () => {
           date={date}
           setDate={setDate}
           status={status}
+          setErrors={setErrors}
         />
         <div className="divider" />
         <Executive
           executive={executive}
           setExecutive={setExecutive}
-          errors={errors}
           status={status}
+          errors={errors}
+          setErrors={setErrors}
         />
         <div className="divider" />
         <CustomDocAccordian
@@ -83,7 +93,13 @@ export const SalesInvoice = () => {
           value={billing}
           label="Billing"
           children={
-            <Neural billing={billing} setBilling={setBilling} status={status} />
+            <Neural
+              billing={billing}
+              setBilling={setBilling}
+              status={status}
+              errors={errors}
+              setErrors={setErrors}
+            />
           }
         />
         <div className="divider" />
@@ -99,6 +115,7 @@ export const SalesInvoice = () => {
               setCustomer={setCustomer}
               setIsNew={setIsNew}
               errors={errors}
+              setErrors={setErrors}
             />
           }
         />
@@ -108,6 +125,7 @@ export const SalesInvoice = () => {
           status={status}
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
+          setErrors={setErrors}
         />
         <div className="divider" />
         <Products
@@ -119,6 +137,7 @@ export const SalesInvoice = () => {
           errors={errors}
           setRoundOff={setRoundOff}
           discount={discount}
+          setErrors={setErrors}
           setDiscount={setDiscount}
         />
       </div>

@@ -1,4 +1,5 @@
-import { isValidNumber } from "./validNumberChecker";
+import { errorJson } from "../../constants/ErrorJson";
+import { itemsValidator } from "./productsValidator";
 export const povalidator = ({ data }) => {
   const {
     ledgerAccount,
@@ -8,34 +9,10 @@ export const povalidator = ({ data }) => {
     billing,
     customer,
     discount,
+    roundOff,
   } = data;
   var fail = false;
-  var errors = {
-    date: {
-      value: false,
-      msg: "",
-    },
-    distributor: {
-      value: false,
-      msg: "",
-    },
-    billing: {
-      value: false,
-      msg: "",
-    },
-    products: {
-      value: false,
-      msg: "",
-    },
-    customer: {
-      value: false,
-      msg: "",
-    },
-    ledgerAccount: {
-      value: false,
-      msg: "",
-    },
-  };
+  var errors = errorJson();
 
   if (customer == "" || customer == null) {
     errors["customer"] = {
@@ -72,30 +49,10 @@ export const povalidator = ({ data }) => {
     };
     fail = true;
   }
-  if (discount === "" || discount === null || !isValidNumber(discount)) {
-    errors["products"] = {
-      value: true,
-      msg: "Select valid values for required fields",
-    };
+  const msg = itemsValidator(products, discount, roundOff);
+  if (msg.value) {
     fail = true;
-  }
-  if (!errors["products"].value) {
-    for (var i in products) {
-      const item = products[i];
-      if (
-        !isValidNumber(item["ratePerUnit"]) ||
-        !isValidNumber(item["qty"]) ||
-        item["product"] == "" ||
-        item["product"] == null
-      ) {
-        errors["products"] = {
-          value: true,
-          msg: "Select valid values for required fields",
-        };
-        fail = true;
-        break;
-      }
-    }
+    errors["products"] = msg;
   }
 
   return { errors, fail };

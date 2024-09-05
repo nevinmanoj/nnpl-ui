@@ -1,4 +1,5 @@
-import { isValidNumber } from "./validNumberChecker";
+import { errorJson } from "../../constants/ErrorJson";
+import { itemsValidator } from "./productsValidator";
 export const sivalidator = ({ data }) => {
   var fail = false;
   const {
@@ -10,37 +11,16 @@ export const sivalidator = ({ data }) => {
     customer,
     executive,
     discount,
+    ref,
   } = data;
-  var errors = {
-    executive: {
-      value: false,
-      msg: "",
-    },
-    date: {
-      value: false,
-      msg: "",
-    },
-    distributor: {
-      value: false,
-      msg: "",
-    },
-    billing: {
-      value: false,
-      msg: "",
-    },
-    products: {
-      value: false,
-      msg: "",
-    },
-    customer: {
-      value: false,
-      msg: "",
-    },
-    ledgerAccount: {
-      value: false,
-      msg: "",
-    },
-  };
+  var errors = errorJson();
+  if (ref == "" || ref == null) {
+    errors["ref"] = {
+      value: true,
+      msg: "Enter a valid Ref No",
+    };
+    fail = true;
+  }
   if (executive === "" || executive == null) {
     errors["executive"] = {
       value: true,
@@ -56,13 +36,7 @@ export const sivalidator = ({ data }) => {
     };
     fail = true;
   }
-  if (discount === "" || discount === null || !isValidNumber(discount)) {
-    errors["products"] = {
-      value: true,
-      msg: "Select valid values for required fields",
-    };
-    fail = true;
-  }
+
   if (billing === "" || billing == null) {
     errors["billing"] = {
       value: true,
@@ -84,30 +58,10 @@ export const sivalidator = ({ data }) => {
     };
     fail = true;
   }
-  if (roundOff === "" || roundOff == null || !isValidNumber(roundOff)) {
-    errors["products"] = {
-      value: true,
-      msg: "Select valid values for required fields",
-    };
+  const msg = itemsValidator(products, discount, roundOff);
+  if (msg.value) {
     fail = true;
-  }
-  if (!errors["products"].value) {
-    for (var i in products) {
-      const item = products[i];
-      if (
-        !isValidNumber(item["ratePerUnit"]) ||
-        !isValidNumber(item["qty"]) ||
-        item["product"] == "" ||
-        item["product"] == null
-      ) {
-        errors["products"] = {
-          value: true,
-          msg: "Select valid values for required fields",
-        };
-        fail = true;
-        break;
-      }
-    }
+    errors["products"] = msg;
   }
 
   return { errors, fail };

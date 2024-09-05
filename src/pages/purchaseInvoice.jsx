@@ -24,7 +24,7 @@ export const PurchaseInvoice = () => {
     distributor,
     billing,
     setBilling,
-    setdistributor,
+    setDistributor,
     errors,
     ledgerAccount,
     setLedgerAccount,
@@ -41,6 +41,9 @@ export const PurchaseInvoice = () => {
     discount,
     setDiscount,
     loading,
+    setErrors,
+    downloading,
+    saving,
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   const saveNewPi = async () => {
@@ -57,13 +60,19 @@ export const PurchaseInvoice = () => {
     <DocLoading />
   ) : (
     <div className="po-outer">
-      <DocHeader save={saveNewPi} status={status} />
+      <DocHeader
+        save={saveNewPi}
+        status={status}
+        saving={saving}
+        downloading={downloading}
+      />
       <div className="po-body">
         <DocInfo
           onNoChange={(e) => setref(e.target.value)}
           status={status}
           editableNo={true}
           errors={errors}
+          setErrors={setErrors}
           title="Purchase Invoice No."
           value={ref}
           date={date}
@@ -75,7 +84,13 @@ export const PurchaseInvoice = () => {
           value={billing}
           label="Billing"
           children={
-            <Neural billing={billing} setBilling={setBilling} status={status} />
+            <Neural
+              status={status}
+              billing={billing}
+              setBilling={setBilling}
+              errors={errors}
+              setErrors={setErrors}
+            />
           }
         />
         <div className="divider" />
@@ -87,7 +102,9 @@ export const PurchaseInvoice = () => {
             <Distributor
               distributor={distributor}
               status={status}
-              setDistributor={setdistributor}
+              setDistributor={setDistributor}
+              errors={errors}
+              setErrors={setErrors}
             />
           }
         />{" "}
@@ -113,6 +130,7 @@ export const PurchaseInvoice = () => {
           ledger={ledgerAccount}
           setLedger={setLedgerAccount}
           status={status}
+          setErrors={setErrors}
         />
         <div className="divider" />
         <Products
@@ -125,6 +143,7 @@ export const PurchaseInvoice = () => {
           setProducts={setProducts}
           errors={errors}
           setRoundOff={setRoundOff}
+          setErrors={setErrors}
         />
       </div>
     </div>

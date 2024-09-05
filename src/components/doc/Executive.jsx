@@ -7,7 +7,13 @@ import { ErrorMessage } from "./errorMessage";
 
 import "./ledgerAccount.scss";
 
-export const Executive = ({ executive, setExecutive, errors, status }) => {
+export const Executive = ({
+  executive,
+  setExecutive,
+  errors,
+  status,
+  setErrors,
+}) => {
   const { getOptionValues, getOptionDetails } = useContext(MasterContext);
 
   const errorActive = errors.executive.value;
@@ -27,6 +33,7 @@ export const Executive = ({ executive, setExecutive, errors, status }) => {
     const res = await getOptionDetails("executive", newValue.value);
     if (res != null) {
       setExecutive(res);
+      setErrors({ ...errors, executive: { value: false, msg: "" } });
     }
   };
 
@@ -39,7 +46,6 @@ export const Executive = ({ executive, setExecutive, errors, status }) => {
         <div className="ledger-label">Sales Executive</div>
         <Autocomplete
           clearOnEscape={false}
-          error={errorActive}
           componentsProps={{
             clearIndicator: null,
           }}
@@ -49,7 +55,7 @@ export const Executive = ({ executive, setExecutive, errors, status }) => {
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField
-                error={errorActive}
+                error={errorActive && executive == null}
                 sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
                 {...params}
                 variant="outlined"

@@ -23,14 +23,23 @@ export const DocInfo = ({
       <div className="doc-pno-block">
         <div className="doc-pno-label">{title}</div>
         <TextField
+          error={errors.ref.value && (value == "" || value == null)}
           multiline
-          onChange={(e) => onNoChange(e)}
+          onChange={(e) => {
+            onNoChange(e);
+            if (errors.ref.value) {
+              console.log("herS");
+
+              setErrors({ ...errors, ref: { value: false, msg: "" } });
+            }
+          }}
           variant="outlined"
           disabled={!editableNo || status != "draft"}
           size="small"
           sx={{ width: "20vw" }}
           value={value}
         />
+        <ErrorMessage label="ref" loc="right" errors={errors} />
       </div>
       <div className="doc-info-date">
         <ErrorMessage label="date" loc="top" errors={errors} />

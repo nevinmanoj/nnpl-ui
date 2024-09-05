@@ -136,6 +136,7 @@ export const Po = () => {
           setRoundOff={setRoundOff}
           discount={discount}
           setDiscount={setDiscount}
+          setErrors={setErrors}
         />
         <div className="divider" />
         <CustomDocAccordian

@@ -71,9 +71,7 @@ export const Customer = ({
           <TextField
             sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
             label="Title"
-            error={
-              errorActive && (customer.title == null || customer.title == "")
-            }
+            error={errorActive && (customer == null || customer.title == "")}
             placeholder="Enter a title or company name"
             onChange={(e) => {
               modifyNewCustomer("title", e.target.value);
@@ -94,6 +92,7 @@ export const Customer = ({
             renderInput={(params) => (
               <div className="option-textbox">
                 <TextField
+                  error={errorActive && (customer == null || customer == "")}
                   sx={{ width: "50vw", paddingRight: "10px", height: "40px" }}
                   {...params}
                   variant="outlined"

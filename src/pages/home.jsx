@@ -1,3 +1,15 @@
 export const Home = () => {
-  return <>home here</>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        width: "100vw",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      hello
+    </div>
+  );
 };

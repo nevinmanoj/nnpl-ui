@@ -42,6 +42,7 @@ export const UserProvider = ({ children }) => {
   };
   const logout = () => {
     setToken(null);
+    localStorage.clear();
     setExpiry(0);
   };
   const makeFilterStr = (query) => {

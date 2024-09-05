@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
@@ -14,6 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isValidNumber } from "../../utils/validators/validNumberChecker";
 import { MasterContext } from "../../context/masterProvider";
+import { itemsValidator } from "../../utils/validators/productsValidator";
 
 import "./Products.scss";
 import { ErrorMessage } from "./errorMessage";
@@ -28,6 +29,7 @@ export const Products = ({
   setRoundOff,
   discount,
   status,
+  setErrors,
 }) => {
   var tax = 0;
   if (ledgerAccount != null) {
@@ -60,6 +62,7 @@ export const Products = ({
       if (i == index) return { ...p, ...newValues };
       else return p;
     });
+
     setProducts(newProducts);
   };
   const safeMultiply = (a, b) => {
@@ -105,6 +108,15 @@ export const Products = ({
     setIndex(0);
     handleClose();
   };
+  useEffect(() => {
+    if (errorActive) {
+      const msg = itemsValidator(products, discount, roundOff);
+      if (!msg.value) {
+        setErrors({ ...errors, products: { value: false, msg: "" } });
+      }
+    }
+  }, [roundOff, discount, products]);
+
   return (
     <div className="products-outer">
       <Accordion className="accordian" defaultExpanded>

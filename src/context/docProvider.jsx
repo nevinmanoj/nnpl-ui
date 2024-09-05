@@ -11,6 +11,7 @@ import { reqCustomerProperties } from "../constants/dataModalProperties";
 
 import axios from "axios";
 import { saveAs } from "file-saver";
+import { errorJson } from "../constants/ErrorJson";
 
 export const DocContext = createContext();
 
@@ -38,42 +39,14 @@ export const DocProvider = ({ children }) => {
   const [isNew, setIsNew] = useState(false);
 
   //error flags
-  const [errors, setErrors] = useState({
-    date: {
-      value: false,
-      msg: "",
-    },
-    billing: {
-      value: false,
-      msg: "",
-    },
-    products: {
-      value: false,
-      msg: "",
-    },
-    customer: {
-      value: false,
-      msg: "",
-    },
-    ledgerAccount: {
-      value: false,
-      msg: "",
-    },
-    executive: {
-      value: false,
-      msg: "",
-    },
-    distributor: {
-      value: false,
-      msg: "",
-    },
-  });
+  const [errors, setErrors] = useState(errorJson());
 
   //loading
   const [loading, setloading] = useState(false);
   const [saving, setsaving] = useState(false);
   const [downloading, setdownloading] = useState(false);
   const clearDoc = (type) => {
+    setErrors(errorJson());
     setref("");
     setDate(Date.now());
     setLedgerAccount(null);
@@ -100,36 +73,6 @@ export const DocProvider = ({ children }) => {
     setloading(true);
     clearDoc(type);
     setItem(type);
-    setErrors({
-      date: {
-        value: false,
-        msg: "",
-      },
-      billing: {
-        value: false,
-        msg: "",
-      },
-      products: {
-        value: false,
-        msg: "",
-      },
-      customer: {
-        value: false,
-        msg: "",
-      },
-      ledgerAccount: {
-        value: false,
-        msg: "",
-      },
-      executive: {
-        value: false,
-        msg: "",
-      },
-      distributor: {
-        value: false,
-        msg: "",
-      },
-    });
     if (i != null && i != "new") {
       await runAxios("get", {}, "/docs/" + type + "/" + i, token)
         .then((res) => res.data.data)
@@ -200,6 +143,7 @@ export const DocProvider = ({ children }) => {
       docData = { ...docData, tc };
     }
     var dataErr = {};
+
     switch (item) {
       case "purchase-invoice":
         dataErr = pivalidator({ data: docData });
@@ -208,6 +152,7 @@ export const DocProvider = ({ children }) => {
         dataErr = sivalidator({
           data: docData,
         });
+        break;
       case "po":
         dataErr = povalidator({ data: docData });
         break;
@@ -216,7 +161,6 @@ export const DocProvider = ({ children }) => {
     setErrors(dataErr.errors);
     if (dataErr.fail) {
       setsaving(false);
-
       return;
     }
 

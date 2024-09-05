@@ -49,6 +49,9 @@ export const Neural = ({ setBilling, billing, status, errors, setErrors }) => {
             <div className="option-textbox">
               <TextField
                 {...params}
+                error={
+                  errors.billing.value && (billing == null || billing == "")
+                }
                 variant="outlined"
                 placeholder="Enter Billing Location"
                 size="small"

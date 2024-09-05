@@ -54,6 +54,10 @@ export const Distributor = ({
           renderInput={(params) => (
             <div className="option-textbox">
               <TextField
+                error={
+                  errors.distributor.value &&
+                  (distributor == null || distributor == "")
+                }
                 {...params}
                 variant="outlined"
                 placeholder="Enter Distributor"
