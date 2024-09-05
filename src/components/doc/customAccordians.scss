@@ -1,49 +1,52 @@
 @import '../../constants/colors.scss';
-.accordian{
-    box-shadow: none !important;
+
+.accordian {
+  box-shadow: none !important;
+  border: none !important;
+
+  &:before {
+    display: none !important;
+  }
+
+  .MuiAccordionSummary-root {
     border: none !important;
-  
-    &:before {
-      display: none !important;
-    }
-  
-    .MuiAccordionSummary-root {
-      border: none !important;
-    }
+  }
 
-    .MuiAccordionDetails-root {
-      border: none !important;
-    }
+  .MuiAccordionDetails-root {
+    border: none !important;
+  }
 }
 
 
-.option-textbox{
+.option-textbox {
 
-  width:50%;
+  width: 50%;
 }
-.item-detail-label{
+
+.item-detail-label {
   font-size: 16px;
   font-weight: 550;
-  color:$item-label-grey
-
+  color: $item-label-grey
 }
-.item-detail-line{
+
+.item-detail-line {
   font-size: 18px;
   font-weight: 500;
-  color:$item-value-black
-
+  color: $item-value-black
 }
-.acc-heading-label{
+
+.acc-heading-label {
   font-size: 16px;
   color: $item-label-grey;
-  font-weight: 300;
+  font-weight: bold;
 }
-.acc-heading-value{
-  
+
+.acc-heading-value {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   color: $item-value-black;
-  font-weight:500;
+  font-weight: 600;
+
 }

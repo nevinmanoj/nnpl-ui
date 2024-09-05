@@ -7,7 +7,7 @@ export const UserProvider = ({ children }) => {
   const navigator = useNavigate();
   const location = useLocation();
 
-  const [token, setToken] = useState("123");
+  const [token, setToken] = useState(null);
   const [expiry, setExpiry] = useState(0);
   const [username, setusername] = useState(null);
 
@@ -25,11 +25,17 @@ export const UserProvider = ({ children }) => {
   const [severity, setSeverity] = useState(null);
   //loading
   const [loading, setloading] = useState(false);
+  useEffect(() => {
+    const tkn = localStorage.getItem("token");
+
+    setToken(tkn);
+  }, []);
 
   const login = async (key) => {
     //run code to verify key
     const result = await runAxios("get", {}, "/user", key);
     if (result.success) {
+      localStorage.setItem("token", key);
       setToken(key);
     }
     return result.success;
@@ -126,7 +132,6 @@ export const UserProvider = ({ children }) => {
         totalPages,
         page,
         setpage,
-        totalDocs,
         limit,
         setlimit,
         loading,

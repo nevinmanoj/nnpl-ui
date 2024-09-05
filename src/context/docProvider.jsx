@@ -29,7 +29,7 @@ export const DocProvider = ({ children }) => {
   const [roundOff, setRoundOff] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [products, setProducts] = useState([]);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(Date.now());
   const [status, setstatus] = useState("draft");
   const [billing, setBilling] = useState(null);
   const [executive, setExecutive] = useState(null);
@@ -73,9 +73,32 @@ export const DocProvider = ({ children }) => {
   const [loading, setloading] = useState(false);
   const [saving, setsaving] = useState(false);
   const [downloading, setdownloading] = useState(false);
-
+  const clearDoc = (type) => {
+    setref("");
+    setDate(Date.now());
+    setLedgerAccount(null);
+    setProducts([]);
+    setBilling(null);
+    setCustomer(null);
+    setDistributor(null);
+    setdocId(null);
+    setExecutive(null);
+    if (type == "po") {
+      setTc({
+        payment:
+          "100 % of the product cost will be paid within 60 days from the date of billing",
+        billing: "new billings",
+        taxes:
+          "Taxes as applicable will be charged extra or as applicable at the time of billing.",
+        delivery: "At the earliest",
+      });
+    }
+    setDiscount(0);
+    setRoundOff(0);
+  };
   const setDoc = async ({ i, type }) => {
     setloading(true);
+    clearDoc(type);
     setItem(type);
     setErrors({
       date: {
@@ -129,19 +152,6 @@ export const DocProvider = ({ children }) => {
           console.error(" Error:", error);
           setdocId(null);
         });
-    } else {
-      setdocId(null);
-      setDate(Date.now());
-      if (type == "po") {
-        setTc({
-          payment:
-            "100 % of the product cost will be paid within 60 days from the date of billing",
-          billing: "new billings",
-          taxes:
-            "Taxes as applicable will be charged extra or as applicable at the time of billing.",
-          delivery: "At the earliest",
-        });
-      }
     }
     setloading(false);
   };

@@ -10,6 +10,7 @@ import { DocList } from "./pages/DocList";
 import { Topbar } from "./components/common/topbar";
 
 import { docOptions } from "./constants/docOptions";
+import { NoPathPage } from "./pages/NoPathPage";
 export const AppRoutes = () => {
   return (
     <div style={{ fontFamily: "sans-serif" }}>
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
             />
           </>
         ))}
+        <Route path="*" element={<NoPathPage />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>

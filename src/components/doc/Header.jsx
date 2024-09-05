@@ -23,6 +23,7 @@ export const DocHeader = ({
 
       {id != null && id != "new" && (
         <Button
+          sx={{ backgroundColor: "white" }}
           variant="outlined"
           disabled={downloading}
           onClick={() => {
