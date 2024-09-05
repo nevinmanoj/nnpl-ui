@@ -52,10 +52,16 @@ export const PurchaseInvoice = () => {
       navigator("/purchase-invoice/" + newId);
     }
   };
-
   useEffect(() => {
-    setDoc({ i: id, type: "purchase-invoice" });
+    const setData = async () => {
+      const res = await setDoc({ i: id, type: "purchase-invoice" });
+      if (!res) {
+        navigator("/purchase-invoice/new");
+      }
+    };
+    setData();
   }, [id, token]);
+
   return loading ? (
     <DocLoading />
   ) : (

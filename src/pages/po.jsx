@@ -53,7 +53,13 @@ export const Po = () => {
   } = useContext(DocContext);
   const { token } = useContext(UserContext);
   useEffect(() => {
-    setDoc({ i: id, type: "po" });
+    const setData = async () => {
+      const res = await setDoc({ i: id, type: "po" });
+      if (!res) {
+        navigator("/po/new");
+      }
+    };
+    setData();
   }, [id, token]);
 
   const saveNewPo = async () => {

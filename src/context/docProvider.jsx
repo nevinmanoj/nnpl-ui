@@ -8,8 +8,6 @@ import { UserContext } from "./userProvider";
 import { runAxios } from "../utils/runAxios";
 import { MasterContext } from "./masterProvider";
 import { reqCustomerProperties } from "../constants/dataModalProperties";
-
-import axios from "axios";
 import { saveAs } from "file-saver";
 import { errorJson } from "../constants/ErrorJson";
 
@@ -74,7 +72,7 @@ export const DocProvider = ({ children }) => {
     clearDoc(type);
     setItem(type);
     if (i != null && i != "new") {
-      await runAxios("get", {}, "/docs/" + type + "/" + i, token)
+      const res = await runAxios("get", {}, "/docs/" + type + "/" + i, token)
         .then((res) => res.data.data)
         .then((data) => {
           setref(data["ref"]);
@@ -90,11 +88,18 @@ export const DocProvider = ({ children }) => {
           setTc(data["tc"] != null ? data["tc"] : {});
           setDiscount(data["discount"] && data["discount"].toString());
           setRoundOff(data["roundOff"] && data["roundOff"].toString());
+          return true;
         })
         .catch((error) => {
           console.error(" Error:", error);
-          setdocId(null);
+          return false;
         });
+      setloading(false);
+      return res;
+    }
+    if (i == "new") {
+      setloading(false);
+      return true;
     }
     setloading(false);
   };
