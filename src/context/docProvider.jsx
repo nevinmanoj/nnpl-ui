@@ -239,7 +239,7 @@ export const DocProvider = ({ children }) => {
     } catch (error) {
       console.error("Error downloading the Excel file:", error);
     }
-    // setdownloading(false);
+    setdownloading(false);
   };
 
   return (
