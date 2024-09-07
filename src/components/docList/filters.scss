@@ -4,11 +4,27 @@
     border-radius: 8px;
     width: 20vw;
     // height: calc(100vh - 85px);
-    height: calc(100vh - 385px);
+    max-height: 75vh;
+    // height: 470px;
+    overflow-y: auto;
     text-align: center;
     margin: 10px;
     box-shadow: 0px 4px 10px $doc-shadow-black;
     background-color: $doc-body-white;
+
+    &::-webkit-scrollbar-thumb {
+        background: #959595;
+        border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $border-grey;
+        /* Color of the scrollbar track */
+    }
 }
 
 .filter-heading {
@@ -30,5 +46,6 @@
 }
 
 .filter-buttons {
-    margin: 10px 20px 0 20px;
+    margin: 10px 20px;
+
 }
