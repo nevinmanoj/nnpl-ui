@@ -1,5 +1,5 @@
 # step 1 to build src 
-FROM node:20 as build-step
+FROM node:20 AS build-step
 RUN mkdir -p /app
 WORKDIR /app
 COPY . .
