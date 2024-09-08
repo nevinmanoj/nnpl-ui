@@ -9,7 +9,7 @@ export const Home = () => {
         justifyContent: "center",
       }}
     >
-      hello
+      Hi kochi!
     </div>
   );
 };
