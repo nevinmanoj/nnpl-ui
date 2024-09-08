@@ -3,7 +3,7 @@ import axios from "axios";
 const prod = "";
 const preProd =
   "https://nnpl-kochi-anguc7hwh6bvhwe2.centralindia-01.azurewebsites.net";
-const dev = "http://localhost:3000";
+const dev = "http://localhost:8080";
 export const server = preProd + "/nnpl/api";
 // export const server=prod;
 

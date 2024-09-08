@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_687aec7bd41d4049b656a916e9fd7798 }}/nnpl-ui:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_687aec7bd41d4049b656a916e9fd7798 }}/nnpl-ui:latest
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'nnpl-ui'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_c651bdd23dee4d13b9ce82afd44b9879 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_687aec7bd41d4049b656a916e9fd7798 }}/nnpl-ui:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_687aec7bd41d4049b656a916e9fd7798 }}/nnpl-ui:latest'

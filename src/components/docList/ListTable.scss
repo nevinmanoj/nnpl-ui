@@ -47,14 +47,14 @@
 }
 
 .main-row {
-    &:hover {
-        background-color: $hover-grey
-    }
-
     cursor: pointer;
     display: flex;
     padding: 5px 0px;
     justify-content: center;
+
+    &:hover {
+        background-color: $hover-grey
+    }
 }
 
 .vm {

@@ -79,9 +79,9 @@ export const Products = ({
     return st;
   };
 
-  const calcSubTotalWithTax = () => {
+  const calcTaxValue = () => {
     const st = calcSubTotal();
-    return (st + safeMultiply(st, tax) / 100).toFixed(2);
+    return (safeMultiply(st, tax) / 100).toFixed(2);
   };
 
   const calcTotal = () => {
@@ -330,10 +330,10 @@ export const Products = ({
             </div>
             <div className="table-footer">
               <div className="table-cell table-label md">
-                Tax @ {tax + " %"}
+                GST @ {tax + " %"}
               </div>
               <div className="table-cell md" align="right">
-                {formatter.format(calcSubTotalWithTax())}
+                {formatter.format(calcTaxValue())}
               </div>
             </div>
             <div className="table-footer">

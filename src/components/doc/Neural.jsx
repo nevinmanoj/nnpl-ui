@@ -72,7 +72,7 @@ export const Neural = ({ setBilling, billing, status, errors, setErrors }) => {
               <div className="billing-nos">
                 <div className="item-detail-label">GST ID</div>
                 <div className="item-detail-line"> {billing["gst"]} </div>
-                <div className="item-detail-label">PAN No.</div>
+                <div className="item-detail-label">PAN</div>
                 <div className="item-detail-line"> {billing["pan"]}</div>
               </div>
             </div>
