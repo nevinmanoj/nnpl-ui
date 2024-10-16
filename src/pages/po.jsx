@@ -163,13 +163,14 @@ export const Po = () => {
         />
         <div className="divider" />
         <Tc status={status} tc={tc} setTc={setTc} />
+        <div className="divider" />
       </div>
-      <DocHeader
+      {/* <DocHeader
         save={saveNewPo}
         status={status}
         download={downloadExcel}
         id={ref}
-      />
+      /> */}
     </div>
   );
 };

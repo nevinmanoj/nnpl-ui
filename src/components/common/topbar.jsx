@@ -15,6 +15,8 @@ import { useContext } from "react";
 import { UserContext } from "../../context/userProvider";
 import { LoginModal } from "./login/loginModal";
 
+import { SignInButton } from "./login/LoginButton";
+
 export const Topbar = () => {
   const navigator = useNavigate();
   const location = useLocation();
@@ -114,6 +116,7 @@ export const Topbar = () => {
             </Menu>
           </>
         )}
+        <SignInButton />
       </div>
     </div>
   );
