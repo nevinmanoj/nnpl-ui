@@ -21,7 +21,7 @@ export const DocHeader = ({
         {saving ? "Saving" : "Save"}
       </Button>
 
-      {id != null && id != "new" && (
+      {id != null && id != "new" && id != "" && (
         <Button
           sx={{ backgroundColor: "white" }}
           variant="outlined"

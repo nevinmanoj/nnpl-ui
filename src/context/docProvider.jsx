@@ -214,6 +214,7 @@ export const DocProvider = ({ children }) => {
 
   const downloadExcel = async () => {
     setdownloading(true);
+    await saveDoc();
     try {
       const response = await runAxios(
         "get",
